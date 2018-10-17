@@ -1,0 +1,55 @@
+
+html, body {
+    background-color: #fff;
+    background-image: url("/picture/background_image.jpg");
+    color: #f3fbff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+}
+
+.full-height {
+    height: 100vh;
+}
+.font-loupe {
+    font-size: 30px;
+}
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links > a {
+    color: #ffffff;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'Montserrat';
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
