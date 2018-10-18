@@ -3,8 +3,8 @@ html, body {
     background-color: #fff;
     background-image: url("/picture/background_image.jpg");
     color: #f3fbff;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 200;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
     height: 100vh;
     margin: 0;
 }
@@ -12,9 +12,7 @@ html, body {
 .full-height {
     height: 100vh;
 }
-.font-loupe {
-    font-size: 30px;
-}
+
 .flex-center {
     align-items: center;
     display: flex;
@@ -36,7 +34,7 @@ html, body {
 }
 
 .title {
-    font-size: 84px;
+    font-size: 80px;
 }
 
 .links > a {
@@ -56,9 +54,9 @@ html, body {
 .flat-input__input {
     background: transparent;
     color: #ffffff;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 27px;
-    font-weight: 300;
+    font-weight: 500;
     border: 0 none;
     border-bottom: 1px solid #ffffff;
     width: 100%;

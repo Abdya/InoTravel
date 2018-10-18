@@ -8,9 +8,10 @@
         <title>InoTravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat|Nunito:200,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500" rel="stylesheet">
 
         <!-- Styles -->
+        <link href="/css/app.css" rel="stylesheet">
         <link href="/css/welcome.css" rel="stylesheet">
         <link href="/css/searchBar.css" rel="stylesheet">
         <link href="/css/pickadate/classic.css" rel="stylesheet">
@@ -34,6 +35,7 @@
                     @else
                         <a href="{{ route('login') }}">Войти</a>
                         <a href="{{ route('register') }}">Регистрация</a>
+                        <a href="{{ route('login') }}">Принять гостей</a>
                     @endauth
                 </div>
             @endif
@@ -42,25 +44,20 @@
                 <div class="title m-b-md">
                     InoTravel
                 </div>
-                <div style="position: relative">
-                    <form class="search">
-                        <div class="search__wrapper">
-                            <input type="text" name="" placeholder="Куда?" class="search__field">
-                            <button type="submit" style="font-size: 30px" class="fa fa-search search__icon "></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="flat-input">
+                <div class="flat-input form-group col-md-3">
                     <input class="flat-input__input" placeholder="Куда?" type="text">
                 </div>
-                <div class="flat-input">
-                    <input class="datepicker flat-input__input" placeholder="Прибытие" type="text">
-                </div>
-                <div class="flat-input">
-                    <input class="datepicker flat-input__input" placeholder="Выезд" type="text">
-                </div>
-                <div class="flat-input">
-                    <input class="flat-input__input" placeholder="Количество гостей" type="text">
+                <div class="row flex-center" style="max-width: 720px">
+
+                    <div class="flat-input col-md-3">
+                        <input class="datepicker flat-input__input" placeholder="Заезд" type="text">
+                    </div>
+                    <div class="flat-input col-md-3">
+                        <input class="datepicker flat-input__input" placeholder="Выезд" type="text">
+                    </div>
+                    <div class="flat-input col-md-2">
+                        <input class="flat-input__input" placeholder="Гости" type="text">
+                    </div>
                 </div>
             </div>
 
