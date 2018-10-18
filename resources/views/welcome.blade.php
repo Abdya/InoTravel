@@ -13,8 +13,13 @@
         <!-- Styles -->
         <link href="/css/welcome.css" rel="stylesheet">
         <link href="/css/searchBar.css" rel="stylesheet">
+        <link href="/css/pickadate/classic.css" rel="stylesheet">
+        <link href="/css/pickadate/classic.date.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="/js/pickadate/picker.js"></script>
+        <script src="/js/pickadate/picker.date.js"></script>
 
     </head>
     <body>
@@ -45,7 +50,21 @@
                         </div>
                     </form>
                 </div>
+                <div class="flat-input">
+                    <input class="flat-input__input" placeholder="Куда?" type="text">
+                </div>
+                <div class="flat-input">
+                    <input class="datepicker flat-input__input" placeholder="Прибытие" type="text">
+                </div>
+                <div class="flat-input">
+                    <input class="datepicker flat-input__input" placeholder="Выезд" type="text">
+                </div>
+                <div class="flat-input">
+                    <input class="flat-input__input" placeholder="Количество гостей" type="text">
+                </div>
             </div>
+
         </div>
+    <script>$('.datepicker').pickadate()</script>
     </body>
 </html>
