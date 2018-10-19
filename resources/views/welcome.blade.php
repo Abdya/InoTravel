@@ -44,23 +44,32 @@
                 <div class="title m-b-md">
                     InoTravel
                 </div>
-                <div class="flat-input form-group col-md-3">
-                    <input class="flat-input__input" placeholder="Куда?" type="text">
-                </div>
-                <div class="row flex-center" style="max-width: 720px">
-
-                    <div class="flat-input col-md-3">
-                        <input class="datepicker flat-input__input" placeholder="Заезд" type="text">
+                <div style="max-width: 510px">
+                    <div class="row mb-3">
+                        <div class="flat-input col-md-12">
+                            <input class="flat-input__input" placeholder="Куда?" type="text">
+                        </div>
                     </div>
-                    <div class="flat-input col-md-3">
-                        <input class="datepicker flat-input__input" placeholder="Выезд" type="text">
+                    <div class="row mb-3">
+                        <div class="flat-input col-md-6">
+                            <input class="datepicker flat-input__input" placeholder="Заезд" type="text">
+                        </div>
+                        <div class="flat-input col-md-6">
+                            <input class="datepicker flat-input__input" placeholder="Выезд" type="text">
+                        </div>
                     </div>
-                    <div class="flat-input col-md-2">
-                        <input class="flat-input__input" placeholder="Гости" type="text">
+                    <div class="row mb-5">
+                        <div class="flat-input col-md-12">
+                            <input class="flat-input__input" placeholder="Гости" type="text">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary btn-lg" type="submit">Начать поиск</button>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     <script>$('.datepicker').pickadate()</script>
     </body>
