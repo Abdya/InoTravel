@@ -28,3 +28,6 @@ Route::get('/properties', function () {
 Route::get('/properties/{id}', function () {
     return view('singleProperty');
 });
+Route::get('/requests', function () {
+    return view('requests');
+});
