@@ -9,11 +9,16 @@
 
     <title>Album example for Bootstrap</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="/css/app.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="/css/album.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/searchResults.css" rel="stylesheet">
+    <link href="/css/pickadate/classic.css" rel="stylesheet">
+    <link href="/css/pickadate/classic.date.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/js/pickadate/picker.js"></script>
+    <script src="/js/pickadate/picker.date.js"></script>
 </head>
 
 <body>
@@ -24,12 +29,27 @@
     </nav>
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="jumbotron-heading">Album example</h1>
-            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-            <p>
-                <a href="#" class="btn btn-primary my-2">Main call to action</a>
-                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-            </p>
+            <div style="max-width: 1080px">
+                <div class="row">
+                    <div class="col">
+                        <input class="form-control" placeholder="Куда?" type="text">
+                    </div>
+                    <div class="flat-input col">
+                        <input class="datepicker form-control" placeholder="Заезд" type="text">
+                    </div>
+                    <div class="flat-input col">
+                        <input class="datepicker form-control" placeholder="Выезд" type="text">
+                    </div>
+                    <div class="flat-input col">
+                        <input class="form-control mb-4" placeholder="Гости" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary btn-lg" type="submit">Начать поиск</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -41,13 +61,13 @@
                     <div class="card mb-4 shadow-sm">
                         <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
                         <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text">Квартира на Поляковском шоссе</p>
+                            <p class="card-text">Таганрог</p>
+                            <p class="card-text">Абрул Романович</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                                 </div>
-                                <small class="text-muted">9 mins</small>
                             </div>
                         </div>
                     </div>
@@ -167,7 +187,6 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                                 </div>
                                 <small class="text-muted">9 mins</small>
                             </div>
@@ -185,9 +204,10 @@
         <p class="float-right">
             <a href="#">Back to top</a>
         </p>
-        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
     </div>
 </footer>
+<script>$('.datepicker').pickadate({
+        format: 'dd/mm/yy'
+    })</script>
 </body>
 </html>

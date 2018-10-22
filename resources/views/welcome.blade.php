@@ -71,6 +71,8 @@
                 </div>
             </div>
         </div>
-    <script>$('.datepicker').pickadate()</script>
+    <script>$('.datepicker').pickadate({
+            format: 'dd/mm/yy'
+        })</script>
     </body>
 </html>

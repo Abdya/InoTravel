@@ -25,3 +25,6 @@ Route::get('/cover', function () {
 Route::get('/properties', function () {
     return view('searchResults');
 });
+Route::get('/properties/{id}', function () {
+    return view('singleProperty');
+});

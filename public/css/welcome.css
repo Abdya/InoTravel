@@ -63,3 +63,7 @@ html, body {
     padding-bottom: 5px;
     line-height: 1;
 }
+::placeholder {
+    color: white;
+    opacity: 1;
+}
