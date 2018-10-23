@@ -31,3 +31,12 @@ Route::get('/properties/{id}', function () {
 Route::get('/requests', function () {
     return view('requests');
 });
+Route::get('/profile/properties', function () {
+    return view('myProperties');
+});
+Route::get('/profile/properties/create', function () {
+    return view('createProperty');
+});
+Route::get('/profile/properties/{id}', function () {
+    return view('singleUserProperty');
+});
