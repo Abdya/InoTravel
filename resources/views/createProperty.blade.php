@@ -44,50 +44,124 @@
         </ul>
     </div>
 </nav>
-<div class="container">
+<form class="container" style="width: 1400px;  max-width: 1400px">
     <div class="row">
-        <div class="col-md-6">
-            <img src="/picture/300.jpg" width="300px" height="300px" alt="room">
+        <div class="col-md-2">
+            <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
         </div>
-        <div class="col-md-6">
-            <div class="clearfix">
-                <div class="row">
-                    <div class="col-md-6 property-description">
-                        <p>Квартира на западноkkkmjм</p>
-                        <p>Таганрог, ул.Пушкина</p>
-                        <p>Спальных мест: <span>3</span></p>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Название:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="houseName" placeholder="Однушка в Москве">
+                        </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-5 col-form-label">Спальных мест:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="beds" placeholder="1">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">Удобства:</div>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                <label class="form-check-label" for="gridCheck1">
+                                    Интернет
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                <label class="form-check-label" for="gridCheck1">
+                                    Wi-Fi
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                <label class="form-check-label" for="gridCheck1">
+                                    Кабельное ТВ
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                <label class="form-check-label" for="gridCheck1">
+                                    Кондиционер
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                <label class="form-check-label" for="gridCheck1">
+                                    Стиральная машина
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-5 col-form-label">Город:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="city" placeholder="Москва">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-5 col-form-label">Адрес:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="address" placeholder="Ул.Пушкина">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2">Ограничения:</div>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                    <label class="form-check-label" for="gridCheck1">
+                                        Животные
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                    <label class="form-check-label" for="gridCheck1">
+                                        Комнатные растения
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                    <label class="form-check-label" for="gridCheck1">
+                                        Нельзя курить
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                    <label class="form-check-label" for="gridCheck1">
+                                        Нельзя пить
+                                    </label>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <p>Есть:</p>
-            <div class="feature-list">
-                <div class="feature-list__item feature-list-item">
-                    <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Интернет" height="32" width="32">
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <div class="form row">
+                            <label for="inputEmail3" class="col-sm-5 col-form-label">Дополнительная информация:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="houseName" placeholder="Добро пожаловать!">
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-list-item__description">Интернет</div>
-                </div>
-                <div class="feature-list__item feature-list-item">
-                    <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Стиральная машина" height="32" width="32">
-                    </div>
-                    <div class="feature-list-item__description">Стиральная машина</div>
-                </div>
-                <div class="feature-list__item feature-list-item">
-                    <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Животные" height="32" width="32">
-                    </div>
-                    <div class="feature-list-item__description">Животные</div>
                 </div>
             </div>
-            <p>Дополнительная информация:</p>
-            <p>Добро пожаловать!</p>
         </div>
     </div>
-</div>
+</form>
 <style>
     .feature-list {
         display: flex;
