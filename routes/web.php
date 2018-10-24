@@ -40,3 +40,6 @@ Route::get('/profile/properties/create', function () {
 Route::get('/profile/properties/{id}', function () {
     return view('singleUserProperty');
 });
+Route::get('/profile', function () {
+    return view('userProfile');
+});

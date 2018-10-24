@@ -48,6 +48,12 @@
     <div class="row">
         <div class="col-md-2">
             <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
+            <div class="text-center mb-3 mt-3">
+                <button type="button" class="btn btn-outline-primary">Загрузить фото</button>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-outline-primary">Удалить фото</button>
+            </div>
         </div>
         <div class="col-md-10">
             <div class="row">
@@ -153,7 +159,10 @@
                         <div class="form row">
                             <label for="inputEmail3" class="col-sm-5 col-form-label">Дополнительная информация:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="houseName" placeholder="Добро пожаловать!">
+                                <textarea class="form-control mb-4" id="houseName" placeholder="Добро пожаловать!"></textarea>
+                                <div class="text-right">
+                                    <button type="button" class="btn btn-primary btn-lg">Создать профиль</button>
+                                </div>
                             </div>
                         </div>
                     </div>
