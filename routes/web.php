@@ -22,9 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/cover', function () {
     return view('cover');
 });
-Route::get('/properties', function () {
-    return view('searchResults');
-});
+Route::get('/properties', 'Properties@list');
 Route::get('/properties/{id}', function () {
     return view('singleProperty');
 });
