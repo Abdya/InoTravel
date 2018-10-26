@@ -19,9 +19,6 @@ class RenameForeignKeyColumns extends Migration
         Schema::table('bookings', function (Blueprint $table) {
             $table->integer( 'propertyId');
         });
-        Schema::table('country', function (Blueprint $table) {
-            $table->renameColumn('country', 'countryId');
-        });
         Schema::table('towns', function (Blueprint $table) {
             $table->renameColumn('country', 'countryId');
             $table->renameColumn('region', 'regionId');
@@ -43,9 +40,6 @@ class RenameForeignKeyColumns extends Migration
         });
         Schema::table('bookings', function (Blueprint $table) {
             $table->dropColumn( 'propertyId');
-        });
-        Schema::table('country', function (Blueprint $table) {
-            $table->renameColumn('countryId', 'country');
         });
         Schema::table('towns', function (Blueprint $table) {
             $table->renameColumn('countryId', 'country');

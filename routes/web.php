@@ -23,9 +23,7 @@ Route::get('/cover', function () {
     return view('cover');
 });
 Route::get('/properties', 'Properties@list');
-Route::get('/properties/{id}', function () {
-    return view('singleProperty');
-});
+Route::get('/properties/{id}', 'Properties@singleProperty');
 Route::get('/requests', function () {
     return view('requests');
 });

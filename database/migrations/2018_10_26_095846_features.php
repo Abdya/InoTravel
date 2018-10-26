@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIds extends Migration
+class Features extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class AddIds extends Migration
      */
     public function up()
     {
-        Schema::table('towns', function (Blueprint $table) {
+        Schema::create('features', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('image');
+            $table->boolean('type');
+            $table->string('title');
         });
-
     }
 
     /**
@@ -26,9 +28,6 @@ class AddIds extends Migration
      */
     public function down()
     {
-        Schema::table('towns', function (Blueprint $table) {
-            $table->removeColumn('id');
-        });
-
+        Schema::drop('features');
     }
 }

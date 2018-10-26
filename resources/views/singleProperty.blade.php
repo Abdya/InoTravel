@@ -30,22 +30,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Вход</a>
+                <a class="nav-link" href="/login">Вход</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Регистрация</a>
+                <a class="nav-link" href="/register">Регистрация</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Иван Иванов</a>
+                <a class="nav-link" href="/profile">Иван Иванов</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Мое жилье</a>
+                <a class="nav-link" href="/profile/properties">Мое жилье</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Заявки</a>
+                <a class="nav-link" href="/requests">Заявки</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Выход</a>
+                <a class="nav-link" href="/logout">Выход</a>
             </li>
         </ul>
     </div>
@@ -59,9 +59,9 @@
             <div class="clearfix">
                 <div class="row">
                     <div class="col-md-6">
-                        <p>Квартира на западном</p>
-                        <p>Таганрог</p>
-                        <p>Спальных мест: <span>3</span></p>
+                        <p>{{ $property->title }}</p>
+                        <p>{{ $property->town->title }}</p>
+                        <p>Спальных мест: <span>{{ $property->beds }}</span></p>
                     </div>
                     <div class="col-md-6">
                         <p>Свободно!</p>
@@ -71,27 +71,17 @@
             </div>
             <p>Есть:</p>
             <div class="feature-list">
+                @foreach($property->features as $feature)
                 <div class="feature-list__item feature-list-item">
                     <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Интернет" height="32" width="32">
+                        <img src="{{ $feature->image }}" alt="{{ $feature->title }}" height="32" width="32">
                     </div>
-                    <div class="feature-list-item__description">Интернет</div>
+                    <div class="feature-list-item__description">{{ $feature->title }}</div>
                 </div>
-                <div class="feature-list__item feature-list-item">
-                    <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Стиральная машина" height="32" width="32">
-                    </div>
-                    <div class="feature-list-item__description">Стиральная машина</div>
-                </div>
-                <div class="feature-list__item feature-list-item">
-                    <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Животные" height="32" width="32">
-                    </div>
-                    <div class="feature-list-item__description">Животные</div>
-                </div>
+                @endforeach
             </div>
             <p>Дополнительная информация:</p>
-            <p>Добро пожаловать!</p>
+            <p>{{ $property->extraInformation ? : 'Не указана' }}</p>
         </div>
     </div>
 </div>

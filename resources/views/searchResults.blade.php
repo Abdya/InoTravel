@@ -60,14 +60,14 @@
                 @foreach($properties as $property)
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                        <a href="/properties/{{ $property->id }}"><img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
                         <div class="card-body">
-                            <p class="card-text">{{ $property->title }}</p>
-                            <p class="card-text">{{ $property->town }}</p>
-                            <p class="card-text">{{ $property->owner1->firstName }}</p>
+                            <p class="card-text"><a href="/properties/{{ $property->id }}">{{ $property->title }}</a></p>
+                            <p class="card-text">{{ $property->town->title }}</p>
+                            <p class="card-text">{{ $property->owner->firstName }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Посмотреть</button>
+                                    <a href="/properties/{{ $property->id }}" class="btn btn-sm btn-outline-secondary">Посмотреть</a>
                                 </div>
                             </div>
                         </div>
