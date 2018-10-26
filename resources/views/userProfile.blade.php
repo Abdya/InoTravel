@@ -30,7 +30,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#"><ins>Иван Иванов</ins></a>
+                <a class="nav-link" href="#"><ins>{{ $user->firstName }} {{ $user->lastName }}</ins></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">Мое жилье <span class="badge badge-danger">1</span></a>
@@ -55,19 +55,19 @@
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-5 col-form-label">Имя</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="firstName" placeholder="Никита">
+                            <input type="text" class="form-control"  value="{{ $user->firstName }}" id="firstName" placeholder="Имя">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-5 col-form-label">Фамилия</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="lastName" placeholder="Оробенко">
+                            <input type="text" class="form-control" id="lastName" value="{{ $user->lastName }}" placeholder="Фамилия">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-5 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="email" placeholder="nikoro99@gmail.com">
+                            <input type="text" class="form-control" id="email" value="{{ $user->email }}" placeholder="Email">
                         </div>
                     </div>
                     <div class="text-left mb-3 mt-3">

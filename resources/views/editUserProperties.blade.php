@@ -30,7 +30,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Иван Иванов</a>
+                <a class="nav-link" href="#">{{$user->firstName}} {{$user->lastName}}</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">Мое жилье</a>
@@ -61,41 +61,45 @@
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-5 col-form-label">Название:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="houseName" placeholder="Однушка в Москве">
+                            <input type="text" class="form-control" id="houseName" name="title" value="{{ $property->title }}" placeholder="Название">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-5 col-form-label">Спальных мест:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="beds" placeholder="1">
+                            <input type="text" class="form-control" id="beds" value="{{ $property->beds }}" placeholder="Спальных мест">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-2">Удобства:</div>
                         <div class="col-sm-10">
-                        @foreach($features as $feature)
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="feature_{{ $feature->id }}">
-                                <label class="form-check-label" for="feature_{{ $feature->id }}">
-                                    {{ $feature->title }}
-                                </label>
-                            </div>
-                        @endforeach
+                            @foreach($features as $feature)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="feature_{{ $feature->id }}" name="features[]" @if ($property->features->contains($feature->id)) checked @endif>
+                                    <label class="form-check-label" for="feature_{{ $feature->id }}">
+                                        {{ $feature->title }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div>
                         <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-5 col-form-label">Город:</label>
+                            <label for="town" class="col-sm-5 col-form-label">Город:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="city" placeholder="Москва">
+                                <select class="form-control" name="town" id="town">
+                                    @foreach ($towns as $town)
+                                        <option @if ($property->townId == $town->id) selected @endif value="{{ $town->id }}">{{ $town->title }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputPassword3" class="col-sm-5 col-form-label">Адрес:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="address" placeholder="Ул.Пушкина">
+                                <input type="text" class="form-control" id="address" value="{{ $property->address }}" placeholder="Адрес">
                             </div>
                         </div>
                     </div>
@@ -107,7 +111,7 @@
                         <div class="form row">
                             <label for="inputEmail3" class="col-sm-5 col-form-label">Дополнительная информация:</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control mb-4" id="houseName" placeholder="Добро пожаловать!"></textarea>
+                                <textarea class="form-control mb-4" id="houseName" placeholder="Расскажите о себе или жилье!">{{ $property->extraInformation }}</textarea>
                                 <div class="text-right">
                                     <button type="button" class="btn btn-primary btn-lg">Создать профиль</button>
                                 </div>

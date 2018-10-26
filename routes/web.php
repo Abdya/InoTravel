@@ -36,6 +36,5 @@ Route::get('/profile/properties/create', function () {
 Route::get('/profile/properties/{id}', function () {
     return view('singleUserProperty');
 });
-Route::get('/profile', function () {
-    return view('userProfile');
-});
+Route::get('/profile/properties/{id}/edit', 'Profile@showUserPropertyInfo');
+Route::get('/profile', 'Profile@showUserInfo');
