@@ -42,66 +42,36 @@
     </div>
 </nav>
 <div class="container float-left">
-    <div class="row">
-        <div class="col-md-5">
-            <img src="/picture/room.jpg" width="100%" height="auto" alt="room">
-        </div>
-        <div class="col-md-6">
-            <div class="clearfix">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p>Квартира на западном</p>
-                        <p>Таганрог</p>
-                        <p>Петр Петрович</p>
-                        <p>25/11/18 - 25/11/97</p>
-                        <p>Людей: <span>1</span></p>
-                        <p style="color: green">Заявка принята</p>
-                        <p>(статус заявки 15/04/18)</p>
+    @foreach($bookings as $booking)
+        <div class="row">
+            <div class="col-md-5">
+                <img src="{{ $booking->property->photo }}" width="100%" height="auto" alt="room">
+            </div>
+            <div class="col-md-6">
+                <div class="clearfix">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>{{ $booking->property->title }}</p>
+                            <p>{{ $booking->property->town->title }}</p>
+                            <p>{{ $booking->user->firstName }}</p>
+                            <p>{{ $booking->startDate }} - {{ $booking->endDate }}</p>
+                            <p>Людей: <span>{{ $booking->quantityGuests }}</span></p>
+                            @if ($booking->status === 2)
+                                <p style="color: green">Заявка принята</p>
+                            @endif
+                            @if ($booking->status === 0)
+                                <p style="color: red">Заявка отклонена!</p>
+                            @endif
+                            @if ($booking->status === 1)
+                                <p style="color: yellow">Заявка на рассмотрении</p>
+                            @endif
+                            <p>Отправлено: {{ $booking->sendDate }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5">
-            <img src="/picture/room.jpg" width="100%" height="auto" alt="room">
-        </div>
-        <div class="col-md-6">
-            <div class="clearfix">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p>Квартира на западном</p>
-                        <p>Таганрог</p>
-                        <p>Петр Петрович</p>
-                        <p>25/11/18 - 25/11/97</p>
-                        <p>Людей: <span>1</span></p>
-                        <p style="color: green">Заявка принята</p>
-                        <p>(статус заявки 15/04/18)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5">
-            <img src="/picture/room.jpg" width="100%" height="auto" alt="room">
-        </div>
-        <div class="col-md-6">
-            <div class="clearfix">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p>Квартира на западном</p>
-                        <p>Таганрог</p>
-                        <p>Петр Петрович</p>
-                        <p>25/11/18 - 25/11/97</p>
-                        <p>Людей: <span>1</span></p>
-                        <p style="color: green">Заявка принята</p>
-                        <p>(статус заявки 15/04/18)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @endforeach
 </div>
 </body>
 </html>

@@ -24,9 +24,7 @@ Route::get('/cover', function () {
 });
 Route::get('/properties', 'Properties@list');
 Route::get('/properties/{id}', 'Properties@singleProperty');
-Route::get('/requests', function () {
-    return view('requests');
-});
+Route::get('/requests', 'Profile@showRequestInfo');
 Route::get('/profile/properties', function () {
     return view('myProperties');
 });
