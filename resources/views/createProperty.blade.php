@@ -44,7 +44,7 @@
         </ul>
     </div>
 </nav>
-<form class="container" style="width: 1400px;  max-width: 1400px">
+<form method="post" action="/profile/properties/create" class="container" style="width: 1400px;  max-width: 1400px">
     <div class="row">
         <div class="col-md-2">
             <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
@@ -59,15 +59,16 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-5 col-form-label">Название:</label>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <label for="title" class="col-sm-5 col-form-label">Название:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="houseName" placeholder="Однушка в Москве">
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Название">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputPassword3" class="col-sm-5 col-form-label">Спальных мест:</label>
+                        <label for="beds" class="col-sm-5 col-form-label">Количество cпальных мест:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="beds" placeholder="1">
+                            <input type="text" class="form-control" id="beds" name="beds" placeholder="Количество спальных мест">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -75,7 +76,7 @@
                         <div class="col-sm-10">
                         @foreach($features as $feature)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="feature_{{ $feature->id }}">
+                                <input class="form-check-input" type="checkbox" id="feature_{{ $feature->id }}" value="{{ $feature->id }}" name="features[]">
                                 <label class="form-check-label" for="feature_{{ $feature->id }}">
                                     {{ $feature->title }}
                                 </label>
@@ -87,15 +88,19 @@
                 <div class="col-md-6">
                     <div>
                         <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-5 col-form-label">Город:</label>
+                            <label for="town" class="col-sm-5 col-form-label">Город:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="city" placeholder="Москва">
+                                <select class="form-control" name="town" id="town">
+                                    @foreach ($towns as $town)
+                                        <option value="{{ $town->id }}">{{ $town->title }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-5 col-form-label">Адрес:</label>
+                            <label for="address" class="col-sm-5 col-form-label">Адрес:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="address" placeholder="Ул.Пушкина">
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Улица, дом, квартира">
                             </div>
                         </div>
                     </div>
@@ -105,11 +110,11 @@
                 <div class="col-md-12">
                     <div>
                         <div class="form row">
-                            <label for="inputEmail3" class="col-sm-5 col-form-label">Дополнительная информация:</label>
+                            <label for="extraInformation" class="col-sm-5 col-form-label">Дополнительная информация:</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control mb-4" id="houseName" placeholder="Добро пожаловать!"></textarea>
+                                <textarea class="form-control mb-4" id="houseName" name="extraInformation" placeholder="Добро пожаловать!"></textarea>
                                 <div class="text-right">
-                                    <button type="button" class="btn btn-primary btn-lg">Создать профиль</button>
+                                    <button type="submit" class="btn btn-primary btn-lg">Создать профиль</button>
                                 </div>
                             </div>
                         </div>

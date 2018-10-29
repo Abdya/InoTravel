@@ -185,5 +185,7 @@ return [
         'time'                  => 'Время',
         'available'             => 'Доступно',
         'size'                  => 'Размер',
+        'firstName'             => 'Имя',
+        'lastName'             => 'Фамилия',
     ],
 ];

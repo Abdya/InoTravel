@@ -9,4 +9,5 @@ class Feature extends Model
     public function properties() {
         return $this->belongsToMany('App\Property');
     }
+
 }

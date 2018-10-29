@@ -44,65 +44,89 @@
         </ul>
     </div>
 </nav>
-<form class="container" style="width: 1400px;  max-width: 1400px">
+<div class="container">
     <div class="row">
+
         <div class="col-md-10">
             <div class="row">
-                <div class="col-md-6">
+                <form method="post" action="/profile" class="container col-md-6" style="width: 1400px;  max-width: 1400px">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div>
                         <h2 class="mb-4">Редактировать данные</h2>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-5 col-form-label">Имя</label>
+                        <label for="firstName" class="col-sm-5 col-form-label">Имя</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control"  value="{{ $user->firstName }}" id="firstName" placeholder="Имя">
+                            <input type="text" class="form-control"  name="firstName" value="{{ $user->firstName }}" id="firstName" placeholder="Имя">
+                            @if ($errors->has('firstName'))
+
+                                <span class="text-danger">{{ $errors->first('firstName') }}</span>
+
+                            @endif
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputPassword3" class="col-sm-5 col-form-label">Фамилия</label>
+                        <label for="lastName" class="col-sm-5 col-form-label">Фамилия</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="lastName" value="{{ $user->lastName }}" placeholder="Фамилия">
+                            <input type="text" class="form-control" id="lastName" name="lastName" value="{{ $user->lastName }}" placeholder="Фамилия">
+                            @if ($errors->has('lastName'))
+
+                                <span class="text-danger">{{ $errors->first('lastName') }}</span>
+
+                            @endif
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputPassword3" class="col-sm-5 col-form-label">Email</label>
+                        <label for="email" class="col-sm-5 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="email" value="{{ $user->email }}" placeholder="Email">
+                            <input type="text" class="form-control" id="email" name="email" value="{{ $user->email }}" placeholder="Email">
+                            @if ($errors->has('email'))
+
+                                <span class="text-danger">{{ $errors->first('email') }}</span>
+
+                            @endif
                         </div>
                     </div>
                     <div class="text-left mb-3 mt-3">
-                        <button type="button" class="btn btn-outline-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-outline-primary">Сохранить</button>
                     </div>
-                </div>
-                <div class="col-md-6">
+                </form>
+                <form method="post" action="/profile/updatePassword" class="container col-md-6" style="width: 1400px;  max-width: 1400px">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div>
                         <h2 class="mb-4">Сменить пароль</h2>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-5 col-form-label">Старый пароль</label>
+                        <label for="old_password" class="col-sm-5 col-form-label">Старый пароль</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="oldPassword">
+                            <input type="text" class="form-control" name="old_password" id="old_password">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputPassword3" class="col-sm-5 col-form-label">Новый пароль</label>
+                        <label for="password" class="col-sm-5 col-form-label">Новый пароль</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="firstPassword">
+                            <input type="text" class="form-control" name="password" id="password">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputPassword3" class="col-sm-5 col-form-label">Повторите пароль</label>
+                        <label for="password_confirmation" class="col-sm-5 col-form-label">Повторите пароль</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="secondPassword">
+                            <input type="text" class="form-control" name="password_confirmation" id="password_confirmation">
+                            @if ($errors->has('password_confirmation'))
+
+                                <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+
+                            @endif
                         </div>
                     </div>
                     <div class="text-left mb-3 mt-3">
-                        <button type="button" class="btn btn-outline-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-outline-primary">Сохранить</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
-</form>
+</div>
+
 </body>
 </html>

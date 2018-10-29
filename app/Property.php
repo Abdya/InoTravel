@@ -23,6 +23,10 @@ class Property extends Model
 
     public function features()
     {
-        return $this->belongsToMany('App\Feature', 'properties_features', 'featureId', 'propertyId');
+        return $this->belongsToMany('App\Feature', 'properties_features', 'propertyId', 'featureId');
     }
+
+    protected $fillable = [
+        'title', 'townId', 'beds', 'extraInformation', 'address', 'regionId', 'photo', 'ownerId',
+    ];
 }
