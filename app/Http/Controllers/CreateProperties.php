@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Feature;
 use App\Http\Requests\CreateProp;
+use App\Http\Requests\ImageUp;
 use App\Property;
 use App\Town;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class CreateProperties extends Controller
 {
@@ -22,8 +24,10 @@ class CreateProperties extends Controller
         ]);
     }
 
+
     public function createProperty (CreateProp $request) {
         $town = Town::find(Input::get('town'));
+        $path = $request->file('photo')->store('roomPicture', 'public');
         $property = new Property(array(
             'title' => Input::get('title'),
             'beds' => Input::get('beds'),
@@ -31,13 +35,13 @@ class CreateProperties extends Controller
             'townId' => $town->id,
             'regionId' => $town->regionId,
             'extraInformation' => Input::get('extraInformation'),
-            'photo' => '',
             'ownerId' => \Auth::user()->id,
+            'photo' => Storage::disk('public')->url($path),
         ));
         $property->save();
         $property->features()->sync(Input::get('features'));
         $property->save();
 
-        return Redirect::back();
+        return Redirect::to('/profile/properties/' . $property->id);
     }
 }

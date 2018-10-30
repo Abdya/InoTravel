@@ -30,6 +30,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
+                        <a href="{{ url('/profile') }}">Иван</a>
                         <a href="{{ url('/home') }}">Моё жилье</a>
                         <a href="{{ url('/home') }}">Заявки</a>
                     @else

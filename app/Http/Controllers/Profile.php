@@ -45,7 +45,7 @@ class Profile extends Controller
         return Redirect::back();
     }
 
-    public function showUserPropertyInfo($id) {
+    public function showUserPropertyInfoForEdit($id) {
         $property = Property::find($id);
         $features = Feature::get();
         $towns = \App\Town::where('countryId', 3159)->orderBy('title')->get();
@@ -56,6 +56,20 @@ class Profile extends Controller
             'features' => $features,
             'towns' => $towns,
             'user' => $user,
+        ]);
+    }
+
+    public function showUserPropertyInfo($id) {
+        $property = Property::find($id);
+        $features = Feature::get();
+        $user = \Auth::user();
+        $town = \App\Town::find($property->townId);
+
+        return view('SingleUserProperty', [
+            'property' => $property,
+            'features' => $features,
+            'user' => $user,
+            'town' => $town,
         ]);
     }
 

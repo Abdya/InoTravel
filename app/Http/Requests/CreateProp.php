@@ -28,6 +28,7 @@ class CreateProp extends FormRequest
             'beds' => 'required|alpha_num|max:100',
             'address' => 'required|max:255',
             'extraInformation' => 'nullable|max:255',
+            'photo' => 'image|file',
         ];
     }
 }

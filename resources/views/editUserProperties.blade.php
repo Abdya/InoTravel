@@ -46,8 +46,8 @@
 </nav>
 <form class="container" style="width: 1400px;  max-width: 1400px">
     <div class="row">
-        <div class="col-md-2">
-            <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
+        <div class="col-md-3">
+            <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
             <div class="text-center mb-3 mt-3">
                 <button type="button" class="btn btn-outline-primary">Загрузить фото</button>
             </div>
@@ -55,7 +55,7 @@
                 <button type="button" class="btn btn-outline-primary">Удалить фото</button>
             </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-9">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group row">
@@ -113,7 +113,7 @@
                             <div class="col-sm-10">
                                 <textarea class="form-control mb-4" id="houseName" placeholder="Расскажите о себе или жилье!">{{ $property->extraInformation }}</textarea>
                                 <div class="text-right">
-                                    <button type="button" class="btn btn-primary btn-lg">Создать профиль</button>
+                                    <button type="button" class="btn btn-primary btn-lg">Обновить профиль</button>
                                 </div>
                             </div>
                         </div>

@@ -44,16 +44,12 @@
         </ul>
     </div>
 </nav>
-<form method="post" action="/profile/properties/create" class="container" style="width: 1400px;  max-width: 1400px">
+<form  method="post" action="/profile/properties/create" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="row">
         <div class="col-md-2">
-            <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
-            <div class="text-center mb-3 mt-3">
-                <button type="button" class="btn btn-outline-primary">Загрузить фото</button>
-            </div>
-            <div class="text-center">
-                <button type="button" class="btn btn-outline-primary">Удалить фото</button>
-            </div>
+            <img src="/picture/300.jpg" width="100%" height="auto" alt="room" class="mb-4">
+            <input type="file" name="photo">
         </div>
         <div class="col-md-10">
             <div class="row">

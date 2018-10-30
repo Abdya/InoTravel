@@ -48,20 +48,20 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <img src="/picture/room.jpg" width="100%" height="auto" alt="room">
+            <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
         </div>
         <div class="col-md-6">
             <div class="clearfix">
                 <div class="row">
                     <div class="col-md-6 property-description">
-                        <p>Квартира на западном</p>
-                        <p>Таганрог, ул.Пушкина</p>
-                        <p>Спальных мест: <span>3</span></p>
+                        <p>{{ $property->title }}</p>
+                        <p>{{ $town->title }}, {{ $property->address }}</p>
+                        <p>Спальных мест: <span>{{ $property->beds }}</span></p>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-2">
-                                <button class="btn btn-primary mb-3">Редактировать</button>
+                                <a href="{{ route('edit', ['id' => $property->id]) }}" class="btn btn-primary mb-3">Редактировать</a>
                                 <button class="btn btn-primary">Удалить</button>
                             </div>
                         </div>
@@ -69,28 +69,18 @@
                 </div>
             </div>
             <p>Есть:</p>
-            <div class="feature-list">
-                <div class="feature-list__item feature-list-item">
-                    <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Интернет" height="32" width="32">
+            <div class="feature-list mb-3">
+                @foreach($property->features as $feature)
+                    <div class="feature-list__item feature-list-item">
+                        <div class="feature-list-item__icon-wrap">
+                            <img src="{{ $feature->image }}" alt="{{ $feature->title }}" height="32" width="32">
+                        </div>
+                        <div class="feature-list-item__description">{{ $feature->title }}</div>
                     </div>
-                    <div class="feature-list-item__description">Интернет</div>
-                </div>
-                <div class="feature-list__item feature-list-item">
-                    <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Стиральная машина" height="32" width="32">
-                    </div>
-                    <div class="feature-list-item__description">Стиральная машина</div>
-                </div>
-                <div class="feature-list__item feature-list-item">
-                    <div class="feature-list-item__icon-wrap">
-                        <img src="/picture/placeholder.png" alt="Животные" height="32" width="32">
-                    </div>
-                    <div class="feature-list-item__description">Животные</div>
-                </div>
+                @endforeach
             </div>
             <p>Дополнительная информация:</p>
-            <p>Добро пожаловать!</p>
+            <p>{{ $property->extraInformation }}</p>
         </div>
     </div>
 </div>

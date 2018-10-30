@@ -19,21 +19,21 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/cover', function () {
-    return view('cover');
-});
 Route::get('/properties', 'Properties@list');
 Route::get('/properties/{id}', 'Properties@singleProperty');
+
 Route::get('/requests', 'Profile@showRequestInfo');
+
 Route::get('/profile/properties', function () {
     return view('myProperties');
 });
 Route::get('/profile/properties/create', 'CreateProperties@showProperties');
 Route::post('/profile/properties/create', 'CreateProperties@createProperty');
-Route::get('/profile/properties/{id}', function () {
-    return view('singleUserProperty');
-});
-Route::get('/profile/properties/{id}/edit', 'Profile@showUserPropertyInfo');
+
+Route::get('/profile/properties/{id}', 'Profile@showUserPropertyInfo');
+
+Route::get('/profile/properties/{id}/edit', 'Profile@showUserPropertyInfoForEdit')->name('edit');
+
 Route::get('/profile', 'Profile@showUserInfo');
 Route::post('/profile', 'Profile@editUserData');
 Route::post('/profile/updatePassword', 'Profile@editUserPassword');
