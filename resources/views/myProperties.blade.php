@@ -48,28 +48,30 @@
 <div class="container float-left mb-5">
     <h2>Заявки</h2>
     <div class="container float-left mb-5">
-        <div class="row">
-            <div class="col-md-5">
-                <img src="/picture/room.jpg" width="100%" height="auto" alt="room">
-            </div>
-            <div class="col-md-6">
-                <div class="clearfix">
-                    <div class="row">
-                        <div class="col-md-6 property-description">
-                            <p>Квартира на западном</p>
-                            <p>Таганрог</p>
-                            <p>Заявка от: Абдула Петровича</p>
-                            <p>25/11/18 - 25/11/21</p>
-                            <p>Людей: <span>1</span></p>
-                            <div>
-                                <button type="button" class="btn btn-success mr-1">Success</button>
-                                <button type="button" class="btn btn-danger">Warning</button>
+        @foreach($requests as $request)
+            <div class="row">
+                <div class="col-md-5">
+                    <img src="/picture/room.jpg" width="100%" height="auto" alt="room">
+                </div>
+                <div class="col-md-6">
+                    <div class="clearfix">
+                        <div class="row">
+                            <div class="col-md-6 property-description">
+                                <p>Квартира на западном</p>
+                                <p>Таганрог</p>
+                                <p>Заявка от: {{ $request->user->firstName }}</p>
+                                <p>25/11/18 - 25/11/21</p>
+                                <p>Людей: <span>1</span></p>
+                                <div>
+                                    <button type="button" class="btn btn-success mr-1">Success</button>
+                                    <button type="button" class="btn btn-danger">Warning</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
 </div>
 <div class="container float-left mb-5">

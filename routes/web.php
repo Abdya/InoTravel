@@ -24,9 +24,7 @@ Route::get('/properties/{id}', 'Properties@singleProperty');
 
 Route::get('/requests', 'Profile@showRequestInfo')->name('requests');
 
-Route::get('/profile/properties', function () {
-    return view('myProperties');
-})->name('myProperties');
+Route::get('/profile/properties', 'Profile@showRequestsAndProperties')->name('myProperties');
 Route::get('/profile/properties/create', 'CreateProperties@showProperties');
 Route::post('/profile/properties/create', 'CreateProperties@createProperty');
 

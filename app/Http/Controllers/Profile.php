@@ -9,6 +9,7 @@ use App\Property;
 use App\Booking;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -70,6 +71,18 @@ class Profile extends Controller
             'features' => $features,
             'user' => $user,
             'town' => $town,
+        ]);
+    }
+
+    public function showRequestsAndProperties() {
+        $user = Auth::user();
+        $requests = Booking::with(['property'=> function ($query) use ($user) {
+            $query->where('ownerId', $user->id);
+        }])->get();
+        $property = Property::with(['booking'])
+        return view('myProperties', [
+            'user' => $user,
+            'requests' => $requests,
         ]);
     }
 

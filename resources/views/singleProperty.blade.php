@@ -11,8 +11,8 @@
 
 
     <link href="/css/app.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -29,31 +29,19 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-            @auth
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('myProperties') }}">Мое жилье</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('requests') }}">Заявки</a>
-                </li>
-                <li class="nav-item active">
-                    <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item">Выйти</a>
-                </li>
-            @else
-                <a href="{{ route('login') }}">Войти</a>
-                <a href="{{ route('register') }}">Регистрация</a>
-                <a href="{{ route('login') }}">Принять гостей</a>
-            @endauth
-            <li class="nav-item active">
-                <a class="nav-link" href="/login">Вход</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/register">Регистрация</a>
-            </li>
-
+            <div class="top-right links">
+                @auth
+                    <a  href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
+                    <a  href="{{ route('myProperties') }}">Мое жилье</a>
+                    <a  href="{{ route('requests') }}">Заявки</a>
+                    <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
+                @else
+                    <a href="{{ route('login') }}">Войти</a>
+                    <a href="{{ route('register') }}">Регистрация</a>
+                    <a href="{{ route('login') }}">Принять гостей</a>
+                @endauth
+            </div>
         </ul>
     </div>
 </nav>
@@ -108,6 +96,20 @@
 
     .feature-list-item__description {
         margin-top: 5px
+    }
+    .top-right {
+        position: absolute;
+        right: 10px;
+        top: 18px;
+    }
+    .links > a {
+        color: #000000;
+        padding: 0 25px;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: .1rem;
+        text-decoration: none;
+        text-transform: uppercase;
     }
 </style>
 </body>

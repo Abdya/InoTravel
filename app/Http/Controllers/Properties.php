@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Properties extends Controller
 {
@@ -14,6 +15,10 @@ class Properties extends Controller
 
     public function singleProperty($id) {
         $property = Property::with('owner')->find($id);
-        return view('singleProperty', ['property'=>$property]);
+        $user = Auth::user();
+        return view('singleProperty', [
+            'property' => $property,
+            'user' => $user,
+        ]);
     }
 }
