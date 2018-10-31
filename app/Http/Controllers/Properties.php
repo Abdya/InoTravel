@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class Properties extends Controller
 {
     public function list() {
-        $properties = Property::with('owner')->get();
+        $properties = Property::with(['owner', 'town'])->get();
         return view('searchResults', ['properties'=>$properties]);
     }
 

@@ -21,7 +21,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
     <a class="navbar-brand" href="#">InoTravel</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -29,37 +29,44 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
+            @auth
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('myProperties') }}">Мое жилье</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('requests') }}">Заявки</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item">Выйти</a>
+                </li>
+            @else
+                <a href="{{ route('login') }}">Войти</a>
+                <a href="{{ route('register') }}">Регистрация</a>
+                <a href="{{ route('login') }}">Принять гостей</a>
+            @endauth
             <li class="nav-item active">
                 <a class="nav-link" href="/login">Вход</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/register">Регистрация</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/profile">Иван Иванов</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/profile/properties">Мое жилье</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/requests">Заявки</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/logout">Выход</a>
-            </li>
+
         </ul>
     </div>
 </nav>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <img src="/picture/room.jpg" width="100%" height="auto" alt="room">
+            <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
         </div>
         <div class="col-md-6">
             <div class="clearfix">
                 <div class="row">
                     <div class="col-md-6">
-                        <p>{{ $property->title }}</p>
+                        <p style="word-break: break-all; max-width: 100%">{{ $property->title }}</p>
                         <p>{{ $property->town->title }}</p>
                         <p>Спальных мест: <span>{{ $property->beds }}</span></p>
                     </div>
