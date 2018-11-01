@@ -11,6 +11,7 @@
 
 
     <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/a_links.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -29,18 +30,13 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Иван Иванов</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Мое жилье</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Заявки</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Выход</a>
-            </li>
+            <div class="top-right links">
+                <a  href="{{ route('userProfile') }}"><ins>{{ $user->firstName }} {{ $user->lastName }}</ins></a>
+                <a  href="{{ route('myProperties') }}">Мое жилье <span class="badge badge-danger">1</span></a>
+                <a  href="{{ route('requests') }}">Заявки</a>
+                <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
+            </div>
         </ul>
     </div>
 </nav>

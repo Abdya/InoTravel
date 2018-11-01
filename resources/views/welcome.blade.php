@@ -30,9 +30,11 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/profile') }}">Иван</a>
-                        <a href="{{ url('/home') }}">Моё жилье</a>
-                        <a href="{{ url('/home') }}">Заявки</a>
+                        <a  href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
+                        <a  href="{{ route('myProperties') }}">Мое жилье</a>
+                        <a  href="{{ route('requests') }}">Заявки</a>
+                        <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
                     @else
                         <a href="{{ route('login') }}">Войти</a>
                         <a href="{{ route('register') }}">Регистрация</a>
@@ -48,20 +50,20 @@
                 <div style="max-width: 510px">
                     <div class="row mb-3">
                         <div class="flat-input col-md-12">
-                            <input class="flat-input__input" placeholder="Куда?" type="text">
+                            <input class="flat-input__input" name="where" placeholder="Куда?" type="text">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="flat-input col-md-6">
-                            <input class="datepicker flat-input__input" placeholder="Заезд" type="text">
+                            <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
                         </div>
                         <div class="flat-input col-md-6">
-                            <input class="datepicker flat-input__input" placeholder="Выезд" type="text">
+                            <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
                         </div>
                     </div>
                     <div class="row mb-5">
                         <div class="flat-input col-md-12">
-                            <input class="flat-input__input" placeholder="Гости" type="text">
+                            <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
                         </div>
                     </div>
                     <div class="row">

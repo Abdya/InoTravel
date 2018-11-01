@@ -19,19 +19,21 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('', 'Profile@showUserForWelcome')->name('welcome');
+
 Route::get('/properties', 'Properties@list');
 Route::get('/properties/{id}', 'Properties@singleProperty');
 
-Route::get('/requests', 'Profile@showRequestInfo')->name('requests');
+Route::get('/requests', 'Profile@showRequestInfo')->name('requests')->middleware('auth');
 
-Route::get('/profile/properties', 'Profile@showRequestsAndProperties')->name('myProperties');
-Route::get('/profile/properties/create', 'CreateProperties@showProperties');
-Route::post('/profile/properties/create', 'CreateProperties@createProperty');
+Route::get('/profile/properties', 'Profile@showRequestsAndProperties')->name('myProperties')->middleware('auth');
+Route::get('/profile/properties/create', 'CreateProperties@showProperties')->middleware('auth');
+Route::post('/profile/properties/create', 'CreateProperties@createProperty')->name('create')->middleware('auth');
 
-Route::get('/profile/properties/{id}', 'Profile@showUserPropertyInfo');
+Route::get('/profile/properties/{id}', 'Profile@showUserPropertyInfo')->middleware('auth');
 
-Route::get('/profile/properties/{id}/edit', 'Profile@showUserPropertyInfoForEdit')->name('edit');
+Route::get('/profile/properties/{id}/edit', 'Profile@showUserPropertyInfoForEdit')->name('edit')->middleware('auth');
 
-Route::get('/profile', 'Profile@showUserInfo')->name('userProfile');
-Route::post('/profile', 'Profile@editUserData');
-Route::post('/profile/updatePassword', 'Profile@editUserPassword');
+Route::get('/profile', 'Profile@showUserInfo')->name('userProfile')->middleware('auth');
+Route::post('/profile', 'Profile@editUserData')->middleware('auth');
+Route::post('/profile/updatePassword', 'Profile@editUserPassword')->middleware('auth');

@@ -8,6 +8,7 @@ use App\Http\Requests\ImageUp;
 use App\Property;
 use App\Town;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -16,11 +17,13 @@ class CreateProperties extends Controller
 {
     public function showProperties() {
         $features = Feature::get();
+        $user = Auth::user();
         $towns = Town::where('countryId', 3159)->orderBy('title')->get();
 
         return view('createProperty', [
-           'features' => $features,
-           'towns' =>$towns,
+            'features' => $features,
+            'towns' => $towns,
+            'user' => $user,
         ]);
     }
 

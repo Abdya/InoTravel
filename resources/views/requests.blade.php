@@ -19,25 +19,22 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">InoTravel</a>
+    <div class="navbar-brand">
+        <a  href="#">InoTravel</a> / <span >Заявки</span>
+    </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Иван Иванов</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Мое жилье</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Заявки</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Выход</a>
-            </li>
+            <div class="top-right links">
+                    <a  href="{{ route('userProfile') }}"><ins>{{ $user->firstName }} {{ $user->lastName }}</ins></a>
+                    <a  href="{{ route('myProperties') }}">Мое жилье <span class="badge badge-danger">1</span></a>
+                    <a  href="{{ route('requests') }}">Заявки</a>
+                    <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
+            </div>
         </ul>
     </div>
 </nav>
@@ -54,7 +51,7 @@
                             <p>{{ $booking->property->title }}</p>
                             <p>{{ $booking->property->town->title }}</p>
                             <p>{{ $booking->user->firstName }}</p>
-                            <p>{{ $booking->startDate }} - {{ $booking->endDate }}</p>
+                            <p>{{ \Carbon\Carbon::parse($booking->startDate)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($booking->endDate)->format('d/m/Y') }}</p>
                             <p>Людей: <span>{{ $booking->quantityGuests }}</span></p>
                             @if ($booking->status === 2)
                                 <p style="color: green">Заявка принята</p>
@@ -65,7 +62,7 @@
                             @if ($booking->status === 1)
                                 <p style="color: yellow">Заявка на рассмотрении</p>
                             @endif
-                            <p>Отправлено: {{ $booking->sendDate }}</p>
+                            <p>Отправлено: {{ \Carbon\Carbon::parse($booking->sendDate)->format('d/m/Y') }}</p>
                         </div>
                     </div>
                 </div>

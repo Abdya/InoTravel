@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class Profile extends Controller
 {
+
     public function showUserInfo() {
         $user = \Auth::user();
         return view('userProfile', ['user'=>$user]);
@@ -76,20 +77,27 @@ class Profile extends Controller
 
     public function showRequestsAndProperties() {
         $user = Auth::user();
-        $requests = Booking::with(['property'=> function ($query) use ($user) {
+        $requests = Booking::with(['property' => function ($query) use ($user) {
             $query->where('ownerId', $user->id);
         }])->get();
-        $property = Property::with(['booking'])
+        $properties = Property::where('ownerId', Auth::user()->id)->get();
         return view('myProperties', [
             'user' => $user,
             'requests' => $requests,
+            'properties' => $properties,
         ]);
     }
 
     public function showRequestInfo() {
+        $user = Auth::user();
         $bookings = Booking::get();
         return view('requests', [
             'bookings' => $bookings,
+            'user' => $user,
         ]);
+    }
+    public function showUserForWelcome() {
+        $user = Auth::user();
+        return view('welcome', [ 'user' => $user]);
     }
 }
