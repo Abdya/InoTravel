@@ -11,11 +11,17 @@
 
 
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/pickadate/default.css" rel="stylesheet">
+    <link href="/css/pickadate/default.date.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/js/pickadate/picker.js"></script>
+    <script src="/js/pickadate/picker.date.js"></script>
 
 </head>
 
@@ -47,20 +53,32 @@
 </nav>
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="clearfix">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <p style="word-break: break-all; max-width: 100%">{{ $property->title }}</p>
                         <p>{{ $property->town->title }}</p>
                         <p>Спальных мест: <span>{{ $property->beds }}</span></p>
                     </div>
-                    <div class="col-md-6">
-                        <p>Свободно!</p>
-                        <button class="btn btn-primary">Забронировать</button>
+                    <div class="col-md-4">
+                        <h3 class="mb-3">Бронирование</h3>
+                            <div class="flat-input mb-3">
+                                <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
+                            </div>
+                            <div class="flat-input mb-3">
+                                <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
+                            </div>
+                            <div class="flat-input mb-3">
+                                <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary">Забронировать</button>
+                            </div>
+
                     </div>
                 </div>
             </div>
@@ -75,7 +93,7 @@
                 </div>
                 @endforeach
             </div>
-            <p>Дополнительная информация:</p>
+            <p class="mt-2">Дополнительная информация:</p>
             <p>{{ $property->extraInformation ? : 'Не указана' }}</p>
         </div>
     </div>
@@ -111,6 +129,42 @@
         text-decoration: none;
         text-transform: uppercase;
     }
+    .flat-input__input {
+        background: transparent;
+        color: #000000;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        font-weight: 300;
+        border: 0 none;
+        border-bottom: 1px solid #000000;
+        width: 100%;
+        padding-bottom: 5px;
+        line-height: 1;
+    }
+    .centerBlock {
+        display: table;
+        margin: auto;
+    }
+    p {
+        color: #000000;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+    }
 </style>
+<script>$('.datepicker').pickadate({
+        monthsFull: [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ],
+        monthsShort: [ 'янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек' ],
+        weekdaysFull: [ 'воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота' ],
+        weekdaysShort: [ 'вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб' ],
+        today: 'сегодня',
+        clear: 'удалить',
+        close: 'закрыть',
+        firstDay: 1,
+        formatSubmit: 'yyyy/mm/dd',
+        format: 'dd/mm/yy',
+        selectYears: true,
+        selectMonths: true
+    })</script>
 </body>
 </html>
