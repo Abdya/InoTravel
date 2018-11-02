@@ -76,7 +76,7 @@
                                 <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
                             </div>
                             <div class="text-center">
-                                <button type="button" class="btn btn-primary">Забронировать</button>
+                                <button type="submit" class="btn btn-primary">Забронировать</button>
                             </div>
 
                     </div>
@@ -162,7 +162,7 @@
         close: 'закрыть',
         firstDay: 1,
         formatSubmit: 'yyyy/mm/dd',
-        format: 'dd/mm/yy',
+        format: 'dd/mm/yyyy',
         selectYears: true,
         selectMonths: true
     })</script>
