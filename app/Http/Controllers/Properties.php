@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class Properties extends Controller
 {
     public function list() {
+        $where = Input::get('where');
         $properties = Property::with(['owner', 'town'])->get();
         return view('searchResults', ['properties'=>$properties]);
     }
