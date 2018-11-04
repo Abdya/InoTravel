@@ -23,6 +23,7 @@ Route::get('', 'Profile@showUserForWelcome')->name('welcome');
 
 Route::get('/properties', 'Properties@list');
 Route::get('/properties/{id}', 'Properties@singleProperty');
+Route::post('/properties/{id}/book', 'Booking@bookingRequest');
 
 Route::get('/requests', 'Profile@showRequestInfo')->name('requests')->middleware('auth');
 
@@ -31,9 +32,9 @@ Route::get('/profile/properties/create', 'CreateProperties@showProperties')->mid
 Route::post('/profile/properties/create', 'CreateProperties@createProperty')->name('create')->middleware('auth');
 
 Route::get('/profile/properties/{id}', 'Profile@showUserPropertyInfo')->middleware('auth');
-Route::post('/profile/properties/{id}/book', 'Booking@bookingRequest')->middleware('auth');
 
 Route::get('/profile/properties/{id}/edit', 'Profile@showUserPropertyInfoForEdit')->name('edit')->middleware('auth');
+Route::post('/profile/properties/{id}/edit', 'Profile@editProperty')->middleware('auth');
 
 Route::get('/profile', 'Profile@showUserInfo')->name('userProfile')->middleware('auth');
 Route::post('/profile', 'Profile@editUserData')->middleware('auth');

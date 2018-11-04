@@ -51,7 +51,8 @@
         </ul>
     </div>
 </nav>
-<div class="container">
+<form method="post" action="/properties/{{ $property->id }}/book" enctype="multipart/form-data" class="container">
+    @csrf
     <div class="row">
         <div class="col-md-4">
             <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
@@ -64,22 +65,23 @@
                         <p>{{ $property->town->title }}</p>
                         <p>Спальных мест: <span>{{ $property->beds }}</span></p>
                     </div>
+                    @if($user->id != $property->ownerId)
                     <div class="col-md-4">
                         <h3 class="mb-3">Бронирование</h3>
-                            <div class="flat-input mb-3">
-                                <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
-                            </div>
-                            <div class="flat-input mb-3">
-                                <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
-                            </div>
-                            <div class="flat-input mb-3">
-                                <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Забронировать</button>
-                            </div>
-
+                        <div class="flat-input mb-3">
+                            <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
+                        </div>
+                        <div class="flat-input mb-3">
+                            <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
+                        </div>
+                        <div class="flat-input mb-3">
+                            <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Забронировать</button>
+                        </div>
                     </div>
+                    @endif
                 </div>
             </div>
             <p>Есть:</p>
@@ -97,7 +99,7 @@
             <p>{{ $property->extraInformation ? : 'Не указана' }}</p>
         </div>
     </div>
-</div>
+</form>
 <style>
     .feature-list {
         display: flex;
@@ -165,6 +167,7 @@
         format: 'dd/mm/yyyy',
         selectYears: true,
         selectMonths: true
-    })</script>
+    })
+</script>
 </body>
 </html>

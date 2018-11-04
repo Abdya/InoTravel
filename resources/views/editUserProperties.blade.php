@@ -22,7 +22,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
     <a class="navbar-brand" href="#">InoTravel</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,30 +40,28 @@
         </ul>
     </div>
 </nav>
-<form class="container" style="width: 1400px;  max-width: 1400px">
+<form method="post" action="/profile/properties/{{ $property->id }}/edit" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
+    @csrf
     <div class="row">
         <div class="col-md-3">
             <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
             <div class="text-center mb-3 mt-3">
-                <button type="button" class="btn btn-outline-primary">Загрузить фото</button>
-            </div>
-            <div class="text-center">
-                <button type="button" class="btn btn-outline-primary">Удалить фото</button>
+                <input type="file" name="photo">
             </div>
         </div>
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-5 col-form-label">Название:</label>
+                        <label for="title" class="col-sm-5 col-form-label">Название:</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="houseName" name="title" value="{{ $property->title }}" placeholder="Название">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputPassword3" class="col-sm-5 col-form-label">Спальных мест:</label>
+                        <label for="beds" class="col-sm-5 col-form-label">Спальных мест:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="beds" value="{{ $property->beds }}" placeholder="Спальных мест">
+                            <input type="text" class="form-control" name="beds" id="beds" value="{{ $property->beds }}" placeholder="Спальных мест">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -71,7 +69,7 @@
                         <div class="col-sm-10">
                             @foreach($features as $feature)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="feature_{{ $feature->id }}" name="features[]" @if ($property->features->contains($feature->id)) checked @endif>
+                                    <input class="form-check-input" type="checkbox" id="feature_{{ $feature->id }}" value="{{ $feature->id }}" name="features[]" @if ($property->features->contains($feature->id)) checked @endif>
                                     <label class="form-check-label" for="feature_{{ $feature->id }}">
                                         {{ $feature->title }}
                                     </label>
@@ -93,9 +91,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-5 col-form-label">Адрес:</label>
+                            <label for="address" class="col-sm-5 col-form-label">Адрес:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="address" value="{{ $property->address }}" placeholder="Адрес">
+                                <input type="text" class="form-control" name="address" id="address" value="{{ $property->address }}" placeholder="Адрес">
                             </div>
                         </div>
                     </div>
@@ -105,11 +103,11 @@
                 <div class="col-md-12">
                     <div>
                         <div class="form row">
-                            <label for="inputEmail3" class="col-sm-5 col-form-label">Дополнительная информация:</label>
+                            <label for="extraInformation" class="col-sm-5 col-form-label">Дополнительная информация:</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control mb-4" id="houseName" placeholder="Расскажите о себе или жилье!">{{ $property->extraInformation }}</textarea>
+                                <textarea class="form-control mb-4" id="extraInformation" name="extraInformation" placeholder="Расскажите о себе или жилье!">{{ $property->extraInformation }}</textarea>
                                 <div class="text-right">
-                                    <button type="button" class="btn btn-primary btn-lg">Обновить профиль</button>
+                                    <button type="submit" class="btn btn-primary btn-lg">Обновить профиль</button>
                                 </div>
                             </div>
                         </div>

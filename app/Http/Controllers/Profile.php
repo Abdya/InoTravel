@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Feature;
 use App\Http\Requests\ChangeUserData;
 use App\Http\Requests\ChangeUserPassword;
+use App\Http\Requests\editProp;
 use App\Property;
 use App\Booking;
 use App\User;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class Profile extends Controller
 {
@@ -73,6 +75,27 @@ class Profile extends Controller
             'user' => $user,
             'town' => $town,
         ]);
+    }
+
+    public function editProperty (editProp $request, $id) {
+        $property = Property::find($id);
+        $town = \App\Town::find(Input::get('town'));
+        $property->title = Input::get('title');
+        $property->beds = Input::get('beds');
+        $property->address = Input::get('address');
+        $property->townId = $town->id;
+        $property->regionId = $town->regionId;
+        $property->extraInformation = Input::get('extraInformation');
+        $property->ownerId = Auth::user()->id;
+        if ($request->file('photo') !== null) {
+            $path = $request->file('photo')->store('roomPicture', 'public');
+            $property->photo = Storage::disk('public')->url($path);
+        }
+        $property->save();
+        $property->features()->sync(Input::get('features'));
+        $property->save();
+
+        return Redirect::to('/profile/properties/' . $property->id);
     }
 
     public function showRequestsAndProperties() {

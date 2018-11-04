@@ -23,7 +23,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
     <a class="navbar-brand" href="#">InoTravel</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -45,7 +45,7 @@
     <h2>Заявки</h2>
     <div class="container float-left mb-5">
         @foreach($requests as $request)
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col-md-5">
                     <img src="/picture/room.jpg" width="100%" height="auto" alt="room">
                 </div>
@@ -59,8 +59,18 @@
                                 <p>{{ \Carbon\Carbon::parse($request->startDate)->format('d/m/Y')}} - {{ \Carbon\Carbon::parse($request->endDate)->format('d/m/Y')}}</p>
                                 <p>Людей: <span>{{ $request->quantityGuests }}</span></p>
                                 <div>
-                                    <button type="button" class="btn btn-success mr-1">Одобрить</button>
-                                    <button type="button" class="btn btn-danger">Отклонить</button>
+                                    <div class="row">
+                                        <form method="post" action="/profile/properties" enctype="multipart/form-data">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success mr-1">Одобрить</button>
+                                        </form>
+                                        <form method="post" action="/profile/properties" enctype="multipart/form-data">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">Отклонить</button>
+                                        </form>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -75,7 +85,7 @@
     <a href="{{ route('create') }}" type="submit" class="btn btn-primary" style="padding-left: 15px">Добавить жилье</a>
     <div class="container float-left mb-5">
         @foreach($properties as $property)
-            <div class="row mb-3">
+            <div class="row mb-5">
                 <div class="col-md-5">
                     <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
                 </div>

@@ -15,4 +15,14 @@ class Booking extends Model
     {
         return $this->belongsTo('App\User', 'guestId');
     }
+
+    protected $fillable = [
+        'startDate',
+        'endDate',
+        'quantityGuests',
+        'sendDate',
+        'guestId',
+        'status',
+        'propertyId',
+    ];
 }

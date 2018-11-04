@@ -10,6 +10,8 @@
 
 
     <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/a_links.css">
+    <link href="/css/properties.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -18,7 +20,7 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
     <div class="navbar-brand">
         <a  href="#">InoTravel</a> / <span >Заявки</span>
     </div>
@@ -29,9 +31,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <div class="top-right links">
-                    <a  href="{{ route('userProfile') }}"><ins>{{ $user->firstName }} {{ $user->lastName }}</ins></a>
+                    <a  href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
                     <a  href="{{ route('myProperties') }}">Мое жилье <span class="badge badge-danger">1</span></a>
-                    <a  href="{{ route('requests') }}">Заявки</a>
+                    <a  href="{{ route('requests') }}"><ins>Заявки</ins></a>
                     <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
             </div>
@@ -40,14 +42,14 @@
 </nav>
 <div class="container float-left">
     @foreach($bookings as $booking)
-        <div class="row">
+        <div class="row mb-5">
             <div class="col-md-5">
                 <img src="{{ $booking->property->photo }}" width="100%" height="auto" alt="room">
             </div>
             <div class="col-md-6">
                 <div class="clearfix">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 property-description">
                             <p>{{ $booking->property->title }}</p>
                             <p>{{ $booking->property->town->title }}</p>
                             <p>{{ $booking->user->firstName }}</p>

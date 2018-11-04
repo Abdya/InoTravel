@@ -14,8 +14,8 @@
         <link href="/css/app.css" rel="stylesheet">
         <link href="/css/welcome.css" rel="stylesheet">
         <link href="/css/searchBar.css" rel="stylesheet">
-        <link href="/css/pickadate/classic.css" rel="stylesheet">
-        <link href="/css/pickadate/classic.date.css" rel="stylesheet">
+        <link href="/css/pickadate/default.css" rel="stylesheet">
+        <link href="/css/pickadate/default.date.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -74,8 +74,20 @@
                 </div>
             </div>
         </div>
-    <script>$('.datepicker').pickadate({
-            format: 'dd/mm/yy'
-        })</script>
+        <script>$('.datepicker').pickadate({
+                monthsFull: [ 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря' ],
+                monthsShort: [ 'янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек' ],
+                weekdaysFull: [ 'воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота' ],
+                weekdaysShort: [ 'вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб' ],
+                today: 'сегодня',
+                clear: 'удалить',
+                close: 'закрыть',
+                firstDay: 1,
+                formatSubmit: 'yyyy/mm/dd',
+                format: 'dd/mm/yyyy',
+                selectYears: true,
+                selectMonths: true
+            })
+        </script>
     </body>
 </html>

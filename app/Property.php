@@ -27,6 +27,13 @@ class Property extends Model
     }
 
     protected $fillable = [
-        'title', 'townId', 'beds', 'extraInformation', 'address', 'regionId', 'photo', 'ownerId',
+        'title',
+        'townId',
+        'beds',
+        'extraInformation',
+        'address',
+        'regionId',
+        'photo',
+        'ownerId',
     ];
 }

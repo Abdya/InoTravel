@@ -17,15 +17,16 @@ class Booking extends Controller
             Redirect::route('/properties');
         }
         $booking = new \App\Booking(array(
-            'startDate' => Carbon::createFromFormat('Y/m/d', Input::get('startDate'))->toDateTimeString(),
-            'endDate' => Carbon::createFromFormat('Y/m/d', Input::get('endDate'))->toDateTimeString(),
+            'startDate' => Carbon::createFromFormat('Y/m/d', Input::get('startDate_submit'))->toDateTimeString(),
+            'endDate' => Carbon::createFromFormat('Y/m/d', Input::get('endDate_submit'))->toDateTimeString(),
             'quantityGuests' => Input::get('guests'),
-            'sendDate' => Carbon::now(),
+            'sendDate' => Carbon::now()->toDateTimeString(),
             'guestId' => Auth::user()->id,
-            'status' => 0,
+            'status' => 1,
             'propertyId' => $id,
         ));
         $booking->save();
 
+        return Redirect::to('/properties/' . $id);
     }
 }
