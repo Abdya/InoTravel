@@ -12,8 +12,8 @@
 
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/searchResults.css" rel="stylesheet">
-    <link href="/css/pickadate/classic.css" rel="stylesheet">
-    <link href="/css/pickadate/classic.date.css" rel="stylesheet">
+    <link href="/css/pickadate/default.css" rel="stylesheet">
+    <link href="/css/pickadate/default.date.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -32,16 +32,16 @@
             <div style="max-width: 1080px">
                 <div class="row">
                     <div class="col">
-                        <input class="form-control" placeholder="Куда?" type="text">
+                        <input class="form-control" name="where" placeholder="Куда?" type="text">
                     </div>
                     <div class="flat-input col">
-                        <input class="datepicker form-control" placeholder="Заезд" type="text">
+                        <input class="datepicker form-control" name="startDate" placeholder="Заезд" type="text">
                     </div>
                     <div class="flat-input col">
-                        <input class="datepicker form-control" placeholder="Выезд" type="text">
+                        <input class="datepicker form-control" name="endDate" placeholder="Выезд" type="text">
                     </div>
                     <div class="flat-input col">
-                        <input class="form-control mb-4" placeholder="Гости" type="text">
+                        <input class="form-control mb-4" name="guests" placeholder="Гости" type="text">
                     </div>
                 </div>
                 <div class="row">
@@ -52,10 +52,8 @@
             </div>
         </div>
     </section>
-
     <div class="album py-5 bg-light">
         <div class="container">
-
             <div class="row">
                 @foreach($properties as $property)
                 <div class="col-md-4">

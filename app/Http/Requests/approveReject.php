@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class editProp extends FormRequest
+class approveReject extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class editProp extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|alpha_dash|max:255',
-            'beds' => 'required|alpha_num|max:100',
-            'address' => 'required|max:255',
-            'extraInformation' => 'nullable|max:255',
-            'photo' => 'image|file',
+            'approve' => 'numeric',
+            'reject' => 'numeric',
         ];
     }
 }

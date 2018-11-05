@@ -104,7 +104,7 @@
                         <div class="form row">
                             <label for="extraInformation" class="col-sm-5 col-form-label">Дополнительная информация:</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control mb-4" id="houseName" name="extraInformation" placeholder="Добро пожаловать!"></textarea>
+                                <textarea class="form-control mb-4" id="houseName" name="extraInformation" placeholder="Расскажите о себе или жилье!"></textarea>
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-primary btn-lg">Создать профиль</button>
                                 </div>

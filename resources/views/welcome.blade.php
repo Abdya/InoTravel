@@ -24,8 +24,6 @@
 
     </head>
     <body>
-
-
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -42,12 +40,11 @@
                     @endauth
                 </div>
             @endif
-
             <div class="content">
                 <div class="title m-b-md">
                     InoTravel
                 </div>
-                <div style="max-width: 510px">
+                <form method="get" action="/properties" enctype="multipart/form-data" style="max-width: 510px">
                     <div class="row mb-3">
                         <div class="flat-input col-md-12">
                             <input class="flat-input__input" name="where" placeholder="Куда?" type="text">
@@ -71,7 +68,7 @@
                             <button class="btn btn-primary btn-lg" type="submit">Начать поиск</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <script>$('.datepicker').pickadate({

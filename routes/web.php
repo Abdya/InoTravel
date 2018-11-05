@@ -17,8 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('', 'Profile@showUserForWelcome')->name('welcome');
 
 Route::get('/properties', 'Properties@list');
@@ -28,13 +26,18 @@ Route::post('/properties/{id}/book', 'Booking@bookingRequest');
 Route::get('/requests', 'Profile@showRequestInfo')->name('requests')->middleware('auth');
 
 Route::get('/profile/properties', 'Profile@showRequestsAndProperties')->name('myProperties')->middleware('auth');
+
+Route::post('/profile/properties', 'Profile@acceptRequest')->middleware('auth');
+Route::post('/profile/properties', 'Profile@rejectRequest')->middleware('auth');
+
 Route::get('/profile/properties/create', 'CreateProperties@showProperties')->middleware('auth');
 Route::post('/profile/properties/create', 'CreateProperties@createProperty')->name('create')->middleware('auth');
 
-Route::get('/profile/properties/{id}', 'Profile@showUserPropertyInfo')->middleware('auth');
+Route::get('/profile/properties/{id}', 'Profile@showUserPropertyInfo')->name('userProp')->middleware('auth');
+Route::post('/profile/properties/{id}/delete', 'Profile@deleteProperty')->middleware('auth');
 
-Route::get('/profile/properties/{id}/edit', 'Profile@showUserPropertyInfoForEdit')->name('edit')->middleware('auth');
 Route::post('/profile/properties/{id}/edit', 'Profile@editProperty')->middleware('auth');
+Route::get('/profile/properties/{id}/edit', 'Profile@showUserPropertyInfoForEdit')->name('edit')->middleware('auth');
 
 Route::get('/profile', 'Profile@showUserInfo')->name('userProfile')->middleware('auth');
 Route::post('/profile', 'Profile@editUserData')->middleware('auth');

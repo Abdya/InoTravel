@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Feature;
+use App\Http\Requests\approveReject;
 use App\Http\Requests\ChangeUserData;
 use App\Http\Requests\ChangeUserPassword;
-use App\Http\Requests\editProp;
+use App\Http\Requests\EditProp;
 use App\Property;
 use App\Booking;
 use App\User;
@@ -77,7 +78,15 @@ class Profile extends Controller
         ]);
     }
 
-    public function editProperty (editProp $request, $id) {
+    public function deleteProperty() {
+        $prop = Property::find(Input::get('delete'));
+        $prop->detach();
+        $prop->delete();
+        Booking::where('propertyId', Input::get('delete'))->delete();
+        return Redirect::to('/profile/properties/');
+    }
+
+    public function editProperty ( $id, EditProp $request) {
         $property = Property::find($id);
         $town = \App\Town::find(Input::get('town'));
         $property->title = Input::get('title');
@@ -111,12 +120,32 @@ class Profile extends Controller
         ]);
     }
 
+    public function acceptRequest(approveReject $request) {
+        $id = Input::get('approve');
+        $updateBookStatus = Booking::find($id);
+        $updateBookStatus->status = 2;
+        $updateBookStatus->save();
+        return Redirect::to('/profile/properties/');
+    }
+
+    public function rejectRequest(approveReject $request) {
+        $id = Input::get('reject');
+        $updateBookStatus = Booking::find($id);
+        $updateBookStatus->status = 0;
+        $updateBookStatus->save();
+        return Redirect::to('/profile/properties/');
+    }
+
     public function showRequestInfo() {
         $user = Auth::user();
-        $bookings = Booking::get();
+        $bookings = Booking::where('guestId', $user->id)->get();
+        $recievedRequests = Booking::with(['property' => function ($query) use ($user) {
+            $query->where('ownerId', $user->id);
+        }])->get();
         return view('requests', [
             'bookings' => $bookings,
             'user' => $user,
+            'recievedRequests' => $recievedRequests,
         ]);
     }
     public function showUserForWelcome() {
