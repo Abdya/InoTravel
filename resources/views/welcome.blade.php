@@ -14,11 +14,15 @@
         <link href="/css/app.css" rel="stylesheet">
         <link href="/css/welcome.css" rel="stylesheet">
         <link href="/css/searchBar.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
         <link href="/css/pickadate/default.css" rel="stylesheet">
         <link href="/css/pickadate/default.date.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
         <script src="/js/pickadate/picker.js"></script>
         <script src="/js/pickadate/picker.date.js"></script>
 
@@ -47,7 +51,11 @@
                 <form method="get" action="/properties" enctype="multipart/form-data" style="max-width: 510px">
                     <div class="row mb-3">
                         <div class="flat-input col-md-12">
-                            <input class="flat-input__input" name="where" placeholder="Куда?" type="text">
+                            <select class="selectpicker" data-live-search="true" data-style="btn-primary" name="town" id="town">
+                                @foreach ($towns as $town)
+                                    <option value="{{ $town->id }}">{{ $town->title }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -80,11 +88,15 @@
                 clear: 'удалить',
                 close: 'закрыть',
                 firstDay: 1,
-                formatSubmit: 'yyyy/mm/dd',
                 format: 'dd/mm/yyyy',
                 selectYears: true,
                 selectMonths: true
             })
         </script>
+        <style>
+            .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+                width: 100%;
+            }
+        </style>
     </body>
 </html>

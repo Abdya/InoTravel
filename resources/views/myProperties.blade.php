@@ -34,7 +34,7 @@
         <ul class="navbar-nav ml-auto">
             <div class="top-right links">
                 <a  href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
-                <a  href="{{ route('myProperties') }}"><ins>Мое жилье <span class="badge badge-danger">1</span></ins></a>
+                <a  href="{{ route('myProperties') }}"><ins>Мое жилье @countReq</ins></a>
                 <a  href="{{ route('requests') }}">Заявки</a>
                 <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
@@ -42,68 +42,73 @@
         </ul>
     </div>
 </nav>
-<div class="container float-left mb-5">
-    <h2>Заявки</h2>
+@if(count($properties) === 0)
+    <h2 style="border-bottom: 0px" class="text-center mb-4">Вы еще не создали ни одного профиля жилья!</h2>
+    <div class="text-center">
+        <a href="{{ route('create') }}" type="button" class="btn btn-primary mb-5">Добавить жилье</a>
+    </div>
+@else
     <div class="container float-left mb-5">
-        @foreach($requests as $request)
-            @if($request->status !== 2 and $request->status !==0)
-            <div class="row mb-5">
-                <div class="col-md-5">
-                    <img src="{{ $request->property->photo }}" width="100%" height="auto" alt="room">
-                </div>
-                <div class="col-md-6">
-                    <div class="clearfix">
-                        <div class="row">
-                            <div class="col-md-6 property-description">
-                                <p class="word-break: break-all; max-width: 100%">{{ $request->property->title }}</p>
-                                <p>{{ $request->property->town->title }}</p>
-                                <p>Заявка от: {{ $request->user->firstName }}</p>
-                                <p>{{ \Carbon\Carbon::parse($request->startDate)->format('d/m/Y')}} - {{ \Carbon\Carbon::parse($request->endDate)->format('d/m/Y')}}</p>
-                                <p>Людей: <span>{{ $request->quantityGuests }}</span></p>
-                                <div>
-                                    <div class="row">
-                                        <form method="post" action="/profile/properties" enctype="multipart/form-data">
-                                            @csrf
-                                            <button type="submit" name="approve" value="{{ $request->id }}" class="btn btn-success mr-1">Одобрить</button>
-                                        </form>
-                                        <form method="post" action="/profile/properties" enctype="multipart/form-data">
-                                            @csrf
-                                            <button type="submit"  name="reject" value="{{ $request->id }}" class="btn btn-danger">Отклонить</button>
-                                        </form>
+        <h2>Заявки</h2>
+        <div class="container float-left mb-5">
+            @foreach($requests as $request)
+                <div class="row mb-5">
+                    <div class="col-md-5">
+                        <img src="{{ $request->property->photo }}" width="100%" height="auto" alt="room">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="clearfix">
+                            <div class="row">
+                                <div class="col-md-6 property-description">
+                                    <p class="word-break: break-all; max-width: 100%">{{ $request->property->title }}</p>
+                                    <p>{{ $request->property->town->title }}</p>
+                                    <p>Заявка от: {{ $request->user->firstName }}</p>
+                                    <p>{{ \Carbon\Carbon::parse($request->startDate)->format('d/m/Y')}} - {{ \Carbon\Carbon::parse($request->endDate)->format('d/m/Y')}}</p>
+                                    <p>Людей: <span>{{ $request->quantityGuests }}</span></p>
+                                    <div>
+                                        <div class="row">
+                                            <form method="post" action="/profile/properties/approve" enctype="multipart/form-data">
+                                                @csrf
+                                                <button type="submit" name="approve" value="{{ $request->id }}" class="btn btn-success mr-1">Одобрить</button>
+                                            </form>
+                                            <form method="post" action="/profile/properties/reject" enctype="multipart/form-data">
+                                                @csrf
+                                                <button type="submit"  name="reject" value="{{ $request->id }}" class="btn btn-danger">Отклонить</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            @endif
-        @endforeach
+            @endforeach
+        </div>
     </div>
-</div>
-<div class="container float-left mb-5">
-    <h2>Жилье</h2>
-    <a href="{{ route('create') }}" type="submit" class="btn btn-primary mb-5" style="padding-left: 15px">Добавить жилье</a>
     <div class="container float-left mb-5">
-        @foreach($properties as $property)
-            <div class="row mb-5">
-                <div class="col-md-5">
-                    <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
-                </div>
-                <div class="col-md-6">
-                    <div class="clearfix">
-                        <div class="row">
-                            <div class="col-md-6 property-description">
-                                <a href="{{ route('userProp', $property->id) }}" class="word-break: break-all; max-width: 100%" style="color: black"><ins>{{ $property->title }}</ins></a>
-                                <p>{{ $property->town->title }}</p>
+        <h2>Жилье</h2>
+        <a href="{{ route('create') }}" type="submit" class="btn btn-primary mb-5" style="padding-left: 15px">Добавить жилье</a>
+        <div class="container float-left mb-5">
+            @foreach($properties as $property)
+                <div class="row mb-5">
+                    <div class="col-md-5">
+                        <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="clearfix">
+                            <div class="row">
+                                <div class="col-md-6 property-description">
+                                    <a href="{{ route('userProp', $property->id) }}" class="word-break: break-all; max-width: 100%" style="color: black"><ins>{{ $property->title }}</ins></a>
+                                    <p>{{ $property->town->title }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
-</div>
+@endif
 <style>
     p {
         color: #000000;

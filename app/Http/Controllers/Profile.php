@@ -80,7 +80,6 @@ class Profile extends Controller
 
     public function deleteProperty() {
         $prop = Property::find(Input::get('delete'));
-        $prop->detach();
         $prop->delete();
         Booking::where('propertyId', Input::get('delete'))->delete();
         return Redirect::to('/profile/properties/');
@@ -109,9 +108,9 @@ class Profile extends Controller
 
     public function showRequestsAndProperties() {
         $user = Auth::user();
-        $requests = Booking::with(['property' => function ($query) use ($user) {
+        $requests = Booking::whereHas('property', function ($query) use ($user) {
             $query->where('ownerId', $user->id);
-        }])->get();
+        })->where('status', 1)->get();
         $properties = Property::where('ownerId', Auth::user()->id)->get();
         return view('myProperties', [
             'user' => $user,
@@ -139,9 +138,7 @@ class Profile extends Controller
     public function showRequestInfo() {
         $user = Auth::user();
         $bookings = Booking::where('guestId', $user->id)->get();
-        $recievedRequests = Booking::with(['property' => function ($query) use ($user) {
-            $query->where('ownerId', $user->id);
-        }])->get();
+        $recievedRequests = Booking::join('properties', 'properties.id', '=', 'bookings.propertyId')->where('properties.ownerId', $user->id)->get();
         return view('requests', [
             'bookings' => $bookings,
             'user' => $user,
@@ -150,6 +147,10 @@ class Profile extends Controller
     }
     public function showUserForWelcome() {
         $user = Auth::user();
-        return view('welcome', [ 'user' => $user]);
+        $towns = \App\Town::where('countryId', 3159)->orderBy('title')->get();
+        return view('welcome', [
+            'user' => $user,
+            'towns' => $towns,
+        ]);
     }
 }

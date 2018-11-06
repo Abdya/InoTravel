@@ -27,8 +27,8 @@ Route::get('/requests', 'Profile@showRequestInfo')->name('requests')->middleware
 
 Route::get('/profile/properties', 'Profile@showRequestsAndProperties')->name('myProperties')->middleware('auth');
 
-Route::post('/profile/properties', 'Profile@acceptRequest')->middleware('auth');
-Route::post('/profile/properties', 'Profile@rejectRequest')->middleware('auth');
+Route::post('/profile/properties/approve', 'Profile@acceptRequest')->middleware('auth');
+Route::post('/profile/properties/reject', 'Profile@rejectRequest')->middleware('auth');
 
 Route::get('/profile/properties/create', 'CreateProperties@showProperties')->middleware('auth');
 Route::post('/profile/properties/create', 'CreateProperties@createProperty')->name('create')->middleware('auth');

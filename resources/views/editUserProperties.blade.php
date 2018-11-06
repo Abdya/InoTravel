@@ -32,7 +32,7 @@
         <ul class="navbar-nav ml-auto">
             <div class="top-right links">
                 <a  href="{{ route('userProfile') }}"><ins>{{ $user->firstName }} {{ $user->lastName }}</ins></a>
-                <a  href="{{ route('myProperties') }}">Мое жилье <span class="badge badge-danger">1</span></a>
+                <a  href="{{ route('myProperties') }}">Мое жилье @countReq</a>
                 <a  href="{{ route('requests') }}">Заявки</a>
                 <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>

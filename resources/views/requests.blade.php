@@ -33,7 +33,7 @@
         <ul class="navbar-nav ml-auto">
             <div class="top-right links">
                 <a  href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
-                <a  href="{{ route('myProperties') }}">Мое жилье <span class="badge badge-danger">1</span></a>
+                <a  href="{{ route('myProperties') }}">Мое жилье @countReq</a>
                 <a  href="{{ route('requests') }}"><ins>Заявки</ins></a>
                 <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
@@ -55,17 +55,17 @@
                             <div class="col-md-6 property-description">
                                 <p>{{ $booking->property->title }}</p>
                                 <p>{{ $booking->property->town->title }}</p>
-                                <p>{{ $booking->user->firstName }} {{ $booking->user->lastName }}</p>
+                                <p>{{ $booking->property->owner->firstName }} {{ $booking->property->owner->lastName }}</p>
                                 <p>{{ \Carbon\Carbon::parse($booking->startDate)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($booking->endDate)->format('d/m/Y') }}</p>
                                 <p>Людей: <span>{{ $booking->quantityGuests }}</span></p>
                                 @if ($booking->status === 2)
-                                    <p style="color: green">Заявка принята</p>
+                                    <p><span class="badge badge-success">Заявка принята</span></p>
                                 @endif
                                 @if ($booking->status === 0)
-                                    <p style="color: red">Заявка отклонена!</p>
+                                    <p><span class="badge badge-danger">Заявка отклонена!</span></p>
                                 @endif
                                 @if ($booking->status === 1)
-                                    <p style="color: yellow">Заявка на рассмотрении</p>
+                                    <p><span class="badge badge-warning">Заявка на рассмотрении</span></p>
                                 @endif
                                 <p>Отправлено: {{ \Carbon\Carbon::parse($booking->sendDate)->format('d/m/Y') }}</p>
                             </div>

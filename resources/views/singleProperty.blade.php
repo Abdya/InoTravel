@@ -38,7 +38,7 @@
             <div class="top-right links">
                 @auth
                     <a  href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
-                    <a  href="{{ route('myProperties') }}">Мое жилье</a>
+                    <a  href="{{ route('myProperties') }}">Мое жилье @countReq</a>
                     <a  href="{{ route('requests') }}">Заявки</a>
                     <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
@@ -68,6 +68,9 @@
                     @if($user->id != $property->ownerId)
                     <div class="col-md-4">
                         <h3 class="mb-3">Бронирование</h3>
+                        @foreach($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
                         <div class="flat-input mb-3">
                             <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
                         </div>
@@ -80,6 +83,7 @@
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary">Забронировать</button>
                         </div>
+
                     </div>
                     @endif
                 </div>
@@ -163,7 +167,6 @@
         clear: 'удалить',
         close: 'закрыть',
         firstDay: 1,
-        formatSubmit: 'yyyy/mm/dd',
         format: 'dd/mm/yyyy',
         selectYears: true,
         selectMonths: true
