@@ -27,7 +27,7 @@ class EditProp extends FormRequest
             'title' => 'required|string|max:255',
             'beds' => 'required|alpha_num|max:100',
             'address' => 'required|max:255',
-            'extraInformation' => 'nullable|max:255',
+            'extraInformation' => 'nullable|max:4096',
             'photo' => 'image|file',
         ];
     }

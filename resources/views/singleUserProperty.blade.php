@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Album example for Bootstrap</title>
+    <title>InoTravel</title>
 
 
     <link href="/css/app.css" rel="stylesheet">
@@ -45,7 +45,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5">
-            <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
+            @if(!$property->photo)
+                <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
+            @else
+                <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
+            @endif
         </div>
         <div class="col-md-6">
             <div class="clearfix">

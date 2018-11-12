@@ -22,19 +22,18 @@ class Booking extends Controller
         from properties as p
       left join bookings as b
         on p.id = b.propertyId
-     where p.id=:id
-        and (:beds1 is null or p.beds >= :beds2)
+      where p.id=:id
+        and (p.beds >= :beds1)
         and (b.id is null or b.status = 2 or ((:start1 < b.startDate and :end1 < b.startDate) or (:start2 > b.endDate and :end2 > b.endDate)))',
             [
                 'id' => $id,
                 'beds1' => Input::get('guests'),
-                'beds2' => Input::get('guests'),
                 'start1' => Carbon::createFromFormat('d/m/Y', Input::get('startDate'))->toDateTimeString(),
                 'start2' => Carbon::createFromFormat('d/m/Y', Input::get('startDate'))->toDateTimeString(),
                 'end1' => Carbon::createFromFormat('d/m/Y', Input::get('endDate'))->toDateTimeString(),
                 'end2' => Carbon::createFromFormat('d/m/Y', Input::get('endDate'))->toDateTimeString(),
             ]);
-        if (count($bookingIds) === 0) {
+        if (count($bookingIds) > 0) {
             $booking = new \App\Booking(array(
                 'startDate' => Carbon::createFromFormat('d/m/Y', Input::get('startDate'))->toDateTimeString(),
                 'endDate' => Carbon::createFromFormat('d/m/Y', Input::get('endDate'))->toDateTimeString(),

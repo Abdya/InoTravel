@@ -30,7 +30,6 @@ class CreateProperties extends Controller
 
     public function createProperty (CreateProp $request) {
         $town = Town::find(Input::get('town'));
-        $path = $request->file('photo')->store('roomPicture', 'public');
         $property = new Property(array(
             'title' => Input::get('title'),
             'beds' => Input::get('beds'),
@@ -39,8 +38,11 @@ class CreateProperties extends Controller
             'regionId' => $town->regionId,
             'extraInformation' => Input::get('extraInformation'),
             'ownerId' => \Auth::user()->id,
-            'photo' => Storage::disk('public')->url($path),
         ));
+        if ($request->file('photo') !== null) {
+            $path = $request->file('photo')->store('roomPicture', 'public');
+            $property->photo = Storage::disk('public')->url($path);
+        }
         $property->save();
         $property->features()->sync(Input::get('features'));
         $property->save();

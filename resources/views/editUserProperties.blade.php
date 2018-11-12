@@ -7,16 +7,18 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Album example for Bootstrap</title>
+    <title>InoTravel</title>
 
 
     <link href="/css/app.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/a_links.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 
 </head>
 
@@ -83,7 +85,7 @@
                         <div class="form-group row">
                             <label for="town" class="col-sm-5 col-form-label">Город:</label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="town" id="town">
+                                <select class="selectpicker" data-live-search="true" name="town" id="town">
                                     @foreach ($towns as $town)
                                         <option @if ($property->townId == $town->id) selected @endif value="{{ $town->id }}">{{ $town->title }}</option>
                                     @endforeach
@@ -133,6 +135,9 @@
 
     .feature-list-item__description {
         margin-top: 5px
+    }
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 100%;
     }
 </style>
 </body>

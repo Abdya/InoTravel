@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Album example for Bootstrap</title>
+    <title>InoTravel</title>
 
 
     <link href="/css/app.css" rel="stylesheet">
@@ -54,7 +54,11 @@
             @foreach($requests as $request)
                 <div class="row mb-5">
                     <div class="col-md-5">
-                        <img src="{{ $request->property->photo }}" width="100%" height="auto" alt="room">
+                        @if(!$request->property->photo)
+                            <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
+                        @else
+                            <img src="{{ $request->property->photo }}" width="100%" height="auto" alt="room">
+                        @endif
                     </div>
                     <div class="col-md-6">
                         <div class="clearfix">
@@ -98,7 +102,7 @@
                         <div class="clearfix">
                             <div class="row">
                                 <div class="col-md-6 property-description">
-                                    <a href="{{ route('userProp', $property->id) }}" class="word-break: break-all; max-width: 100%" style="color: black"><ins>{{ $property->title }}</ins></a>
+                                    <a href="{{ route('userProp', $property->id) }}" class="word-break: break-all; max-width: 100%" style="color: black"><ins><p>{{ $property->title }}</p></ins></a>
                                     <p>{{ $property->town->title }}</p>
                                 </div>
                             </div>

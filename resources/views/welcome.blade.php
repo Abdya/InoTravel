@@ -40,7 +40,7 @@
                     @else
                         <a href="{{ route('login') }}">Войти</a>
                         <a href="{{ route('register') }}">Регистрация</a>
-                        <a href="{{ route('login') }}">Принять гостей</a>
+                        <a href="{{ route('create') }}">Принять гостей</a>
                     @endauth
                 </div>
             @endif

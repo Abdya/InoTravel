@@ -24,10 +24,10 @@ class CreateProp extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|alpha_dash|max:255',
+            'title' => 'required|string|max:255',
             'beds' => 'required|alpha_num|max:100',
             'address' => 'required|max:255',
-            'extraInformation' => 'nullable|max:255',
+            'extraInformation' => 'nullable|max:4096',
             'photo' => 'image|file',
         ];
     }

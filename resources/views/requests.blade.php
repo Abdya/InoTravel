@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Requests</title>
+    <title>InoTravel</title>
 
 
     <link href="/css/app.css" rel="stylesheet">
@@ -23,7 +23,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
     <div class="navbar-brand">
-        <a  href="{{ route('welcome') }}">InoTravel</a> / <span >Заявки</span>
+        <a style="color: #000000" href="{{ route('welcome') }}">InoTravel</a> / <span >Заявки</span>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -90,16 +90,16 @@
                             <div class="col-md-6 property-description">
                                 <p>{{ $recievedReq->property->title }}</p>
                                 <p>{{ $recievedReq->property->town->title }}</p>
-                                <p>{{ $recievedReq->user->firstName }} {{ $booking->user->lastName }}</p>
+                                <p>{{ $recievedReq->user->firstName }} {{ $recievedReq->user->lastName }}</p>
                                 <p>{{ \Carbon\Carbon::parse($recievedReq->startDate)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($recievedReq->endDate)->format('d/m/Y') }}</p>
                                 <p>Людей: <span>{{ $recievedReq->quantityGuests }}</span></p>
-                                @if ($booking->status === 2)
+                                @if ($recievedReq->status === 2)
                                     <p style="color: green">Заявка принята</p>
                                 @endif
-                                @if ($booking->status === 0)
+                                @if ($recievedReq->status === 0)
                                     <p style="color: red">Заявка отклонена!</p>
                                 @endif
-                                @if ($booking->status === 1)
+                                @if ($recievedReq->status === 1)
                                     <p style="color: yellow">Заявка на рассмотрении</p>
                                 @endif
                                 <p>Отправлено: {{ \Carbon\Carbon::parse($recievedReq->sendDate)->format('d/m/Y') }}</p>

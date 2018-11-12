@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Album example for Bootstrap</title>
+    <title>InoTravel</title>
 
 
     <link href="/css/app.css" rel="stylesheet">

@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Album example for Bootstrap</title>
+    <title>InoTravel</title>
 
 
     <link href="/css/app.css" rel="stylesheet">
@@ -28,7 +28,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-    <a class="navbar-brand" href="#">InoTravel</a>
+    <a class="navbar-brand" href="{{ route('welcome') }}">InoTravel</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -55,7 +55,11 @@
     @csrf
     <div class="row">
         <div class="col-md-4">
-            <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
+            @if(!$property->photo)
+                <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
+            @else
+                <img src="{{ $property->photo }}" width="100%" height="auto" alt="room">
+            @endif
         </div>
         <div class="col-md-8">
             <div class="clearfix">
@@ -65,12 +69,30 @@
                         <p>{{ $property->town->title }}</p>
                         <p>Спальных мест: <span>{{ $property->beds }}</span></p>
                     </div>
-                    @if($user->id != $property->ownerId)
+                    @auth
+                        @if($user->id != $property->ownerId)
+                        <div class="col-md-4">
+                            <h3 class="mb-3">Бронирование</h3>
+                            @foreach($errors->all() as $error)
+                                <p>{{ var_dump($error) }}</p>
+                            @endforeach
+                            <div class="flat-input mb-3">
+                                <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
+                            </div>
+                            <div class="flat-input mb-3">
+                                <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
+                            </div>
+                            <div class="flat-input mb-3">
+                                <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Забронировать</button>
+                            </div>
+                        </div>
+                        @endif
+                    @else
                     <div class="col-md-4">
                         <h3 class="mb-3">Бронирование</h3>
-                        @foreach($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
                         <div class="flat-input mb-3">
                             <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
                         </div>
@@ -81,11 +103,10 @@
                             <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Забронировать</button>
+                            <a href="{{ route('login') }}" class="btn btn-primary">Забронировать</a>
                         </div>
-
                     </div>
-                    @endif
+                    @endauth
                 </div>
             </div>
             <p>Есть:</p>

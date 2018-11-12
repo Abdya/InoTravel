@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Album example for Bootstrap</title>
+    <title>InoTravel</title>
 
 
     <link href="/css/app.css" rel="stylesheet">
@@ -26,7 +26,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">InoTravel</a>
+    <a class="navbar-brand" href="{{ route('welcome') }}">InoTravel</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,7 +34,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <div class="top-right links">
-                <a  href="{{ route('userProfile') }}"><ins>{{ $user->firstName }} {{ $user->lastName }}</ins></a>
+                <a  href="{{ route('userProfile') }}">{{ $user->firstName }} {{ $user->lastName }}</a>
                 <a  href="{{ route('myProperties') }}">Мое жилье @countReq</a>
                 <a  href="{{ route('requests') }}">Заявки</a>
                 <a href="http://inotravel.local/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
@@ -50,6 +50,7 @@
             <img src="/picture/300.jpg" width="100%" height="auto" alt="room" class="mb-4">
             <input type="file" name="photo">
         </div>
+        {{ $errors }}
         <div class="col-md-10">
             <div class="row">
                 <div class="col-md-6">
