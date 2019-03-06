@@ -1,7 +1,8 @@
 
 html, body {
     background-color: #fff;
-    background-image: url("/picture/background_image.jpg");
+    background-image: url("/picture/background-image.jpg");
+    background-size: 100%;
     color: #f3fbff;
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
