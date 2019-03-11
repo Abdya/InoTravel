@@ -69,3 +69,17 @@ html, body {
     color: white;
     opacity: 1;
 }
+
+.forget-pass{
+    font-size: 24px;
+    color: #fff;
+    margin: 0 0 20px;
+}
+
+.forget-pass:hover{
+    color: #fff;
+}
+
+.pass-change-form{
+    margin: 0 auto;
+}
