@@ -74728,6 +74728,9 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_components_PasswordReset___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__js_components_PasswordReset__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_components_PasswordChange__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_components_PasswordChange___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__js_components_PasswordChange__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__js_components_Registration__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__js_components_Registration___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__js_components_Registration__);
+
 
 
 
@@ -74756,6 +74759,10 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
         path: '/change-pass',
         name: 'passChange',
         component: __WEBPACK_IMPORTED_MODULE_5__js_components_PasswordChange___default.a
+    }, {
+        path: '/registration',
+        name: 'registration',
+        component: __WEBPACK_IMPORTED_MODULE_6__js_components_Registration___default.a
     }]
 });
 
@@ -78074,6 +78081,166 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-600177d6", module.exports)
+  }
+}
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(4)
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = __webpack_require__(61)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Registration.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-70725824", Component.options)
+  } else {
+    hotAPI.reload("data-v-70725824", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "flex-center position-ref full-height" }, [
+    _c(
+      "div",
+      { staticClass: "top-right links" },
+      [
+        _c("router-link", { attrs: { to: "/login" } }, [_vm._v("Войти")]),
+        _vm._v(" "),
+        _c("router-link", { attrs: { to: "/registration" } }, [
+          _vm._v("Регистрация")
+        ]),
+        _vm._v(" "),
+        _c("router-link", { attrs: { to: "/" } }, [_vm._v("Принять гостей")])
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _vm._m(0)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "content" }, [
+      _c("div", { staticClass: "title m-b-md" }, [
+        _vm._v("\n            Registration\n        ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass: "change-form",
+          staticStyle: { "max-width": "500px" },
+          attrs: { method: "post", enctype: "multipart/form-data" }
+        },
+        [
+          _c("div", { staticClass: "row mb-5" }, [
+            _c("div", { staticClass: "flat-input col-md-12 mb-3" }, [
+              _c("input", {
+                staticClass: "flat-input__input",
+                attrs: {
+                  name: "firstName",
+                  placeholder: "First name",
+                  type: "text"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flat-input col-md-12 mb-3" }, [
+              _c("input", {
+                staticClass: "flat-input__input",
+                attrs: {
+                  name: "lastName",
+                  placeholder: "Last name",
+                  type: "text"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flat-input col-md-12 mb-3" }, [
+              _c("input", {
+                staticClass: "flat-input__input",
+                attrs: { name: "email", placeholder: "Email", type: "email" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flat-input col-md-12" }, [
+              _c("input", {
+                staticClass: "flat-input__input",
+                attrs: {
+                  name: "password",
+                  placeholder: "Password",
+                  type: "password"
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-lg",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("Зарегистрироваться!")]
+              )
+            ])
+          ])
+        ]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-70725824", module.exports)
   }
 }
 
