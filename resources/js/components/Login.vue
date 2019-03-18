@@ -1,13 +1,13 @@
 <template>
     <div class="flex-center position-ref full-height">
         <div class="top-right links">
-                <a href="/">Войти</a>
-                <a href="/">Регистрация</a>
-                <a href="/">Принять гостей</a>
+            <router-link to="/login">Войти</router-link>
+            <router-link to="/registration">Регистрация</router-link>
+            <router-link to="/">Принять гостей</router-link>
         </div>
         <div class="content">
         <div class="title m-b-md">
-            InoTravel::Login
+            Войти
         </div>
         <form method="post" action="/properties" enctype="multipart/form-data" style="max-width: 620px">
             <div class="row mb-5">
@@ -22,12 +22,12 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-left">
-                    <a class="forget-pass" href="/">Забыли пароль?</a>
+                    <router-link to="/reset" class="forget-pass">Забыли пароль?</router-link>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <a class="btn btn-primary btn-lg" type="submit">Зарегистрироваться</a>
+                    <button class="btn btn-primary btn-lg" type="submit">Зарегистрироваться</button>
                     ИЛИ
                     <button class="btn btn-primary btn-lg" type="submit">Войти</button>
                 </div>

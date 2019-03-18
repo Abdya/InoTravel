@@ -7,21 +7,21 @@
         </div>
         <div class="content">
             <div class="title m-b-md">
-                Registration
+                Регистрация
             </div>
-            <form method="post" class="change-form" enctype="multipart/form-data" style="max-width: 500px">
+            <form method="post" class="reg-form" enctype="multipart/form-data" style="max-width: 500px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12 mb-3">
-                        <input class="flat-input__input" name="firstName" placeholder="First name" type="text">
+                        <input class="flat-input__input" name="firstName" placeholder="Имя" type="text">
                     </div>
                     <div class="flat-input col-md-12 mb-3">
-                        <input class="flat-input__input" name="lastName" placeholder="Last name" type="text">
+                        <input class="flat-input__input" name="lastName" placeholder="Фамилия" type="text">
                     </div>
                     <div class="flat-input col-md-12 mb-3">
                         <input class="flat-input__input" name="email" placeholder="Email" type="email">
                     </div>
                     <div class="flat-input col-md-12">
-                        <input class="flat-input__input" name="password" placeholder="Password" type="password">
+                        <input class="flat-input__input" name="password" placeholder="Пароль" type="password">
                     </div>
                 </div>
                 <div class="row">

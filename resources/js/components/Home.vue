@@ -1,9 +1,9 @@
 <template>
     <div class="flex-center position-ref full-height">
         <div class="top-right links">
-                <a href="/">Войти</a>
-                <a href="/">Регистрация</a>
-                <a href="/">Принять гостей</a>
+            <router-link to="/login">Войти</router-link>
+            <router-link to="/registration">Регистрация</router-link>
+            <router-link to="/login">Принять гостей</router-link>
         </div>
         <div class="content">
         <div class="title m-b-md">
