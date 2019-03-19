@@ -32,7 +32,6 @@ html, body {
 
 .content {
     text-align: center;
-    margin-bottom: 300px;
 }
 
 .title {
@@ -55,7 +54,7 @@ html, body {
 }
 .flat-input__input {
     background: transparent;
-    color: #ffffff;
+    color: rgba(255, 0, 0, 0.4);
     font-family: 'Montserrat', sans-serif;
     font-size: 27px;
     font-weight: 300;
@@ -82,4 +81,11 @@ html, body {
 
 .pass-change-form{
     margin: 0 auto;
+}
+
+.main-form{
+    width: 600px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 7px;
 }

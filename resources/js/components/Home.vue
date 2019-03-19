@@ -1,4 +1,5 @@
 <template>
+
     <div class="flex-center position-ref full-height">
         <div class="top-right links">
             <router-link to="/login">Войти</router-link>
@@ -9,7 +10,7 @@
         <div class="title m-b-md">
             InoTravel
         </div>
-        <form method="get" action="/properties" enctype="multipart/form-data" style="max-width: 510px">
+        <form class="main-form" method="get" action="/properties" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="flat-input col-md-12">
                     <select class="selectpicker" data-live-search="true" data-style="btn-primary" name="town" id="town">
