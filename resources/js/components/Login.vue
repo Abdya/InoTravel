@@ -9,7 +9,7 @@
             <div class="title m-b-md">
                 Войти
             </div>
-            <form method="post" action="/properties" enctype="multipart/form-data" style="max-width: 620px">
+            <form method="post" enctype="multipart/form-data" @submit.prevent="login" style="max-width: 620px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12">
                         <input class="flat-input__input" name="username" v-model="username" placeholder="Email" type="email">
@@ -29,7 +29,7 @@
                     <div class="col-md-12">
                         <button class="btn btn-primary btn-lg" type="submit">Зарегистрироваться</button>
                         ИЛИ
-                        <button class="btn btn-primary btn-lg" @click="login">Войти</button>
+                        <button class="btn btn-primary btn-lg">Войти</button>
                     </div>
                 </div>
             </form>
@@ -55,7 +55,9 @@ export default {
 
             axios.post('/api/login', data)
                 .then(({data}) => {
+                    auth.login(data.token, data.user);
 
+                    this.$router.push('/myproperties');
                 })
                 .catch(({response}) => {
                     alert(response.data.message)

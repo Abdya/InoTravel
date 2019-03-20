@@ -6,6 +6,8 @@ import Routes from '@/js/routes.js';
 
 import App from '@/js/views/App';
 
+import auth from '@/js/auth.js';
+
 Vue.use(Vuetify);
 
 Vue.component(
@@ -22,6 +24,10 @@ Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue')
 );
+
+window.auth = auth;
+
+window.Event = new Vue;
 
 const app = new Vue({
     el: '#app',

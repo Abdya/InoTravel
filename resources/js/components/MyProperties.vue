@@ -9,7 +9,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <div class="top-right links">
-                        <router-link to="/profile">Nikita Orobenko</router-link>
+                        <router-link v-if="authenticated && user" to="/profile">{{ user.firstName + user.lastName}}</router-link>
                         <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
                         <router-link to="/requests">Заявки</router-link>
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
@@ -78,3 +78,21 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            authenticated: auth.check(),
+            user: auth.user
+        };
+    },
+
+    mounted() {
+        Event.$on('userLoggedIn', () => {
+            this.authenticated = true;
+            this.user = auth.user;
+        });
+    },
+}
+</script>

@@ -24,7 +24,7 @@ class AuthController extends Controller
         
         $user = User::whereEmail(request('username'))->first();
 
-        if (!$user || !Hach::check(request('password'), $user->password)) {
+        if (!$user || !\Hash::check(request('password'), $user->password)) {
             return response()->json([
                 'message' => 'Wrong email or password',
                 'status' => 422
@@ -63,7 +63,11 @@ class AuthController extends Controller
 
         $data = json_decode($response->getContent());
 
-        return
+        return response()->json([
+            'token' => $data->access_token,
+            'user' => $user,
+            'status' => 200
+        ]);
     }
 
     public function logout(){
