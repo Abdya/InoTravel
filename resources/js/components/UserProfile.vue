@@ -7,7 +7,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <div class="top-right links">
+                    <div class="top-right links profile">
                         <router-link to="/profile">Nikita Orobenko</router-link>
                         <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
                         <router-link to="/requests">Заявки</router-link>

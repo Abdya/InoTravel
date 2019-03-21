@@ -12,7 +12,7 @@
             <form method="post" action="/properties" enctype="multipart/form-data" style="max-width: 620px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12">
-                        <input class="flat-input__input" name="email" placeholder="Email" type="email">
+                        <input class="flat-input__input" v-model="email" name="email" placeholder="Email" type="email">
                     </div>
                 </div>
                 <div class="row">
@@ -24,3 +24,23 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data () {
+        return {
+            email: ''
+        };
+    },
+
+    methods: {
+        reset() {
+            let data = {
+                email: this.email
+            };
+
+            axios.post('/password-reset/request', data)
+        }
+    }
+}
+</script>

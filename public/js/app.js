@@ -78208,7 +78208,7 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(93)
 /* template */
 var __vue_template__ = __webpack_require__(52)
 /* template functional */
@@ -78272,15 +78272,7 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _vm._m(0)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content" }, [
+    _c("div", { staticClass: "content" }, [
       _c("div", { staticClass: "title m-b-md" }, [
         _vm._v("\n            Password Reset\n        ")
       ]),
@@ -78299,26 +78291,48 @@ var staticRenderFns = [
           _c("div", { staticClass: "row mb-5" }, [
             _c("div", { staticClass: "flat-input col-md-12" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email,
+                    expression: "email"
+                  }
+                ],
                 staticClass: "flat-input__input",
-                attrs: { name: "email", placeholder: "Email", type: "email" }
+                attrs: { name: "email", placeholder: "Email", type: "email" },
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  }
+                }
               })
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-lg",
-                  attrs: { type: "submit" }
-                },
-                [_vm._v("Сбросить пароль")]
-              )
-            ])
-          ])
+          _vm._m(0)
         ]
       )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary btn-lg", attrs: { type: "submit" } },
+          [_vm._v("Сбросить пароль")]
+        )
+      ])
     ])
   }
 ]
@@ -78484,7 +78498,7 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(92)
 /* template */
 var __vue_template__ = __webpack_require__(56)
 /* template functional */
@@ -78548,15 +78562,7 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _vm._m(0)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content" }, [
+    _c("div", { staticClass: "content" }, [
       _c("div", { staticClass: "title m-b-md" }, [
         _vm._v("\n            Регистрация\n        ")
       ]),
@@ -78566,61 +78572,154 @@ var staticRenderFns = [
         {
           staticClass: "reg-form",
           staticStyle: { "max-width": "500px" },
-          attrs: { method: "post", enctype: "multipart/form-data" }
+          attrs: { method: "post", enctype: "multipart/form-data" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.register($event)
+            }
+          }
         },
         [
           _c("div", { staticClass: "row mb-5" }, [
             _c("div", { staticClass: "flat-input col-md-12 mb-3" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.firstName,
+                    expression: "firstName"
+                  }
+                ],
                 staticClass: "flat-input__input",
-                attrs: { name: "firstName", placeholder: "Имя", type: "text" }
-              })
+                attrs: { name: "firstName", placeholder: "Имя", type: "text" },
+                domProps: { value: _vm.firstName },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.firstName = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors["firstName"]
+                ? _c("p", [_vm._v(_vm._s(_vm.errors["firstName"][0]))])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flat-input col-md-12 mb-3" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.lastName,
+                    expression: "lastName"
+                  }
+                ],
                 staticClass: "flat-input__input",
                 attrs: {
                   name: "lastName",
                   placeholder: "Фамилия",
                   type: "text"
+                },
+                domProps: { value: _vm.lastName },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.lastName = $event.target.value
+                  }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.errors["lastName"]
+                ? _c("p", [_vm._v(_vm._s(_vm.errors["lastName"][0]))])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flat-input col-md-12 mb-3" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email,
+                    expression: "email"
+                  }
+                ],
                 staticClass: "flat-input__input",
-                attrs: { name: "email", placeholder: "Email", type: "email" }
-              })
+                attrs: { name: "email", placeholder: "Email", type: "email" },
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors["email"]
+                ? _c("p", [_vm._v(_vm._s(_vm.errors["email"][0]))])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "flat-input col-md-12" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.password,
+                    expression: "password"
+                  }
+                ],
                 staticClass: "flat-input__input",
                 attrs: {
                   name: "password",
                   placeholder: "Пароль",
                   type: "password"
+                },
+                domProps: { value: _vm.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.password = $event.target.value
+                  }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.errors["password"]
+                ? _c("p", [_vm._v(_vm._s(_vm.errors["password"][0]))])
+                : _vm._e()
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-lg",
-                  attrs: { type: "submit" }
-                },
-                [_vm._v("Зарегистрироваться!")]
-              )
-            ])
-          ])
+          _vm._m(0)
         ]
       )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("button", { staticClass: "btn btn-primary btn-lg" }, [
+          _vm._v("Зарегистрироваться!")
+        ])
+      ])
     ])
   }
 ]
@@ -79944,7 +80043,7 @@ var render = function() {
             _c("ul", { staticClass: "navbar-nav ml-auto" }, [
               _c(
                 "div",
-                { staticClass: "top-right links" },
+                { staticClass: "top-right links profile" },
                 [
                   _c("router-link", { attrs: { to: "/profile" } }, [
                     _vm._v("Nikita Orobenko")
@@ -82530,6 +82629,160 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            errors: {}
+        };
+    },
+
+
+    methods: {
+        register: function register() {
+            var _this = this;
+
+            var data = {
+                firstName: this.firstName,
+                lastName: this.lastName,
+                email: this.email,
+                password: this.password
+            };
+
+            axios.post('/api/register', data).then(function (_ref) {
+                var data = _ref.data;
+
+                axios.post('/api/login', {
+                    username: _this.email,
+                    password: _this.password
+                }).then(function (_ref2) {
+                    var data = _ref2.data;
+
+                    auth.login(data.token, data.user);
+
+                    _this.$router.push('/profile');
+                }).catch(function (_ref3) {
+                    var response = _ref3.response;
+
+                    alert(response.data.message);
+                });
+            }).catch(function (_ref4) {
+                var response = _ref4.response;
+
+                _this.errors = response.data.errors;
+                console.log(response);
+            });
+        }
+    }
+
+});
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            email: ''
+        };
+    },
+
+
+    methods: {
+        reset: function reset() {
+            var data = {
+                email: this.email
+            };
+
+            axios.post('/password-reset/request', data);
+        }
+    }
+});
 
 /***/ })
 /******/ ]);

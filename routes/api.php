@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 
 Route::post('/register', 'API\AuthController@register');
 Route::post('/login', 'API\AuthController@login');
+Route::post('/password-reset/request', 'API\AuthController@passwordReset');
+Route::post('/password-reset/confirm', 'API\AuthController@passwordResetConfirm');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');

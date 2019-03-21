@@ -4,12 +4,33 @@ namespace App\Http\Controllers\API;
 
 use App\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
     public function register(){
+        $data = [
+            'firstName' => request('firstName'),
+            'lastName' => request('lastName'),
+            'email' => request('email'),
+            'password' => request('password')
+        ];
+        $validator = Validator::make($data, [
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
         User::create([
         'firstName' => request('firstName'),
         'lastName' => request('lastName'),
@@ -70,7 +91,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(){
+    public function logout() {
         $accessToken = auth()->user()->token();
 
         $refreshToken = DB::table('oauth_refresh_tokens')
@@ -82,6 +103,14 @@ class AuthController extends Controller
         $accessToken->revoke();
 
         return response()->json(['status' => 200]);
+    }
+
+    public function passwordReset() {
+
+    }
+
+    public function passwordResetConfirm() {
+        
     }
     
 }
