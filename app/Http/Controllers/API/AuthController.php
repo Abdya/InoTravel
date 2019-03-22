@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\User;
+use Illuminate\Support\Str;
+use App\Mail\PasswordReset;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -106,11 +110,23 @@ class AuthController extends Controller
     }
 
     public function passwordReset() {
+        $email = request('email');
+        $user = User::whereEmail($email)->first();
 
+        if (!$user) {
+            return response()->json(['status' => 201]);
+        }
+
+        $user->setRememberToken(Str::random(60));
+        $user->save();
+
+        Mail::to($user->email)->send(new PasswordReset($user));
+
+        return response()->json(['status' => 201]);
     }
 
     public function passwordResetConfirm() {
-        
+
     }
     
 }

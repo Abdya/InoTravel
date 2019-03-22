@@ -9,7 +9,7 @@
             <div class="title m-b-md">
                 Password Reset
             </div>
-            <form method="post" action="/properties" enctype="multipart/form-data" style="max-width: 620px">
+            <form method="post" @submit.prevent="reset" enctype="multipart/form-data" style="max-width: 620px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12">
                         <input class="flat-input__input" v-model="email" name="email" placeholder="Email" type="email">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-primary btn-lg" type="submit">Сбросить пароль</button>
+                        <button class="btn btn-primary btn-lg">Сбросить пароль</button>
                     </div>
                 </div>
             </form>
@@ -39,7 +39,7 @@ export default {
                 email: this.email
             };
 
-            axios.post('/password-reset/request', data)
+            axios.post('/api/password-reset/request', data);
         }
     }
 }
