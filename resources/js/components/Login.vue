@@ -5,7 +5,7 @@
             <router-link to="/registration">Регистрация</router-link>
             <router-link to="/login">Принять гостей</router-link>
         </div>
-        <div class="content">
+        <div class="content blur-form">
             <div class="title m-b-md">
                 Войти
             </div>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 text-left">
-                        <router-link to="/reset" class="forget-pass">Забыли пароль?</router-link>
+                        <router-link to="/reset" class="forget-pass"><h5>Забыли пароль?</h5></router-link>
                     </div>
                 </div>
                 <div class="row">
@@ -57,7 +57,7 @@ export default {
                 .then(({data}) => {
                     auth.login(data.token, data.user);
 
-                    this.$router.push('/myproperties');
+                    this.$router.push('/profile');
                 })
                 .catch(({response}) => {
                     alert(response.data.message)

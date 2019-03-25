@@ -5,11 +5,14 @@
             <router-link to="/registration">Регистрация</router-link>
             <router-link to="/">Принять гостей</router-link>
         </div>
-        <div class="content">
+        <div class="content blur-form">
             <div class="title m-b-md">
                 Password Reset
             </div>
-            <form method="post" @submit.prevent="reset" enctype="multipart/form-data" style="max-width: 620px">
+            <div v-if="message" class="alert alert-primary col-md-12" role="alert">
+                {{message}}
+            </div>
+            <form v-else="message" method="post" @submit.prevent="reset" enctype="multipart/form-data" style="max-width: 620px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12">
                         <input class="flat-input__input" v-model="email" name="email" placeholder="Email" type="email">
@@ -29,7 +32,8 @@
 export default {
     data () {
         return {
-            email: ''
+            email: '',
+            message: ''
         };
     },
 
@@ -39,7 +43,9 @@ export default {
                 email: this.email
             };
 
-            axios.post('/api/password-reset/request', data);
+            axios
+                .post('/api/password-reset/request', data)
+                .then(this.message = 'Если существует пользователь с таким email, то проверьте почту');
         }
     }
 }

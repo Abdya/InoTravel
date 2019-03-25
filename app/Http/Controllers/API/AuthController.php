@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use phpseclib\Crypt\Hash;
 
 class AuthController extends Controller
 {
@@ -126,7 +127,21 @@ class AuthController extends Controller
     }
 
     public function passwordResetConfirm() {
+        $token = request('token');
+        $id = request('user_id');
 
+        $user = User::find($id);
+
+        if ($user->remember_token != $token){
+            return response()->json(['status' => 420]);
+        }
+
+        $user->password = \Hash::make(request('pass'));
+        $user->remember_token = null;
+        $user->save();
+
+
+        return response()->json(['status' => 201]);
     }
     
 }

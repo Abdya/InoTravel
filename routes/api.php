@@ -18,6 +18,11 @@ Route::post('/login', 'API\AuthController@login');
 Route::post('/password-reset/request', 'API\AuthController@passwordReset');
 Route::post('/password-reset/confirm', 'API\AuthController@passwordResetConfirm');
 
+Route::middleware('auth:api')->get('/profile', function (Request $request) {
+    return $request->user();
+});
+
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');
 });
+
