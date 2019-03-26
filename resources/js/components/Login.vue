@@ -27,7 +27,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-primary btn-lg" type="submit">Зарегистрироваться</button>
+                        <router-link to="/registration" class="btn btn-primary btn-lg">Зарегистрироваться</router-link>
                         ИЛИ
                         <button class="btn btn-primary btn-lg">Войти</button>
                     </div>

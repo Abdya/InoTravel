@@ -2,7 +2,11 @@ import Axios from "axios";
 
 class Auth {
     constructor() {
-        this.token = null;
+        if (window.localStorage.getItem('token')) {
+            this.token = window.localStorage.getItem('token');
+            Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.token;
+        }
+        
         this.user = null;
     }
 

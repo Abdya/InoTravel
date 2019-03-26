@@ -8,6 +8,12 @@ import App from '@/js/views/App';
 
 import auth from '@/js/auth.js';
 
+import VeeValidate, { Validator } from 'vee-validate';
+import ru from 'vee-validate/dist/locale/ru';
+
+Vue.use(VeeValidate);
+Validator.localize('ru', ru);
+
 Vue.use(Vuetify);
 
 Vue.component(

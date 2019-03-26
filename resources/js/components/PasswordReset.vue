@@ -12,7 +12,7 @@
             <div v-if="message" class="alert alert-primary col-md-12" role="alert">
                 {{message}}
             </div>
-            <form v-else="message" method="post" @submit.prevent="reset" enctype="multipart/form-data" style="max-width: 620px">
+            <form v-else method="post" @submit.prevent="reset" enctype="multipart/form-data" style="max-width: 620px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12">
                         <input class="flat-input__input" v-model="email" name="email" placeholder="Email" type="email">
