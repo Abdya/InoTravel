@@ -10,7 +10,7 @@
         <div class="title m-b-md">
             InoTravel
         </div>
-        <form class="main-form" method="get" action="/properties" enctype="multipart/form-data">
+        <form class="main-form blur-form" method="get" action="/properties" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="flat-input col-md-12">
                     <select class="selectpicker" data-live-search="true" data-style="btn-primary" name="town" id="town">

@@ -28,5 +28,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');
     Route::post('/profile/change-info', 'API\UserController@changeUserData');
     Route::post('/profile/change-pass', 'API\UserController@changeUserPass');
+    Route::post('/property/create', 'API\PropertyController@createProperty');
+    Route::get('/myproperties', 'API\PropertyController@showUserPropertiesAndRequests');
 });
 

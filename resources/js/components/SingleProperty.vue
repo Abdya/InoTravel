@@ -2,10 +2,6 @@
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
             <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <div class="top-right links">
@@ -17,7 +13,7 @@
                 </ul>
             </div>
         </nav>
-        <form method="post" action="" enctype="multipart/form-data" class="container">
+        <form v-if="1 == 2" method="post" action="" enctype="multipart/form-data" class="container">
             <div class="row">
                 <div class="col-md-4">
                     <img v-if="true" src="/picture/300.jpg" width="100%" height="auto" alt="room">
@@ -59,6 +55,68 @@
                     </div>
                     <p class="mt-2">Дополнительная информация:</p>
                     <p>Не указана</p>
+                </div>
+            </div>
+        </form>
+        <form  method="post" action="/profile/properties/create" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="/picture/300.jpg" width="100%" height="auto" alt="room" class="mb-4">
+                    <input type="file" name="photo">
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="title" class="col-sm-5 col-form-label">Название:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Название">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="beds" class="col-sm-5 col-form-label">Количество cпальных мест:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="beds" name="beds" placeholder="Количество спальных мест">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Удобства:</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <div class="form-group row">
+                                    <label for="town" class="col-sm-5 col-form-label">Город:</label>
+                                    <div class="col-sm-10">
+                                        <select class="selectpicker" data-live-search="true" name="town" id="town">
+                                            <option value="431">awdawdawd</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="address" class="col-sm-5 col-form-label">Адрес:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Улица, дом, квартира">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <div class="form row">
+                                    <label for="extraInformation" class="col-sm-5 col-form-label">Дополнительная информация:</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control mb-4" id="houseName" name="extraInformation" placeholder="Расскажите о себе или жилье!"></textarea>
+                                        <div class="text-right">
+                                            <button type="submit" class="btn btn-primary btn-lg">Создать профиль</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

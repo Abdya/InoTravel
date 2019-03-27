@@ -77849,7 +77849,7 @@ var staticRenderFns = [
       _c(
         "form",
         {
-          staticClass: "main-form",
+          staticClass: "main-form blur-form",
           attrs: {
             method: "get",
             action: "/properties",
@@ -79093,8 +79093,10 @@ module.exports = Component.exports
 
 /***/ }),
 /* 61 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
@@ -79172,10 +79174,32 @@ module.exports = Component.exports
 //
 //
 //
-//
-//
-//
-//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            incomeRequests: [],
+            propertiesList: []
+        };
+    },
+
+    mounted: function mounted() {
+        this.takeUserRequestsAndProperties();
+    },
+    methods: {
+        takeUserRequestsAndProperties: function takeUserRequestsAndProperties() {
+            var _this = this;
+
+            axios.get('/api/myproperties').then(function (_ref) {
+                var data = _ref.data;
+
+                _this.incomeRequests = data.incomeRequests;
+                _this.propertiesList = data.properties;
+                console.log(_this.propertiesList);
+            });
+        }
+    }
+});
 
 /***/ }),
 /* 62 */
@@ -79194,8 +79218,6 @@ var render = function() {
           _vm._v("InoTravel")
         ]),
         _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
         _c(
           "div",
           {
@@ -79208,11 +79230,7 @@ var render = function() {
                 "div",
                 { staticClass: "top-right links" },
                 [
-                  _vm.authenticated && _vm.user
-                    ? _c("router-link", { attrs: { to: "/profile" } }, [
-                        _vm._v(_vm._s(_vm.user.firstName + _vm.user.lastName))
-                      ])
-                    : _vm._e(),
+                  _c("router-link", { attrs: { to: "/profile" } }),
                   _vm._v(" "),
                   _c("router-link", { attrs: { to: "/myproperties" } }, [
                     _c("ins", [_vm._v("Мое жилье")])
@@ -79243,14 +79261,7 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _c(
-      "h2",
-      {
-        staticClass: "text-center mb-4",
-        staticStyle: { "border-bottom": "0px" }
-      },
-      [_vm._v("Вы еще не создали ни одного профиля жилья!")]
-    ),
+    _c("h2", [_vm._v("Вы еще не создали ни одного профиля жилья!")]),
     _vm._v(" "),
     _c(
       "div",
@@ -79260,7 +79271,7 @@ var render = function() {
           "router-link",
           {
             staticClass: "btn btn-primary mb-5",
-            attrs: { to: "/property", type: "button" }
+            attrs: { to: "/property/create", type: "button" }
           },
           [_vm._v("Добавить жилье")]
         )
@@ -79271,131 +79282,76 @@ var render = function() {
     _c("div", { staticClass: "container float-left mb-5" }, [
       _c("h2", [_vm._v("Заявки")]),
       _vm._v(" "),
-      _c("div", { staticClass: "container float-left mb-5" }, [
-        _c("div", { staticClass: "row mb-5" }, [
-          _c("div", { staticClass: "col-md-5" }, [
-            true
-              ? _c("img", {
-                  attrs: {
-                    src: "/picture/300.jpg",
-                    width: "100%",
-                    height: "auto",
-                    alt: "room"
-                  }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            false
-              ? _c("img", {
-                  attrs: { src: "", width: "100%", height: "auto", alt: "room" }
-                })
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(1)
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _vm._m(2)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "navbar-toggler",
-        attrs: {
-          type: "button",
-          "data-toggle": "collapse",
-          "data-target": "#navbarSupportedContent",
-          "aria-controls": "navbarSupportedContent",
-          "aria-expanded": "false",
-          "aria-label": "Toggle navigation"
-        }
-      },
-      [_c("span", { staticClass: "navbar-toggler-icon" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "clearfix" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6 property-description" }, [
-            _c("p", { staticClass: "word-break: break-all; max-width: 100%" }, [
-              _vm._v("awawfawfaw")
+      _c(
+        "div",
+        { staticClass: "container float-left mb-5" },
+        _vm._l(_vm.incomeRequests, function(request) {
+          return _c("div", { staticClass: "row mb-5" }, [
+            _c("div", { staticClass: "col-md-5" }, [
+              true
+                ? _c("img", {
+                    attrs: {
+                      src: "/picture/300.jpg",
+                      width: "100%",
+                      height: "auto",
+                      alt: "room"
+                    }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              false
+                ? _c("img", {
+                    attrs: {
+                      src: "",
+                      width: "100%",
+                      height: "auto",
+                      alt: "room"
+                    }
+                  })
+                : _vm._e()
             ]),
             _vm._v(" "),
-            _c("p", [_vm._v("Taganrog")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("Заявка от: Figaro")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("12-10-1999 30-11-2018")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("Людей: "), _c("span", [_vm._v("6")])]),
-            _vm._v(" "),
-            _c("div", [
-              _c("div", { staticClass: "row" }, [
-                _c(
-                  "form",
-                  {
-                    attrs: {
-                      method: "post",
-                      action: "/profile/properties/approve",
-                      enctype: "multipart/form-data"
-                    }
-                  },
-                  [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "clearfix" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6 property-description" }, [
                     _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success mr-1",
-                        attrs: { type: "submit", name: "approve", value: "" }
-                      },
-                      [_vm._v("Одобрить")]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "form",
-                  {
-                    attrs: {
-                      method: "post",
-                      action: "/profile/properties/reject",
-                      enctype: "multipart/form-data"
-                    }
-                  },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "submit", name: "reject", value: "" }
-                      },
-                      [_vm._v("Отклонить")]
-                    )
-                  ]
-                )
+                      "p",
+                      { staticClass: "word-break: break-all; max-width: 100%" },
+                      [_vm._v(_vm._s(request.title))]
+                    ),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(request.property.town.title))]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Заявка от: " + _vm._s(request.user.firstName))
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v(
+                        _vm._s(request.startDate) +
+                          " " +
+                          _vm._s(request.endDate)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Людей: "),
+                      _c("span", [_vm._v(_vm._s(request.quantityGuests))])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0, true)
+                  ])
+                ])
               ])
             ])
           ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container float-left mb-5" }, [
+        }),
+        0
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "container float-left mb-5" }, [
       _c("h2", [_vm._v("Жилье")]),
       _vm._v(" "),
       _c(
@@ -79408,33 +79364,103 @@ var staticRenderFns = [
         [_vm._v("Добавить жилье")]
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "container float-left mb-5" }, [
-        _c("div", { staticClass: "row mb-5" }, [
-          _c("div", { staticClass: "col-md-5" }, [
-            _c("img", { attrs: { width: "100%", height: "auto", alt: "room" } })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "clearfix" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-6 property-description" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "word-break: break-all; max-width: 100%",
-                      staticStyle: { color: "black" },
-                      attrs: { href: "#" }
-                    },
-                    [_c("ins", [_c("p", [_vm._v("Бздюшкино")])])]
-                  ),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("Taganrog")])
+      _c(
+        "div",
+        { staticClass: "container float-left mb-5" },
+        _vm._l(_vm.propertiesList, function(property) {
+          return _c("div", { staticClass: "row mb-5" }, [
+            _vm._m(1, true),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "clearfix" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6 property-description" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "word-break: break-all; max-width: 100%",
+                        staticStyle: { color: "black" },
+                        attrs: { href: "#" }
+                      },
+                      [_c("ins", [_c("p", [_vm._v(_vm._s(property.title))])])]
+                    ),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(property.town.title))])
+                  ])
                 ])
               ])
             ])
           ])
-        ])
+        }),
+        0
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "form",
+          {
+            attrs: {
+              method: "post",
+              action: "/profile/properties/approve",
+              enctype: "multipart/form-data"
+            }
+          },
+          [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success mr-1",
+                attrs: { type: "submit", name: "approve", value: "" }
+              },
+              [_vm._v("Одобрить")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            attrs: {
+              method: "post",
+              action: "/profile/properties/reject",
+              enctype: "multipart/form-data"
+            }
+          },
+          [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger",
+                attrs: { type: "submit", name: "reject", value: "" }
+              },
+              [_vm._v("Отклонить")]
+            )
+          ]
+        )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-5" }, [
+      _c("img", {
+        attrs: {
+          src: "/picture/300.jpg",
+          width: "100%",
+          height: "auto",
+          alt: "room"
+        }
+      })
     ])
   }
 ]
@@ -80072,8 +80098,6 @@ var render = function() {
           _vm._v("InoTravel")
         ]),
         _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
         _c(
           "div",
           {
@@ -80119,60 +80143,53 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _c(
-      "form",
-      {
-        staticClass: "container",
-        attrs: { method: "post", action: "", enctype: "multipart/form-data" }
-      },
-      [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [
-            true
-              ? _c("img", {
-                  attrs: {
-                    src: "/picture/300.jpg",
-                    width: "100%",
-                    height: "auto",
-                    alt: "room"
-                  }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            false
-              ? _c("img", {
-                  attrs: { src: "", width: "100%", height: "auto", alt: "room" }
-                })
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(1)
-        ])
-      ]
-    )
+     false
+      ? _c(
+          "form",
+          {
+            staticClass: "container",
+            attrs: {
+              method: "post",
+              action: "",
+              enctype: "multipart/form-data"
+            }
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-4" }, [
+                true
+                  ? _c("img", {
+                      attrs: {
+                        src: "/picture/300.jpg",
+                        width: "100%",
+                        height: "auto",
+                        alt: "room"
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                false
+                  ? _c("img", {
+                      attrs: {
+                        src: "",
+                        width: "100%",
+                        height: "auto",
+                        alt: "room"
+                      }
+                    })
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm._m(1)
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "navbar-toggler",
-        attrs: {
-          type: "button",
-          "data-toggle": "collapse",
-          "data-target": "#navbarSupportedContent",
-          "aria-controls": "navbarSupportedContent",
-          "aria-expanded": "false",
-          "aria-label": "Toggle navigation"
-        }
-      },
-      [_c("span", { staticClass: "navbar-toggler-icon" })]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -80249,6 +80266,192 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("p", [_vm._v("Не указана")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "form",
+      {
+        staticClass: "container",
+        staticStyle: { width: "1400px", "max-width": "1400px" },
+        attrs: {
+          method: "post",
+          action: "/profile/properties/create",
+          enctype: "multipart/form-data"
+        }
+      },
+      [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-2" }, [
+            _c("img", {
+              staticClass: "mb-4",
+              attrs: {
+                src: "/picture/300.jpg",
+                width: "100%",
+                height: "auto",
+                alt: "room"
+              }
+            }),
+            _vm._v(" "),
+            _c("input", { attrs: { type: "file", name: "photo" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-10" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-5 col-form-label",
+                      attrs: { for: "title" }
+                    },
+                    [_vm._v("Название:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "title",
+                        name: "title",
+                        placeholder: "Название"
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-5 col-form-label",
+                      attrs: { for: "beds" }
+                    },
+                    [_vm._v("Количество cпальных мест:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "beds",
+                        name: "beds",
+                        placeholder: "Количество спальных мест"
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c("div", { staticClass: "col-sm-2" }, [_vm._v("Удобства:")])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-5 col-form-label",
+                        attrs: { for: "town" }
+                      },
+                      [_vm._v("Город:")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c(
+                        "select",
+                        {
+                          staticClass: "selectpicker",
+                          attrs: {
+                            "data-live-search": "true",
+                            name: "town",
+                            id: "town"
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "431" } }, [
+                            _vm._v("awdawdawd")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-5 col-form-label",
+                        attrs: { for: "address" }
+                      },
+                      [_vm._v("Адрес:")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "address",
+                          name: "address",
+                          placeholder: "Улица, дом, квартира"
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", [
+                  _c("div", { staticClass: "form row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-5 col-form-label",
+                        attrs: { for: "extraInformation" }
+                      },
+                      [_vm._v("Дополнительная информация:")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("textarea", {
+                        staticClass: "form-control mb-4",
+                        attrs: {
+                          id: "houseName",
+                          name: "extraInformation",
+                          placeholder: "Расскажите о себе или жилье!"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "text-right" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary btn-lg",
+                            attrs: { type: "submit" }
+                          },
+                          [_vm._v("Создать профиль")]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
