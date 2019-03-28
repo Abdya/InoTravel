@@ -11,6 +11,13 @@ import auth from '@/js/auth.js';
 import VeeValidate, { Validator } from 'vee-validate';
 import ru from 'vee-validate/dist/locale/ru';
 
+import DatePicker from 'vue2-datepicker';
+
+import selectPicker from 'vue-selectpicker'
+
+Vue.use(DatePicker);
+Vue.use(selectPicker);
+
 Vue.use(VeeValidate);
 Validator.localize('ru', ru);
 

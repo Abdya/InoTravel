@@ -13,14 +13,14 @@
                 </ul>
             </div>
         </nav>
-        <h2>Вы еще не создали ни одного профиля жилья!</h2>
-        <div class="text-center">
+        <div v-if="propertiesList.length == 0" class="text-center">
+            <h2>Вы еще не создали ни одного профиля жилья!</h2>
             <router-link to="/property/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
         </div>
         <div class="container float-left mb-5">
             <h2>Заявки</h2>
             <div class="container float-left mb-5">
-                <div v-for="request in incomeRequests" class="row mb-5">
+                <div v-for="request in incomingRequests" class="row mb-5">
                     <div class="col-md-5">
                         <img v-if="true" src="/picture/300.jpg" width="100%" height="auto" alt="room">
                         <img v-if="false" src="" width="100%" height="auto" alt="room">
@@ -36,12 +36,8 @@
                                     <p>Людей: <span>{{request.quantityGuests}}</span></p>
                                     <div>
                                         <div class="row">
-                                            <form method="post" action="/profile/properties/approve" enctype="multipart/form-data">
-                                                <button type="submit" name="approve" value="" class="btn btn-success mr-1">Одобрить</button>
-                                            </form>
-                                            <form method="post" action="/profile/properties/reject" enctype="multipart/form-data">
-                                                <button type="submit"  name="reject" value="" class="btn btn-danger">Отклонить</button>
-                                            </form>
+                                            <button type="submit" @click="approveRequest(request)" class="btn btn-success mr-1">Одобрить</button>
+                                            <button type="submit" @click="rejectRequest(request)" class="btn btn-danger">Отклонить</button>
                                         </div>
                                     </div>
                                 </div>
@@ -79,22 +75,44 @@
 export default {
     data() {
         return {
-            incomeRequests: [],
+            incomingRequests: [],
             propertiesList: []
         }
     },
     mounted: function() {
-        this.takeUserRequestsAndProperties();
+        this.loadIncomingRequests();
+        this.loadUserProperties();
     },
     methods: {
-        takeUserRequestsAndProperties() {
+        loadIncomingRequests() {
+            axios
+                .get('/api/myproperties/requests')
+                .then(({data}) => {
+                    this.incomingRequests = data.incomingRequests;
+                    console.log(this.incomingRequests);
+                });
+        },
+        loadUserProperties() {
             axios
                 .get('/api/myproperties')
                 .then(({data}) => {
-                    this.incomeRequests = data.incomeRequests;
                     this.propertiesList = data.properties;
-                    console.log(this.propertiesList);
+                    console.log(this.propertiesList)
                 });
+        },
+        rejectRequest(booking) {
+            axios
+                .post('/api/myproperties/reject', {
+                    'bookingId': booking.id
+                })
+                .then(this.loadIncomingRequests);
+        },
+        approveRequest(booking) {
+            axios
+                .post('/api/myproperties/approve', {
+                    'bookingId': booking.id
+                })
+                .then(this.loadIncomingRequests);
         }
     }
 }
