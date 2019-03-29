@@ -10,7 +10,8 @@ import MyProperties from '@/js/components/MyProperties';
 import SearchResults from '@/js/components/SearchResults';
 import Requests from '@/js/components/Requests';
 import SingleProperty from '@/js/components/SingleProperty';
-import UserProfile from '@/js/components/UserProfile'
+import UserProfile from '@/js/components/UserProfile';
+import CreateProperty from '@/js/components/CreateProperty';
 
 Vue.use(VueRouter);
 
@@ -58,7 +59,7 @@ const router = new VueRouter({
             component: Requests
         },
         {
-            path: '/property',
+            path: '/property/:id',
             name: 'property',
             component: SingleProperty
         },
@@ -67,6 +68,11 @@ const router = new VueRouter({
             name: 'profile',
             component: UserProfile
         },
+        {
+            path: '/create',
+            name: 'create',
+            component: CreateProperty
+        }
     ]
 });
 

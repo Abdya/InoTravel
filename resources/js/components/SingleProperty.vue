@@ -13,7 +13,7 @@
                 </ul>
             </div>
         </nav>
-        <form v-if="1 == 2" method="post" action="" enctype="multipart/form-data" class="container">
+        <form method="post" enctype="multipart/form-data" class="container">
             <div class="row">
                 <div class="col-md-4">
                     <img v-if="true" src="/picture/300.jpg" width="100%" height="auto" alt="room">
@@ -58,128 +58,34 @@
                 </div>
             </div>
         </form>
-        <form  method="post" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
-            <div class="row">
-                <div class="col-md-2">
-                    <img src="/picture/300.jpg" width="100%" height="auto" alt="room" class="mb-4">
-                    <input type="file" name="photo">
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label for="title" class="col-sm-5 col-form-label">Название:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="Название">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="beds" class="col-sm-5 col-form-label">Количество cпальных мест:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="beds" name="beds" placeholder="Количество спальных мест">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-sm-2">Удобства:<br></div>
-                                <div v-bind:key="feature.id" v-for="feature in features" class="col-sm-10">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" :value="feature.id" name="features[]">
-                                        <label class="form-check-label">
-                                            {{ feature.title }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div>
-                                <div class="form-group row">
-                                    <label for="town" class="col-sm-5 col-form-label">Город:</label>
-                                    <div class="col-sm-10">
-                                        <selectpicker class="select-list-item" :search="true" :list="towns" v-model="propertyData.town"></selectpicker>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="address" class="col-sm-5 col-form-label">Адрес:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="address" name="address" placeholder="Улица, дом, квартира">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div>
-                                <div class="form row">
-                                    <label for="extraInformation" class="col-sm-5 col-form-label">Дополнительная информация:</label>
-                                    <div class="col-sm-10">
-                                        <textarea class="form-control mb-4" v-model="" placeholder="Расскажите о себе или жилье!"></textarea>
-                                        <div class="text-right">
-                                            <button type="submit" class="btn btn-primary btn-lg">Создать профиль</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
     </div>
 </template>
 
 <script>
 
 export default {
-
     data() {
         return {
-            propertyData: {
-                town: null,
-            },
-            towns: [],
-            features: [],
-            propertyInfo: {
-                title: '',
-                beds: '',
-                address: '',
-                guests: '',
-                townId: '',
-                extraInformation: '',
-                ownerId: '',
-            }
+            propertyId: '',
+            propertyInfo: [],
+            authUser: []
         }
     },
     mounted: function() {
-        this.getFeatures();
-        this.getTowns();
+        this.takePropertyInfo();
     },
     methods: {
-        getFeatures() {
-            axios
-                .get('/api/property/create/get-features')
-                .then(({data}) => {
-                    this.features = data.features
-                });
+        takePropertyId() {
+            this.propertyId = this.$route.params.id;
         },
-        getTowns() {
+        takePropertyInfo() {
             axios
-                .get('/api/property/create/get-towns')
+                .get('/api/properties/' + this.$route.params.id)
                 .then(({data}) => {
-                    this.towns = data.towns.map((town) => {
-                        return {
-                            id: town.id,
-                            name: town.title
-                        };
-                    });
-                    console.log(this.towns);
+                    console.log(data);
+                    // this.propertyInfo = data.property;
+                    // this.authUser = data.user;
                 });
-        },
-        createProperty() {
-
-            axios
-                .post('/api/property/create',)
         }
     }
 }
@@ -205,7 +111,6 @@ export default {
     .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
         width: 100%;
     }
-    .select-list-item {
-        color: black;
-    }
+    
+    
 </style>

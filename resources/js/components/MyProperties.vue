@@ -20,7 +20,7 @@
         <div class="container float-left mb-5">
             <h2>Заявки</h2>
             <div class="container float-left mb-5">
-                <div v-for="request in incomingRequests" class="row mb-5">
+                <div :key="request.id" v-for="request in incomingRequests" class="row mb-5">
                     <div class="col-md-5">
                         <img v-if="true" src="/picture/300.jpg" width="100%" height="auto" alt="room">
                         <img v-if="false" src="" width="100%" height="auto" alt="room">
@@ -51,7 +51,7 @@
             <h2>Жилье</h2>
             <a href="#" type="submit" class="btn btn-primary mb-5" style="padding-left: 15px">Добавить жилье</a>
             <div class="container float-left mb-5">
-                <div v-for="property in propertiesList" class="row mb-5">
+                <div :key="property.id" v-for="property in propertiesList" class="row mb-5">
                     <div class="col-md-5">
                         <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
                     </div>

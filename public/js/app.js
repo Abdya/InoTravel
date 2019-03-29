@@ -75083,6 +75083,9 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__js_components_SingleProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__js_components_SingleProperty__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__js_components_UserProfile__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__js_components_UserProfile___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__js_components_UserProfile__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__js_components_CreateProperty__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__js_components_CreateProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__js_components_CreateProperty__);
+
 
 
 
@@ -75134,13 +75137,17 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
         name: 'requests',
         component: __WEBPACK_IMPORTED_MODULE_9__js_components_Requests___default.a
     }, {
-        path: '/property',
+        path: '/property/:id',
         name: 'property',
         component: __WEBPACK_IMPORTED_MODULE_10__js_components_SingleProperty___default.a
     }, {
         path: '/profile',
         name: 'profile',
         component: __WEBPACK_IMPORTED_MODULE_11__js_components_UserProfile___default.a
+    }, {
+        path: '/create',
+        name: 'create',
+        component: __WEBPACK_IMPORTED_MODULE_12__js_components_CreateProperty___default.a
     }]
 });
 
@@ -79315,7 +79322,7 @@ var render = function() {
         "div",
         { staticClass: "container float-left mb-5" },
         _vm._l(_vm.incomingRequests, function(request) {
-          return _c("div", { staticClass: "row mb-5" }, [
+          return _c("div", { key: request.id, staticClass: "row mb-5" }, [
             _c("div", { staticClass: "col-md-5" }, [
               true
                 ? _c("img", {
@@ -79427,7 +79434,7 @@ var render = function() {
         "div",
         { staticClass: "container float-left mb-5" },
         _vm._l(_vm.propertiesList, function(property) {
-          return _c("div", { staticClass: "row mb-5" }, [
+          return _c("div", { key: property.id, staticClass: "row mb-5" }, [
             _vm._m(0, true),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-6" }, [
@@ -80129,7 +80136,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n.feature-list[data-v-515dfa30] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n}\n.feature-list__item[data-v-515dfa30] {\n    width: 100px\n}\n.feature-list-item[data-v-515dfa30] {\n    text-align: center;\n}\n.feature-list-item__description[data-v-515dfa30] {\n    margin-top: 5px\n}\n.bootstrap-select[data-v-515dfa30]:not([class*=\"col-\"]):not([class*=\"form-control\"]):not(.input-group-btn) {\n    width: 100%;\n}\n.select-list-item[data-v-515dfa30] {\n    color: black;\n}\n", ""]);
+exports.push([module.i, "\n.feature-list[data-v-515dfa30] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n}\n.feature-list__item[data-v-515dfa30] {\n    width: 100px\n}\n.feature-list-item[data-v-515dfa30] {\n    text-align: center;\n}\n.feature-list-item__description[data-v-515dfa30] {\n    margin-top: 5px\n}\n.bootstrap-select[data-v-515dfa30]:not([class*=\"col-\"]):not([class*=\"form-control\"]):not(.input-group-btn) {\n    width: 100%;\n}\n\n\n", ""]);
 
 // exports
 
@@ -80236,137 +80243,218 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            propertyData: {
-                town: null
-            },
-            towns: [],
-            features: [],
-            propertyInfo: {
-                title: '',
-                beds: '',
-                address: '',
-                guests: '',
-                townId: '',
-                extraInformation: '',
-                ownerId: ''
-            }
+            propertyId: '',
+            propertyInfo: [],
+            authUser: []
         };
     },
 
     mounted: function mounted() {
-        this.getFeatures();
-        this.getTowns();
+        this.takePropertyInfo();
     },
     methods: {
-        getFeatures: function getFeatures() {
-            var _this = this;
-
-            axios.get('/api/property/create/get-features').then(function (_ref) {
+        takePropertyId: function takePropertyId() {
+            this.propertyId = this.$route.params.id;
+        },
+        takePropertyInfo: function takePropertyInfo() {
+            axios.get('/api/properties/' + this.$route.params.id).then(function (_ref) {
                 var data = _ref.data;
 
-                _this.features = data.features;
+                console.log(data);
+                // this.propertyInfo = data.property;
+                // this.authUser = data.user;
             });
-        },
-        getTowns: function getTowns() {
-            var _this2 = this;
-
-            axios.get('/api/property/create/get-towns').then(function (_ref2) {
-                var data = _ref2.data;
-
-                _this2.towns = data.towns.map(function (town) {
-                    return {
-                        id: town.id,
-                        name: town.title
-                    };
-                });
-                console.log(_this2.towns);
-            });
-        },
-        createProperty: function createProperty() {
-
-            axios.post('/api/property/create');
         }
     }
 });
 
 /***/ }),
 /* 72 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: Unexpected token (1:2887)\n    at Parser.pp$4.raise (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2757:13)\n    at Parser.pp.unexpected (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:647:8)\n    at Parser.pp$3.parseParenAndDistinguishExpression (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2252:49)\n    at Parser.pp$3.parseExprAtom (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2163:41)\n    at Parser.<anonymous> (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:6003:24)\n    at Parser.parseExprAtom (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:6129:31)\n    at Parser.pp$3.parseExprSubscripts (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2047:19)\n    at Parser.pp$3.parseMaybeUnary (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2024:17)\n    at Parser.pp$3.parseExprOps (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:1966:19)\n    at Parser.pp$3.parseMaybeConditional (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:1949:19)\n    at Parser.pp$3.parseMaybeAssign (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:1925:19)\n    at Parser.pp$3.parsePropertyValue (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2443:87)\n    at Parser.pp$3.parseProperty (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2434:8)\n    at Parser.pp$3.parseObj (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2380:23)\n    at Parser.pp$3.parseExprAtom (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2179:17)\n    at Parser.<anonymous> (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:6003:24)\n    at Parser.parseExprAtom (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:6129:31)\n    at Parser.pp$3.parseExprSubscripts (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2047:19)\n    at Parser.pp$3.parseMaybeUnary (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2024:17)\n    at Parser.pp$3.parseExprOps (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:1966:19)\n    at Parser.pp$3.parseMaybeConditional (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:1949:19)\n    at Parser.pp$3.parseMaybeAssign (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:1925:19)\n    at Parser.pp$3.parsePropertyValue (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2443:87)\n    at Parser.pp$3.parseProperty (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2434:8)\n    at Parser.pp$3.parseObj (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2380:23)\n    at Parser.pp$3.parseExprAtom (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2179:17)\n    at Parser.<anonymous> (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:6003:24)\n    at Parser.parseExprAtom (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:6129:31)\n    at Parser.pp$3.parseExprSubscripts (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2047:19)\n    at Parser.pp$3.parseMaybeUnary (C:\\OSPanel\\domains\\inotravel\\node_modules\\vue-template-es2015-compiler\\buble.js:2024:17)");
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "nav",
+      { staticClass: "navbar navbar-expand-lg navbar-light bg-light mb-4" },
+      [
+        _c("router-link", { staticClass: "navbar-brand", attrs: { to: "/" } }, [
+          _vm._v("InoTravel")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "collapse navbar-collapse",
+            attrs: { id: "navbarSupportedContent" }
+          },
+          [
+            _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+              _c(
+                "div",
+                { staticClass: "top-right links" },
+                [
+                  _c("router-link", { attrs: { to: "/profile" } }, [
+                    _vm._v("Nikita Orobenko")
+                  ]),
+                  _vm._v(" "),
+                  _c("router-link", { attrs: { to: "/myproperties" } }, [
+                    _c("ins", [_vm._v("Мое жилье")])
+                  ]),
+                  _vm._v(" "),
+                  _c("router-link", { attrs: { to: "/requests" } }, [
+                    _vm._v("Заявки")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "#",
+                        onclick:
+                          "event.preventDefault(); document.getElementById('logout-form').submit();"
+                      }
+                    },
+                    [_vm._v("Выйти")]
+                  )
+                ],
+                1
+              )
+            ])
+          ]
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        staticClass: "container",
+        attrs: { method: "post", enctype: "multipart/form-data" }
+      },
+      [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            true
+              ? _c("img", {
+                  attrs: {
+                    src: "/picture/300.jpg",
+                    width: "100%",
+                    height: "auto",
+                    alt: "room"
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            false
+              ? _c("img", {
+                  attrs: { src: "", width: "100%", height: "auto", alt: "room" }
+                })
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-8" }, [
+      _c("div", { staticClass: "clearfix" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-8" }, [
+            _c(
+              "p",
+              {
+                staticStyle: { "word-break": "break-all", "max-width": "100%" }
+              },
+              [_vm._v("Awdawdawdd")]
+            ),
+            _vm._v(" "),
+            _c("p", [_vm._v("Taganrog")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("Спальных мест: "), _c("span", [_vm._v("5")])])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("h3", { staticClass: "mb-3" }, [_vm._v("Бронирование")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flat-input mb-3" }, [
+              _c("input", {
+                staticClass: "datepicker flat-input__input",
+                attrs: { name: "startDate", placeholder: "Заезд", type: "text" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flat-input mb-3" }, [
+              _c("input", {
+                staticClass: "datepicker flat-input__input",
+                attrs: { name: "endDate", placeholder: "Выезд", type: "text" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flat-input mb-3" }, [
+              _c("input", {
+                staticClass: "flat-input__input",
+                attrs: { name: "guests", placeholder: "Гости", type: "text" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-center" }, [
+              _c(
+                "button",
+                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                [_vm._v("Забронировать")]
+              )
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Есть:")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "feature-list" }, [
+        _c("div", { staticClass: "feature-list__item feature-list-item" }, [
+          _c("div", { staticClass: "feature-list-item__icon-wrap" }, [
+            _c("img", {
+              attrs: { src: "", alt: "abdya", height: "32", width: "32" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "feature-list-item__description" }, [
+            _vm._v("TV")
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "mt-2" }, [_vm._v("Дополнительная информация:")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Не указана")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-515dfa30", module.exports)
+  }
+}
 
 /***/ }),
 /* 73 */
@@ -95212,6 +95300,696 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(104)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(106)
+/* template */
+var __vue_template__ = __webpack_require__(107)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-69d4b19c"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/CreateProperty.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-69d4b19c", Component.options)
+  } else {
+    hotAPI.reload("data-v-69d4b19c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(105);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(5)("6143f3dc", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69d4b19c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CreateProperty.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69d4b19c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CreateProperty.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.select-list-item[data-v-69d4b19c] {\n    color: black;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 106 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            towns: [],
+            features: [],
+            propertyInfo: {
+                title: '',
+                beds: '',
+                address: '',
+                townId: '',
+                extraInformation: '',
+                features: []
+            },
+            image: '',
+            imagePath: ''
+        };
+    },
+
+    mounted: function mounted() {
+        this.getFeatures();
+        this.getTowns();
+    },
+    methods: {
+        getFeatures: function getFeatures() {
+            var _this = this;
+
+            axios.get('/api/create/get-features').then(function (_ref) {
+                var data = _ref.data;
+
+                _this.features = data.features;
+            });
+        },
+        getTowns: function getTowns() {
+            var _this2 = this;
+
+            axios.get('/api/create/get-towns').then(function (_ref2) {
+                var data = _ref2.data;
+
+                _this2.towns = data.towns.map(function (town) {
+                    return {
+                        id: town.id,
+                        name: town.title
+                    };
+                });
+            });
+        },
+        createProperty: function createProperty() {
+            var _this3 = this;
+
+            var data = {
+                'title': this.propertyInfo.title,
+                'beds': this.propertyInfo.beds,
+                'address': this.propertyInfo.address,
+                'townId': this.propertyInfo.townId,
+                'extraInformation': this.propertyInfo.extraInformation,
+                'features': this.propertyInfo.features,
+                'photo': this.imagePath
+            };
+            axios.post('/api/create', data).then(function (_ref3) {
+                var data = _ref3.data;
+
+                _this3.$router.push({ name: 'property', params: { id: data.propertyId } });
+            });
+        },
+        onImageChange: function onImageChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            this.createImage(files[0]);
+        },
+        createImage: function createImage(file) {
+            var reader = new FileReader();
+            var vm = this;
+            reader.onload = function (e) {
+                vm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        uploadImage: function uploadImage(e) {
+            var _this4 = this;
+
+            e.preventDefault();
+            axios.post('/api/image/store', { image: this.image }).then(function (_ref4) {
+                var data = _ref4.data;
+
+                _this4.imagePath = data.path;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "nav",
+      { staticClass: "navbar navbar-expand-lg navbar-light bg-light mb-4" },
+      [
+        _c("router-link", { staticClass: "navbar-brand", attrs: { to: "/" } }, [
+          _vm._v("InoTravel")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "collapse navbar-collapse",
+            attrs: { id: "navbarSupportedContent" }
+          },
+          [
+            _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+              _c(
+                "div",
+                { staticClass: "top-right links" },
+                [
+                  _c("router-link", { attrs: { to: "/profile" } }, [
+                    _vm._v("Nikita Orobenko")
+                  ]),
+                  _vm._v(" "),
+                  _c("router-link", { attrs: { to: "/myproperties" } }, [
+                    _c("ins", [_vm._v("Мое жилье")])
+                  ]),
+                  _vm._v(" "),
+                  _c("router-link", { attrs: { to: "/requests" } }, [
+                    _vm._v("Заявки")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "#",
+                        onclick:
+                          "event.preventDefault(); document.getElementById('logout-form').submit();"
+                      }
+                    },
+                    [_vm._v("Выйти")]
+                  )
+                ],
+                1
+              )
+            ])
+          ]
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        staticClass: "container",
+        staticStyle: { width: "1400px", "max-width": "1400px" },
+        attrs: { method: "post", enctype: "multipart/form-data" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.createProperty($event)
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-2 mt-4" }, [
+            _vm.image
+              ? _c("img", {
+                  staticClass: "mb-4",
+                  attrs: {
+                    src: _vm.image,
+                    width: "100%",
+                    height: "auto",
+                    alt: "room"
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "form-control mb-3",
+              attrs: { type: "file" },
+              on: { change: _vm.onImageChange }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success btn-block",
+                attrs: { type: "button" },
+                on: { click: _vm.uploadImage }
+              },
+              [_vm._v("Upload image")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-8" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-5 col-form-label",
+                      attrs: { for: "title" }
+                    },
+                    [_vm._v("Название:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.propertyInfo.title,
+                          expression: "propertyInfo.title"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "Название" },
+                      domProps: { value: _vm.propertyInfo.title },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.propertyInfo,
+                            "title",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-5 col-form-label",
+                      attrs: { for: "beds" }
+                    },
+                    [_vm._v("Количество cпальных мест:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.propertyInfo.beds,
+                          expression: "propertyInfo.beds"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        placeholder: "Количество спальных мест"
+                      },
+                      domProps: { value: _vm.propertyInfo.beds },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.propertyInfo,
+                            "beds",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group row" },
+                  [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _vm._l(_vm.features, function(feature) {
+                      return _c("div", { staticClass: "col-sm-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.propertyInfo.features,
+                              expression: "propertyInfo.features"
+                            }
+                          ],
+                          attrs: { id: feature.id, type: "checkbox" },
+                          domProps: {
+                            value: feature.id,
+                            checked: Array.isArray(_vm.propertyInfo.features)
+                              ? _vm._i(_vm.propertyInfo.features, feature.id) >
+                                -1
+                              : _vm.propertyInfo.features
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.propertyInfo.features,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = feature.id,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.propertyInfo,
+                                      "features",
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.propertyInfo,
+                                      "features",
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.propertyInfo, "features", $$c)
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: feature.id } }, [
+                          _vm._v(_vm._s(feature.title))
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-5 col-form-label",
+                        attrs: { for: "town" }
+                      },
+                      [_vm._v("Город:")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-10" },
+                      [
+                        _c("selectpicker", {
+                          staticClass: "select-list-item",
+                          attrs: { search: true, list: _vm.towns },
+                          model: {
+                            value: _vm.propertyInfo.townId,
+                            callback: function($$v) {
+                              _vm.$set(_vm.propertyInfo, "townId", $$v)
+                            },
+                            expression: "propertyInfo.townId"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-5 col-form-label",
+                        attrs: { for: "address" }
+                      },
+                      [_vm._v("Адрес:")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.propertyInfo.address,
+                            expression: "propertyInfo.address"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Улица, дом, квартира"
+                        },
+                        domProps: { value: _vm.propertyInfo.address },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.propertyInfo,
+                              "address",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", [
+                  _c("div", { staticClass: "form row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-5 col-form-label",
+                        attrs: { for: "extraInformation" }
+                      },
+                      [_vm._v("Дополнительная информация:")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.propertyInfo.extraInformation,
+                            expression: "propertyInfo.extraInformation"
+                          }
+                        ],
+                        staticClass: "form-control mb-4",
+                        attrs: { placeholder: "Расскажите о себе или жилье!" },
+                        domProps: { value: _vm.propertyInfo.extraInformation },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.propertyInfo,
+                              "extraInformation",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(1)
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-2" }, [
+      _vm._v("Удобства:"),
+      _c("br")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-right" }, [
+      _c("button", { staticClass: "btn btn-primary btn-lg" }, [
+        _vm._v("Создать профиль")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-69d4b19c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
