@@ -13,17 +13,12 @@
         <form class="main-form blur-form" method="get" action="/properties" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="flat-input col-md-12">
-                    <select class="selectpicker" data-live-search="true" data-style="btn-primary" name="town" id="town">
-                            <option value="2314231423">56456456</option>
-                    </select>
+                    <selectpicker class="select-list-item" :search="true" :list="towns"></selectpicker>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="flat-input col-md-6">
-                    <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
-                </div>
-                <div class="flat-input col-md-6">
-                    <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
+                    <date-picker v-model="time1" range :lang="'ru'" :first-day-of-week="1"></date-picker>
                 </div>
             </div>
             <div class="row mb-5">
@@ -40,3 +35,40 @@
     </div>
     </div>
 </template>
+
+<script>
+import DatePicker from 'vue2-datepicker';
+
+export default {
+    components: {DatePicker},
+    data() {
+        return {
+            towns: [],
+            search: [],
+            time1: ''
+        };
+    },
+    mounted: function() {
+        this.getTowns();
+    },
+    methods: {
+        getTowns() {
+            axios
+                .get('/api/get-towns')
+                .then(({data}) => {
+                    this.towns = data.towns.map((town) => {
+                        return {
+                            id: town.id,
+                            name: town.title
+                        };
+                    });
+                });
+        },
+    }
+}
+</script>
+<style scoped>
+    .select-list-item {
+        color: black;
+    }
+</style>

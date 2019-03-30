@@ -14408,6 +14408,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_8_vue2_datepicker___default.a);
+
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_9_vue_selectpicker___default.a);
 
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_6_vee_validate__["b" /* default */]);
@@ -77783,17 +77784,21 @@ if (inBrowser && window.Vue) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(109)
+}
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(108)
 /* template */
-var __vue_template__ = __webpack_require__(47)
+var __vue_template__ = __webpack_require__(111)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-f2b6376c"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -77826,129 +77831,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "flex-center position-ref full-height" }, [
-    _c(
-      "div",
-      { staticClass: "top-right links" },
-      [
-        _c("router-link", { attrs: { to: "/login" } }, [_vm._v("Войти")]),
-        _vm._v(" "),
-        _c("router-link", { attrs: { to: "/registration" } }, [
-          _vm._v("Регистрация")
-        ]),
-        _vm._v(" "),
-        _c("router-link", { attrs: { to: "/login" } }, [
-          _vm._v("Принять гостей")
-        ])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _vm._m(0)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content" }, [
-      _c("div", { staticClass: "title m-b-md" }, [
-        _vm._v("\n        InoTravel\n    ")
-      ]),
-      _vm._v(" "),
-      _c(
-        "form",
-        {
-          staticClass: "main-form blur-form",
-          attrs: {
-            method: "get",
-            action: "/properties",
-            enctype: "multipart/form-data"
-          }
-        },
-        [
-          _c("div", { staticClass: "row mb-3" }, [
-            _c("div", { staticClass: "flat-input col-md-12" }, [
-              _c(
-                "select",
-                {
-                  staticClass: "selectpicker",
-                  attrs: {
-                    "data-live-search": "true",
-                    "data-style": "btn-primary",
-                    name: "town",
-                    id: "town"
-                  }
-                },
-                [
-                  _c("option", { attrs: { value: "2314231423" } }, [
-                    _vm._v("56456456")
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row mb-3" }, [
-            _c("div", { staticClass: "flat-input col-md-6" }, [
-              _c("input", {
-                staticClass: "datepicker flat-input__input",
-                attrs: { name: "startDate", placeholder: "Заезд", type: "text" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "flat-input col-md-6" }, [
-              _c("input", {
-                staticClass: "datepicker flat-input__input",
-                attrs: { name: "endDate", placeholder: "Выезд", type: "text" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row mb-5" }, [
-            _c("div", { staticClass: "flat-input col-md-12" }, [
-              _c("input", {
-                staticClass: "flat-input__input",
-                attrs: { name: "guests", placeholder: "Гости", type: "text" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-lg",
-                  attrs: { type: "submit" }
-                },
-                [_vm._v("Начать поиск")]
-              )
-            ])
-          ])
-        ]
-      )
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-f2b6376c", module.exports)
-  }
-}
-
-/***/ }),
+/* 47 */,
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -80136,7 +80019,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n.feature-list[data-v-515dfa30] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n}\n.feature-list__item[data-v-515dfa30] {\n    width: 100px\n}\n.feature-list-item[data-v-515dfa30] {\n    text-align: center;\n}\n.feature-list-item__description[data-v-515dfa30] {\n    margin-top: 5px\n}\n.bootstrap-select[data-v-515dfa30]:not([class*=\"col-\"]):not([class*=\"form-control\"]):not(.input-group-btn) {\n    width: 100%;\n}\n\n\n", ""]);
+exports.push([module.i, "\n.feature-list[data-v-515dfa30] {\n    display: inline-block;\n}\n.feature-list__item[data-v-515dfa30] {\n    width: 100px\n}\n.feature-list-item[data-v-515dfa30] {\n    text-align: center;\n}\n.feature-list-item__description[data-v-515dfa30] {\n    margin-top: 5px\n}\n.bootstrap-select[data-v-515dfa30]:not([class*=\"col-\"]):not([class*=\"form-control\"]):not(.input-group-btn) {\n    width: 100%;\n}\n\n\n", ""]);
 
 // exports
 
@@ -80243,6 +80126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -80250,7 +80134,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             propertyId: '',
             propertyInfo: [],
-            authUser: []
+            authUser: [],
+            town: []
         };
     },
 
@@ -80262,12 +80147,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.propertyId = this.$route.params.id;
         },
         takePropertyInfo: function takePropertyInfo() {
+            var _this = this;
+
             axios.get('/api/properties/' + this.$route.params.id).then(function (_ref) {
                 var data = _ref.data;
 
                 console.log(data);
-                // this.propertyInfo = data.property;
-                // this.authUser = data.user;
+                _this.propertyInfo = data.property;
+                _this.authUser = data.user;
+                _this.town = data.town;
             });
         }
     }
@@ -80344,8 +80232,16 @@ var render = function() {
       [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-4" }, [
-            true
+            _vm.propertyInfo.photo
               ? _c("img", {
+                  attrs: {
+                    src: _vm.propertyInfo.photo,
+                    width: "100%",
+                    height: "auto",
+                    alt: "room"
+                  }
+                })
+              : _c("img", {
                   attrs: {
                     src: "/picture/300.jpg",
                     width: "100%",
@@ -80353,16 +80249,99 @@ var render = function() {
                     alt: "room"
                   }
                 })
-              : _vm._e(),
-            _vm._v(" "),
-            false
-              ? _c("img", {
-                  attrs: { src: "", width: "100%", height: "auto", alt: "room" }
-                })
-              : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c(
+            "div",
+            { staticClass: "col-md-8" },
+            [
+              _c("div", { staticClass: "clearfix" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _c(
+                      "p",
+                      {
+                        staticStyle: {
+                          "word-break": "break-all",
+                          "max-width": "100%"
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.propertyInfo.title))]
+                    ),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(_vm.town.title))]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Спальных мест: "),
+                      _c("span", [_vm._v(_vm._s(_vm.propertyInfo.beds))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.propertyInfo.ownerId != _vm.authUser.id
+                    ? _c("div", { staticClass: "col-md-4" }, [
+                        _c("h3", { staticClass: "mb-3" }, [
+                          _vm._v("Бронирование")
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _vm._m(3)
+                      ])
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("p", [_vm._v("Есть:")]),
+              _vm._v(" "),
+              _vm._l(_vm.propertyInfo.features, function(feature) {
+                return _c(
+                  "div",
+                  { key: feature.id, staticClass: "feature-list" },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "feature-list__item feature-list-item" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "feature-list-item__icon-wrap" },
+                          [
+                            _c("img", {
+                              attrs: {
+                                src: feature.image,
+                                alt: feature.title,
+                                height: "32",
+                                width: "32"
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "feature-list-item__description" },
+                          [_vm._v(_vm._s(feature.title))]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c("p", { staticClass: "mt-2" }, [
+                _vm._v("Дополнительная информация:")
+              ]),
+              _vm._v(" "),
+              _vm.propertyInfo.extraInformation
+                ? _c("p", [_vm._v(_vm._s(_vm.propertyInfo.extraInformation))])
+                : _c("p", [_vm._v("Не указана")])
+            ],
+            2
+          )
         ])
       ]
     )
@@ -80373,77 +80352,45 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
-      _c("div", { staticClass: "clearfix" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-8" }, [
-            _c(
-              "p",
-              {
-                staticStyle: { "word-break": "break-all", "max-width": "100%" }
-              },
-              [_vm._v("Awdawdawdd")]
-            ),
-            _vm._v(" "),
-            _c("p", [_vm._v("Taganrog")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("Спальных мест: "), _c("span", [_vm._v("5")])])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("h3", { staticClass: "mb-3" }, [_vm._v("Бронирование")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "flat-input mb-3" }, [
-              _c("input", {
-                staticClass: "datepicker flat-input__input",
-                attrs: { name: "startDate", placeholder: "Заезд", type: "text" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "flat-input mb-3" }, [
-              _c("input", {
-                staticClass: "datepicker flat-input__input",
-                attrs: { name: "endDate", placeholder: "Выезд", type: "text" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "flat-input mb-3" }, [
-              _c("input", {
-                staticClass: "flat-input__input",
-                attrs: { name: "guests", placeholder: "Гости", type: "text" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "text-center" }, [
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Забронировать")]
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Есть:")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "feature-list" }, [
-        _c("div", { staticClass: "feature-list__item feature-list-item" }, [
-          _c("div", { staticClass: "feature-list-item__icon-wrap" }, [
-            _c("img", {
-              attrs: { src: "", alt: "abdya", height: "32", width: "32" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "feature-list-item__description" }, [
-            _vm._v("TV")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "mt-2" }, [_vm._v("Дополнительная информация:")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Не указана")])
+    return _c("div", { staticClass: "flat-input mb-3" }, [
+      _c("input", {
+        staticClass: "datepicker flat-input__input",
+        attrs: { name: "startDate", placeholder: "Заезд", type: "text" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flat-input mb-3" }, [
+      _c("input", {
+        staticClass: "datepicker flat-input__input",
+        attrs: { name: "endDate", placeholder: "Выезд", type: "text" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flat-input mb-3" }, [
+      _c("input", {
+        staticClass: "flat-input__input",
+        attrs: { name: "guests", placeholder: "Гости", type: "text" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("Забронировать")]
+      )
     ])
   }
 ]
@@ -95988,6 +95935,248 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-69d4b19c", module.exports)
+  }
+}
+
+/***/ }),
+/* 108 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_datepicker__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_datepicker__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: { DatePicker: __WEBPACK_IMPORTED_MODULE_0_vue2_datepicker___default.a },
+    data: function data() {
+        return {
+            towns: [],
+            search: [],
+            time1: ''
+        };
+    },
+
+    mounted: function mounted() {
+        this.getTowns();
+    },
+    methods: {
+        getTowns: function getTowns() {
+            var _this = this;
+
+            axios.get('/api/get-towns').then(function (_ref) {
+                var data = _ref.data;
+
+                _this.towns = data.towns.map(function (town) {
+                    return {
+                        id: town.id,
+                        name: town.title
+                    };
+                });
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(110);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(5)("0f0db792", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f2b6376c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Home.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f2b6376c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Home.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 110 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.select-list-item[data-v-f2b6376c] {\n    color: black;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "flex-center position-ref full-height" }, [
+    _c(
+      "div",
+      { staticClass: "top-right links" },
+      [
+        _c("router-link", { attrs: { to: "/login" } }, [_vm._v("Войти")]),
+        _vm._v(" "),
+        _c("router-link", { attrs: { to: "/registration" } }, [
+          _vm._v("Регистрация")
+        ]),
+        _vm._v(" "),
+        _c("router-link", { attrs: { to: "/login" } }, [
+          _vm._v("Принять гостей")
+        ])
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "content" }, [
+      _c("div", { staticClass: "title m-b-md" }, [
+        _vm._v("\n        InoTravel\n    ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass: "main-form blur-form",
+          attrs: {
+            method: "get",
+            action: "/properties",
+            enctype: "multipart/form-data"
+          }
+        },
+        [
+          _c("div", { staticClass: "row mb-3" }, [
+            _c(
+              "div",
+              { staticClass: "flat-input col-md-12" },
+              [
+                _c("selectpicker", {
+                  staticClass: "select-list-item",
+                  attrs: { search: true, list: _vm.towns }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row mb-3" }, [
+            _c(
+              "div",
+              { staticClass: "flat-input col-md-6" },
+              [
+                _c("date-picker", {
+                  attrs: { range: "", lang: "ru", "first-day-of-week": 1 },
+                  model: {
+                    value: _vm.time1,
+                    callback: function($$v) {
+                      _vm.time1 = $$v
+                    },
+                    expression: "time1"
+                  }
+                })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._m(1)
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row mb-5" }, [
+      _c("div", { staticClass: "flat-input col-md-12" }, [
+        _c("input", {
+          staticClass: "flat-input__input",
+          attrs: { name: "guests", placeholder: "Гости", type: "text" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary btn-lg", attrs: { type: "submit" } },
+          [_vm._v("Начать поиск")]
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f2b6376c", module.exports)
   }
 }
 

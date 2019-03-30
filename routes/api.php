@@ -21,6 +21,7 @@ Route::post('/profile/change-info', 'API\UserController@changeUserData');
 Route::post('/profile/change-pass', 'API\UserController@changeUserPass');
 Route::get('/create/get-features', 'API\PropertyController@getFeatures');
 Route::get('/create/get-towns', 'API\PropertyController@getTowns');
+Route::get('/get-towns', 'API\PropertyController@getTowns');
 Route::post('/image/store', 'API\PropertyController@imageStore');
 
 
@@ -38,5 +39,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/myproperties/approve', 'API\PropertyController@approveIncomingRequest');
     Route::post('/myproperties/reject', 'API\PropertyController@rejectIncomingRequest');
     Route::get('/properties/{id}', 'API\PropertyController@showProperty');
+    
 });
 

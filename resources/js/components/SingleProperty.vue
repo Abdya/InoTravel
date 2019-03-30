@@ -16,18 +16,18 @@
         <form method="post" enctype="multipart/form-data" class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <img v-if="true" src="/picture/300.jpg" width="100%" height="auto" alt="room">
-                    <img v-if="false" src="" width="100%" height="auto" alt="room">
+                    <img v-if="propertyInfo.photo" :src="propertyInfo.photo" width="100%" height="auto" alt="room">
+                    <img v-else src="/picture/300.jpg" width="100%" height="auto" alt="room">
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">
                         <div class="row">
                             <div class="col-md-8">
-                                <p style="word-break: break-all; max-width: 100%">Awdawdawdd</p>
-                                <p>Taganrog</p>
-                                <p>Спальных мест: <span>5</span></p>
+                                <p style="word-break: break-all; max-width: 100%">{{propertyInfo.title}}</p>
+                                <p>{{town.title}}</p>
+                                <p>Спальных мест: <span>{{propertyInfo.beds}}</span></p>
                             </div>
-                            <div class="col-md-4">
+                            <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-4">
                                 <h3 class="mb-3">Бронирование</h3>
                                 <div class="flat-input mb-3">
                                     <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
@@ -45,16 +45,17 @@
                         </div>
                     </div>
                     <p>Есть:</p>
-                    <div class="feature-list">
+                    <div :key="feature.id" v-for="feature in propertyInfo.features" class="feature-list">
                         <div class="feature-list__item feature-list-item">
                             <div class="feature-list-item__icon-wrap">
-                                <img src="" alt="abdya" height="32" width="32">
+                                <img :src="feature.image" :alt="feature.title" height="32" width="32">
                             </div>
-                            <div class="feature-list-item__description">TV</div>
+                            <div class="feature-list-item__description">{{feature.title}}</div>
                         </div>
                     </div>
                     <p class="mt-2">Дополнительная информация:</p>
-                    <p>Не указана</p>
+                    <p v-if="propertyInfo.extraInformation">{{ propertyInfo.extraInformation}}</p>
+                    <p v-else>Не указана</p>
                 </div>
             </div>
         </form>
@@ -68,7 +69,8 @@ export default {
         return {
             propertyId: '',
             propertyInfo: [],
-            authUser: []
+            authUser: [],
+            town: []
         }
     },
     mounted: function() {
@@ -83,8 +85,9 @@ export default {
                 .get('/api/properties/' + this.$route.params.id)
                 .then(({data}) => {
                     console.log(data);
-                    // this.propertyInfo = data.property;
-                    // this.authUser = data.user;
+                    this.propertyInfo = data.property;
+                    this.authUser = data.user;
+                    this.town = data.town;
                 });
         }
     }
@@ -93,8 +96,7 @@ export default {
 
 <style scoped>
     .feature-list {
-        display: flex;
-        flex-direction: row;
+        display: inline-block;
     }
 
     .feature-list__item {

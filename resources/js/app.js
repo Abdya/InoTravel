@@ -16,6 +16,7 @@ import DatePicker from 'vue2-datepicker';
 import selectPicker from 'vue-selectpicker'
 
 Vue.use(DatePicker);
+
 Vue.use(selectPicker);
 
 Vue.use(VeeValidate);
