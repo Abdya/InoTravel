@@ -23,6 +23,7 @@ Route::get('/create/get-features', 'API\PropertyController@getFeatures');
 Route::get('/create/get-towns', 'API\PropertyController@getTowns');
 Route::get('/get-towns', 'API\PropertyController@getTowns');
 Route::post('/image/store', 'API\PropertyController@imageStore');
+Route::post('/search', 'API\PropertyController@searchProperties');
 
 
 Route::middleware('auth:api')->get('/profile', function (Request $request) {

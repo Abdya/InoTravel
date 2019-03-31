@@ -1,44 +1,36 @@
 <template>
     <div>
         <main role="main">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
-                <router-link class="navbar-brand" to="/">InoTravel</router-link>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto">
-                        <div class="top-right links">
-                            <router-link to="/profile">Nikita Orobenko</router-link>
-                            <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
-                            <router-link to="/requests">Заявки</router-link>
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
-                        </div>
-                    </ul>
+            <router-link class="navbar-brand" to="/">InoTravel</router-link>
+                <div class="top-right links">
+                    <router-link to="/profile">Nikita Orobenko</router-link>
+                    <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
+                    <router-link to="/requests">Заявки</router-link>
+                    <router-link to="/logout">Logout</router-link>
                 </div>
-            </nav>
             <section class="jumbotron text-center">
                 <div class="container">
-                    <form method="get" action="/properties" style="max-width: 1080px">
+                    <form method="get" style="max-width: 1080px">
                         <div class="row">
                             <div class="col">
-                                <select class="selectpicker" data-live-search="true" name="town" id="town">
-                                        <option selected>14651456</option>
-                                </select>
+                                <selectpicker 
+
+                                class="select-list-item" 
+                                :search="true" 
+                                :list="towns"
+                                placeholder="Куда едем?"
+                                ></selectpicker>
                             </div>
                             <div class="flat-input col">
-                                <input class="datepicker form-control" value="" name="startDate" placeholder="Заезд" type="text">
+                                <date-picker confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
                             </div>
                             <div class="flat-input col">
-                                <input class="datepicker form-control" name="endDate" value="" placeholder="Выезд" type="text">
-                            </div>
-                            <div class="flat-input col">
-                                <input class="form-control mb-4" name="guests" value="" placeholder="Гости" type="text">
+                                <input class="form-control mb-4" placeholder="Гости" type="text">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-lg" type="submit">Начать поиск</button>
+                                <button class="btn btn-primary btn-lg">Начать поиск</button>
                             </div>
                         </div>
                     </form>
@@ -46,17 +38,20 @@
             </section>
             <div class="album py-5 bg-light">
                 <div class="container">
-                    <div class="row">
+                    <div v-if="results.length == 0">
+                        <h2> Ничего не найдено!</h2>
+                    </div>
+                    <div v-else :key="property.id" v-for="property in results" class="row">
                         <div class="col-md-4">
                             <div class="card mb-4 shadow-sm">
-                                <a href="#"><img class="card-img-top"  src="" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
+                                <router-link :to="{ name: 'property', params: {id: property.id}}"><img class="card-img-top" :src="property.photo" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></router-link>
                                 <div class="card-body">
-                                    <p class="card-text"><a style="word-break: break-all; max-width: 100%" href="#">Kukushkino</a></p>
-                                    <p class="card-text">Taganrog</p>
+                                    <p class="card-text"><router-link :to="{ name: 'property', params: {id: property.id}}">{{property.title}}</router-link></p>
+                                    <p class="card-text">{{townForShow.title}}</p>
                                     <p class="card-text">Owner Nikita</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
-                                            <router-link to="/property" class="btn btn-sm btn-outline-secondary">Посмотреть</router-link>
+                                            <router-link :to="{ name: 'property', params: {id: property.id}}">Посмотреть</router-link>
                                         </div>
                                     </div>
                                 </div>
@@ -75,3 +70,57 @@
         </footer>
     </div>
 </template>
+
+<script>
+import DatePicker from 'vue2-datepicker';
+
+export default {
+    components: {DatePicker},
+    data() {
+        return {
+            towns: [],
+            results: [],
+            townForShow: [],
+            authUser: window.localStorage.getItem('user')
+        };
+    },
+    mounted: function() {
+        this.getTowns();
+        this.getSearchResults();
+    },
+    methods: {
+        getTowns() {
+            axios
+                .get('/api/get-towns')
+                .then(({data}) => {
+                    this.towns = data.towns.map((town) => {
+                        return {
+                            id: town.id,
+                            name: town.title
+                        };
+                    });
+                });
+        },
+        getSearchResults() {
+            let data = {
+                townId: this.$route.query.townId,
+                guests: this.$route.query.guests,
+                startDate: (this.$route.query.startDate).substring(0,10),
+                endDate: (this.$route.query.endDate).substring(0,10),
+            };
+            axios
+                .post('/api/search', data)
+                .then(({data}) => {
+                    this.results = data.properties;
+                    this.townForShow = data.town;
+                    console.log(data);
+                })
+        }
+    }
+}
+</script>
+<style scoped>
+    h2, p {
+        color: black;
+    }
+</style>

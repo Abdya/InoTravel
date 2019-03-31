@@ -11,6 +11,8 @@ use App\Property;
 use App\Booking;
 use App\Feature;
 use App\Town;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PropertyController extends Controller
 {
@@ -124,13 +126,46 @@ class PropertyController extends Controller
     }
 
     public function getTowns() {
-        $search = request('keyword');
-
         $towns = Town::where('countryId', 3159)->orderBy('title')->get();
 
         return response()->json([
             'status' => 200,
             'towns' => $towns
+        ], 200);
+    }
+
+    public function searchProperties() {
+        $startDate = Carbon::createFromTimestamp(request('startDate'))->toDateTimeString();
+        $endDate =  Carbon::createFromTimestamp(request('endDate'))->toDateTimeString();
+        $townId = request('townId');
+        $town = Town::find($townId);
+        $guests = request('guests');
+        $propertyIds = DB::select('
+              select p.id
+              from properties as p
+              left join bookings as b
+                on p.id = b.propertyId
+             where (p.townId = :townId)
+                and (:beds1 is null or p.beds >= :beds2)
+                and (b.id is null or b.status = 0 or ((:startDate1 < b.startDate and :endDate1 < b.startDate) or (:startDate2 > b.endDate and :endDate2 > b.endDate)))',
+                    [
+                        'townId' => $townId,
+                        'beds1' => $guests,
+                        'beds2' => $guests,
+                        'startDate1' => $startDate,
+                        'startDate2' => $startDate,
+                        'endDate1' => $endDate,
+                        'endDate2' => $endDate,
+                    ]);
+        $properties = Property::find(array_map(function ($property){ return $property->id; }, $propertyIds));
+
+
+        return response()->json([
+            'properties' => $properties,
+            'date1' => $startDate,
+            'date2' => $endDate,
+            'town' => $town,
+            'status' => 200
         ], 200);
     }
 }

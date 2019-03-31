@@ -53,13 +53,14 @@
             <div class="container float-left mb-5">
                 <div :key="property.id" v-for="property in propertiesList" class="row mb-5">
                     <div class="col-md-5">
-                        <img src="/picture/300.jpg" width="100%" height="auto" alt="room">
+                        <img v-if="property.photo == null" src="/picture/300.jpg" width="100%" height="auto" alt="room">
+                        <img v-else :src="property.photo" width="75%" height="auto" alt="room">
                     </div>
                     <div class="col-md-6">
                         <div class="clearfix">
                             <div class="row">
                                 <div class="col-md-6 property-description">
-                                    <a href="#" class="word-break: break-all; max-width: 100%" style="color: black"><ins><p>{{property.title}}</p></ins></a>
+                                    <router-link :to="{ name: 'property', params: {id: property.id}}"><ins><p>{{property.title}}</p></ins></router-link>
                                     <p>{{property.town.title}}</p>
                                 </div>
                             </div>

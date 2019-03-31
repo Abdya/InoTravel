@@ -27,6 +27,16 @@
                                 <p>{{town.title}}</p>
                                 <p>Спальных мест: <span>{{propertyInfo.beds}}</span></p>
                             </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <a href="#" class="btn btn-primary mb-3">Редактировать</a>
+                                        <form method="post" enctype="multipart/form-data">
+                                            <button type="submit" name="delete" class="btn btn-danger">Удалить</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-4">
                                 <h3 class="mb-3">Бронирование</h3>
                                 <div class="flat-input mb-3">
@@ -40,6 +50,21 @@
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">Забронировать</button>
+                                </div>
+                            </div>
+                            <div v-if="authUser == null" class="col-md-4">
+                                <h3 class="mb-3">Бронирование</h3>
+                                <div class="flat-input mb-3">
+                                    <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
+                                </div>
+                                <div class="flat-input mb-3">
+                                    <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
+                                </div>
+                                <div class="flat-input mb-3">
+                                    <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
+                                </div>
+                                <div class="text-center">
+                                    <router-link to="/login" class="btn btn-primary">Забронировать</router-link>
                                 </div>
                             </div>
                         </div>

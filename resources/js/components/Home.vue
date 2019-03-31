@@ -10,25 +10,31 @@
         <div class="title m-b-md">
             InoTravel
         </div>
-        <form class="main-form blur-form" method="get" action="/properties" enctype="multipart/form-data">
+        <form class="main-form blur-form" @submit.prevent="getSearchInfo" method="get" action="/properties" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="flat-input col-md-12">
-                    <selectpicker class="select-list-item" :search="true" :list="towns"></selectpicker>
+                    <selectpicker 
+                    v-model="search.townId" 
+                    class="select-list-item" 
+                    :search="true" 
+                    :list="towns"
+                    placeholder="Куда едем?"
+                    ></selectpicker>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="flat-input col-md-6">
-                    <date-picker v-model="time1" range :lang="'ru'" :first-day-of-week="1"></date-picker>
+                <div class="col-md-6">
+                    <date-picker v-model="search.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
                 </div>
             </div>
             <div class="row mb-5">
                 <div class="flat-input col-md-12">
-                    <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
+                    <input v-model="search.beds" class="flat-input__input" placeholder="Гости" type="text">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg" type="submit">Начать поиск</button>
+                    <button class="btn btn-primary btn-lg">Начать поиск</button>
                 </div>
             </div>
         </form>
@@ -44,8 +50,12 @@ export default {
     data() {
         return {
             towns: [],
-            search: [],
-            time1: ''
+            search: {
+                time: '',
+                townId: '',
+                beds: ''
+            },
+            authUser: window.localStorage.getItem('user')
         };
     },
     mounted: function() {
@@ -64,6 +74,20 @@ export default {
                     });
                 });
         },
+        getSearchInfo() {
+            let data = {
+                'guests': this.search.beds,
+                'startDate': this.search.time[0],
+                'endDate': this.search.time[1],
+                'townId': this.search.townId
+            }
+            this.$router.push({name: 'searchresults', query: {
+                townId: data.townId,
+                guests: data.guests,
+                startDate: data.startDate,
+                endDate: data.endDate
+            }});
+        }
     }
 }
 </script>
