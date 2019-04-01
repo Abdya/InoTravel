@@ -15,7 +15,7 @@
         </nav>
         <div v-if="propertiesList.length == 0" class="text-center">
             <h2>Вы еще не создали ни одного профиля жилья!</h2>
-            <router-link to="/property/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
+            <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
         </div>
         <div class="container float-left mb-5">
             <h2>Заявки</h2>

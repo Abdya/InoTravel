@@ -12,6 +12,7 @@ import Requests from '@/js/components/Requests';
 import SingleProperty from '@/js/components/SingleProperty';
 import UserProfile from '@/js/components/UserProfile';
 import CreateProperty from '@/js/components/CreateProperty';
+import EditProperty from '@/js/components/EditProperty'
 
 Vue.use(VueRouter);
 
@@ -72,6 +73,11 @@ const router = new VueRouter({
             path: '/create',
             name: 'create',
             component: CreateProperty
+        },
+        {
+            path: '/edit/:id',
+            name: 'editProperty',
+            component: EditProperty
         }
     ]
 });

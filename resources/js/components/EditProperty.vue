@@ -13,10 +13,11 @@
                 </ul>
             </div>
         </nav>
-        <form  method="post" @submit.prevent="createProperty" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
+        <form v-if="updatedPropertyInfo.townId && towns.length && features.length" method="post" @submit.prevent="editProperty" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
             <div class="row">
                 <div class="col-md-2 mt-4">
                     <img v-if="image" :src="image" width="100%" height="auto" alt="room" class="mb-4">
+                    <img v-else :src="updatedPropertyInfo.photo" alt="room" width="100%" height="auto" class="mb-4">
                     <input type="file" v-on:change="onImageChange" class="form-control mb-3">
                     <button type="button" class="btn btn-success btn-block" @click="uploadImage">Upload image</button>
                 </div>
@@ -26,20 +27,20 @@
                             <div class="form-group row">
                                 <label for="title" class="col-sm-5 col-form-label">Название:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" v-model="propertyInfo.title" placeholder="Название">
+                                    <input type="text" class="form-control" v-model="updatedPropertyInfo.title" placeholder="Название">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="beds" class="col-sm-5 col-form-label">Количество cпальных мест:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" v-model="propertyInfo.beds" placeholder="Количество спальных мест">
+                                    <input type="text" class="form-control" v-model="updatedPropertyInfo.beds" placeholder="Количество спальных мест">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-2">Удобства:<br></div>
                                 <div :key="feature.id" v-for="feature in features" class="col-sm-10">
-                                        <input :value="feature.id" :id="feature.id" v-model="propertyInfo.features" type="checkbox">
-                                        <label :for="feature.id">{{ feature.title }}</label>
+                                    <input :value="feature.id" :id="feature.id" v-model="updatedPropertyInfo.features" type="checkbox">
+                                    <label :for="feature.id">{{ feature.title }}</label>
                                 </div>
                             </div>
                         </div>
@@ -48,13 +49,13 @@
                                 <div class="form-group row">
                                     <label for="town" class="col-sm-5 col-form-label">Город:</label>
                                     <div class="col-sm-10">
-                                        <selectpicker class="select-list-item" :search="true" :list="towns" v-model="propertyInfo.townId"></selectpicker>
+                                        <selectpicker class="select-list-item" :search="true" :list="towns" v-model="updatedPropertyInfo.townId"></selectpicker>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="address" class="col-sm-5 col-form-label">Адрес:</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" v-model="propertyInfo.address" placeholder="Улица, дом, квартира">
+                                        <input type="text" class="form-control" v-model="updatedPropertyInfo.address" placeholder="Улица, дом, квартира">
                                     </div>
                                 </div>
                             </div>
@@ -66,9 +67,9 @@
                                 <div class="form row">
                                     <label for="extraInformation" class="col-sm-5 col-form-label">Дополнительная информация:</label>
                                     <div class="col-sm-10">
-                                        <textarea class="form-control mb-4" v-model="propertyInfo.extraInformation" placeholder="Расскажите о себе или жилье!"></textarea>
+                                        <textarea class="form-control mb-4" v-model="updatedPropertyInfo.extraInformation" placeholder="Расскажите о себе или жилье!"></textarea>
                                         <div class="text-right">
-                                            <button  class="btn btn-primary btn-lg">Создать профиль</button>
+                                            <button  class="btn btn-primary btn-lg">Обновить</button>
                                         </div>
                                     </div>
                                 </div>
@@ -86,13 +87,14 @@ export default {
         return {
             towns: [],
             features: [],
-            propertyInfo: {
+            updatedPropertyInfo: {
                 title: '',
                 beds: '',
                 address: '',
                 townId: '',
                 extraInformation: '',
-                features: []
+                features: [],
+                photo: ''
             },
             image: '',
             imagePath: ''
@@ -101,6 +103,7 @@ export default {
     mounted: function() {
         this.getFeatures();
         this.getTowns();
+        this.getPropertyInfo();
     },
     methods: {
         getFeatures() {
@@ -109,6 +112,9 @@ export default {
                 .then(({data}) => {
                     this.features = data.features
                 });
+        },
+        showSelectedFeatures() {
+            console.log(this.updatedPropertyInfo.features);
         },
         getTowns() {
             axios
@@ -122,19 +128,35 @@ export default {
                     });
                 });
         },
-        createProperty() {
-
+        getPropertyInfo() {
+            axios
+                .get('/api/properties/' + this.$route.params.id)
+                .then(({data}) => {
+                    this.updatedPropertyInfo.title = data.property.title;
+                    this.updatedPropertyInfo.beds = data.property.beds;
+                    this.updatedPropertyInfo.townId = data.property.townId;
+                    this.updatedPropertyInfo.address = data.property.address;
+                    this.updatedPropertyInfo.extraInformation = data.property.extraInformation;
+                    this.updatedPropertyInfo.features = data.property.features.map((feature) => {
+                        return feature.id;
+                    });
+                    this.updatedPropertyInfo.photo = data.property.photo;
+                    console.log(this.updatedPropertyInfo.features);
+                });
+        },
+        editProperty() {
             let data = {
-                'title': this.propertyInfo.title,
-                'beds': this.propertyInfo.beds,
-                'address': this.propertyInfo.address,
-                'townId': this.propertyInfo.townId,
-                'extraInformation': this.propertyInfo.extraInformation,
-                'features': this.propertyInfo.features,
-                'photo': this.imagePath
+                'title': this.updatedPropertyInfo.title,
+                'beds': this.updatedPropertyInfo.beds,
+                'address': this.updatedPropertyInfo.address,
+                'townId': this.updatedPropertyInfo.townId,
+                'extraInformation': this.updatedPropertyInfo.extraInformation,
+                'features': this.updatedPropertyInfo.features,
+                'photo': this.updatedPropertyInfo.photo != null ? this.updatedPropertyInfo.photo : this.imagePath,
+                'propertyId': this.$route.params.id
             };
             axios
-                .post('/api/create', data)
+                .post('/api/edit', data)
                 .then(({data}) => {
                     this.$router.push({name: 'property', params: { id: data.propertyId}});
                 });
@@ -164,9 +186,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-    .select-list-item {
-        color: black;
-    }
-</style>
-

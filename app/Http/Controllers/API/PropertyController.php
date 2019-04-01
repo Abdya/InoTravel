@@ -98,6 +98,16 @@ class PropertyController extends Controller
         ], 201);
     }
 
+    public function deleteProperty($id) {
+        $prop = Property::find($id);
+        $prop->delete();
+        Booking::where('propertyId', $id)->delete();
+
+        return response()->json([
+            'status' => 201
+        ], 201);
+    }
+
     public function showProperty($id) {
         $property = Property::with('owner')->find($id);
         $user = Auth::user();
@@ -112,8 +122,26 @@ class PropertyController extends Controller
         ], 200);
     }
 
-    public function editUserProperty() {
+    public function editProperty() {
+        $property = Property::find(request('propertyId'));
+        $town = \App\Town::find(request('townId'));
+        $property->title = request('title');
+        $property->beds = request('beds');
+        $property->address = request('address');
+        $property->townId = $town->id;
+        $property->regionId = $town->regionId;
+        $property->extraInformation = request('extraInformation');
+        $property->ownerId = Auth::user()->id;
+        $property->photo = request('photo');
         
+        $property->save();
+        $property->features()->sync(request('features'));
+        $property->save();
+
+        return response()->json([
+            'status' => 201,
+            'propertyId' => $property->id
+        ], 200);
     }
 
     public function getFeatures() {
@@ -140,7 +168,7 @@ class PropertyController extends Controller
         $townId = request('townId');
         $town = Town::find($townId);
         $guests = request('guests');
-        $propertyIds = DB::select('
+        $propertyIds = collect(DB::select('
               select p.id
               from properties as p
               left join bookings as b
@@ -156,8 +184,13 @@ class PropertyController extends Controller
                         'startDate2' => $startDate,
                         'endDate1' => $endDate,
                         'endDate2' => $endDate,
-                    ]);
-        $properties = Property::find(array_map(function ($property){ return $property->id; }, $propertyIds));
+                    ]))
+            ->pluck('id')
+            ->all();
+
+        $properties = Property::with('owner')
+            ->whereIn('id', $propertyIds)
+            ->get();
 
 
         return response()->json([

@@ -75092,6 +75092,9 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__js_components_UserProfile___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__js_components_UserProfile__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__js_components_CreateProperty__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__js_components_CreateProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__js_components_CreateProperty__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__js_components_EditProperty__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__js_components_EditProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__js_components_EditProperty__);
+
 
 
 
@@ -75155,6 +75158,10 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
         path: '/create',
         name: 'create',
         component: __WEBPACK_IMPORTED_MODULE_12__js_components_CreateProperty___default.a
+    }, {
+        path: '/edit/:id',
+        name: 'editProperty',
+        component: __WEBPACK_IMPORTED_MODULE_13__js_components_EditProperty___default.a
     }]
 });
 
@@ -79527,7 +79534,7 @@ var render = function() {
               "router-link",
               {
                 staticClass: "btn btn-primary mb-5",
-                attrs: { to: "/property/create", type: "button" }
+                attrs: { to: "/create", type: "button" }
               },
               [_vm._v("Добавить жилье")]
             )
@@ -79891,7 +79898,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -79928,11 +79934,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getSearchResults: function getSearchResults() {
             var _this2 = this;
 
+            console.log(this.$route);
             var data = {
                 townId: this.$route.query.townId,
                 guests: this.$route.query.guests,
-                startDate: this.$route.query.startDate.substring(0, 10),
-                endDate: this.$route.query.endDate.substring(0, 10)
+                startDate: this.$route.query.startDate / 1000,
+                endDate: this.$route.query.endDate / 1000
             };
             axios.post('/api/search', data).then(function (_ref2) {
                 var data = _ref2.data;
@@ -80524,6 +80531,8 @@ exports.push([module.i, "\n.feature-list[data-v-515dfa30] {\n    display: inline
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_datepicker__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue2_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue2_datepicker__);
 //
 //
 //
@@ -80605,23 +80614,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: { DatePicker: __WEBPACK_IMPORTED_MODULE_0_vue2_datepicker___default.a },
     data: function data() {
         return {
             propertyId: '',
             propertyInfo: [],
             authUser: [],
-            town: []
+            town: [],
+            booking: {
+                time: '',
+                guests: ''
+            },
+            msg: ''
         };
     },
 
@@ -80638,11 +80646,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get('/api/properties/' + this.$route.params.id).then(function (_ref) {
                 var data = _ref.data;
 
-                console.log(data);
                 _this.propertyInfo = data.property;
                 _this.authUser = data.user;
                 _this.town = data.town;
             });
+        },
+        deleteProperty: function deleteProperty() {
+            axios.get('/api/delete/' + this.$route.params.id).then(this.$router.push({ name: 'myproperties' }));
+        },
+        bookingRequest: function bookingRequest() {
+            var _this2 = this;
+
+            var data = {
+                'startDate': this.booking.time[0] / 1000,
+                'endDate': this.booking.time[1] / 1000,
+                'guests': this.booking.guests
+            };
+            axios.post('/edit/' + this.$route.params.id, data).then(function (_ref2) {
+                var data = _ref2.data;
+
+                _this2.msg = data.msg;
+            }).catch;
         }
     }
 });
@@ -80763,7 +80787,42 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(0),
+                  _vm.propertyInfo.ownerId == _vm.authUser.id
+                    ? _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c(
+                            "div",
+                            { staticClass: "col-md-2" },
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  staticClass: "btn btn-primary mb-3",
+                                  attrs: {
+                                    to: {
+                                      name: "editProperty",
+                                      params: { id: _vm.propertyInfo.id }
+                                    }
+                                  }
+                                },
+                                [_vm._v("Редактировать")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger",
+                                  attrs: { name: "delete" },
+                                  on: { click: _vm.deleteProperty }
+                                },
+                                [_vm._v("Удалить")]
+                              )
+                            ],
+                            1
+                          )
+                        ])
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _vm.propertyInfo.ownerId != _vm.authUser.id
                     ? _c("div", { staticClass: "col-md-4" }, [
@@ -80771,13 +80830,60 @@ var render = function() {
                           _vm._v("Бронирование")
                         ]),
                         _vm._v(" "),
-                        _vm._m(1),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-6 mb-3" },
+                          [
+                            _c("date-picker", {
+                              attrs: {
+                                confirm: "",
+                                range: "",
+                                lang: "ru",
+                                "value-type": "timestamp",
+                                "first-day-of-week": 1,
+                                placeholder: "Select"
+                              },
+                              model: {
+                                value: _vm.bookingRequest.time,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.bookingRequest, "time", $$v)
+                                },
+                                expression: "bookingRequest.time"
+                              }
+                            })
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
-                        _vm._m(2),
+                        _c("div", { staticClass: "flat-input mb-3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.bookingRequest.guests,
+                                expression: "bookingRequest.guests"
+                              }
+                            ],
+                            staticClass: "flat-input__input",
+                            attrs: { placeholder: "Гости", type: "text" },
+                            domProps: { value: _vm.bookingRequest.guests },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.bookingRequest,
+                                  "guests",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
-                        _vm._m(3),
-                        _vm._v(" "),
-                        _vm._m(4)
+                        _vm._m(0)
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -80787,11 +80893,58 @@ var render = function() {
                           _vm._v("Бронирование")
                         ]),
                         _vm._v(" "),
-                        _vm._m(5),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-6 mb-3" },
+                          [
+                            _c("date-picker", {
+                              attrs: {
+                                confirm: "",
+                                range: "",
+                                lang: "ru",
+                                "value-type": "timestamp",
+                                "first-day-of-week": 1,
+                                placeholder: "Select"
+                              },
+                              model: {
+                                value: _vm.bookingRequest.time,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.bookingRequest, "time", $$v)
+                                },
+                                expression: "bookingRequest.time"
+                              }
+                            })
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
-                        _vm._m(6),
-                        _vm._v(" "),
-                        _vm._m(7),
+                        _c("div", { staticClass: "flat-input mb-3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.bookingRequest.guests,
+                                expression: "bookingRequest.guests"
+                              }
+                            ],
+                            staticClass: "flat-input__input",
+                            attrs: { placeholder: "Гости", type: "text" },
+                            domProps: { value: _vm.bookingRequest.guests },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.bookingRequest,
+                                  "guests",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -80870,109 +81023,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-2" }, [
-          _c(
-            "a",
-            { staticClass: "btn btn-primary mb-3", attrs: { href: "#" } },
-            [_vm._v("Редактировать")]
-          ),
-          _vm._v(" "),
-          _c(
-            "form",
-            { attrs: { method: "post", enctype: "multipart/form-data" } },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger",
-                  attrs: { type: "submit", name: "delete" }
-                },
-                [_vm._v("Удалить")]
-              )
-            ]
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flat-input mb-3" }, [
-      _c("input", {
-        staticClass: "datepicker flat-input__input",
-        attrs: { name: "startDate", placeholder: "Заезд", type: "text" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flat-input mb-3" }, [
-      _c("input", {
-        staticClass: "datepicker flat-input__input",
-        attrs: { name: "endDate", placeholder: "Выезд", type: "text" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flat-input mb-3" }, [
-      _c("input", {
-        staticClass: "flat-input__input",
-        attrs: { name: "guests", placeholder: "Гости", type: "text" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center" }, [
       _c(
         "button",
         { staticClass: "btn btn-primary", attrs: { type: "submit" } },
         [_vm._v("Забронировать")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flat-input mb-3" }, [
-      _c("input", {
-        staticClass: "datepicker flat-input__input",
-        attrs: { name: "startDate", placeholder: "Заезд", type: "text" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flat-input mb-3" }, [
-      _c("input", {
-        staticClass: "datepicker flat-input__input",
-        attrs: { name: "endDate", placeholder: "Выезд", type: "text" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flat-input mb-3" }, [
-      _c("input", {
-        staticClass: "flat-input__input",
-        attrs: { name: "guests", placeholder: "Гости", type: "text" }
-      })
     ])
   }
 ]
@@ -81849,7 +81905,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getFeatures: function getFeatures() {
             var _this = this;
 
-            axios.get('/api/create/get-features').then(function (_ref) {
+            axios.get('/api/get-features').then(function (_ref) {
                 var data = _ref.data;
 
                 _this.features = data.features;
@@ -81858,7 +81914,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getTowns: function getTowns() {
             var _this2 = this;
 
-            axios.get('/api/create/get-towns').then(function (_ref2) {
+            axios.get('/api/get-towns').then(function (_ref2) {
                 var data = _ref2.data;
 
                 _this2.towns = data.towns.map(function (town) {
@@ -82111,60 +82167,66 @@ var render = function() {
                     _vm._m(0),
                     _vm._v(" "),
                     _vm._l(_vm.features, function(feature) {
-                      return _c("div", { staticClass: "col-sm-10" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.propertyInfo.features,
-                              expression: "propertyInfo.features"
-                            }
-                          ],
-                          attrs: { id: feature.id, type: "checkbox" },
-                          domProps: {
-                            value: feature.id,
-                            checked: Array.isArray(_vm.propertyInfo.features)
-                              ? _vm._i(_vm.propertyInfo.features, feature.id) >
-                                -1
-                              : _vm.propertyInfo.features
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$a = _vm.propertyInfo.features,
-                                $$el = $event.target,
-                                $$c = $$el.checked ? true : false
-                              if (Array.isArray($$a)) {
-                                var $$v = feature.id,
-                                  $$i = _vm._i($$a, $$v)
-                                if ($$el.checked) {
-                                  $$i < 0 &&
-                                    _vm.$set(
-                                      _vm.propertyInfo,
-                                      "features",
-                                      $$a.concat([$$v])
-                                    )
+                      return _c(
+                        "div",
+                        { key: feature.id, staticClass: "col-sm-10" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.propertyInfo.features,
+                                expression: "propertyInfo.features"
+                              }
+                            ],
+                            attrs: { id: feature.id, type: "checkbox" },
+                            domProps: {
+                              value: feature.id,
+                              checked: Array.isArray(_vm.propertyInfo.features)
+                                ? _vm._i(
+                                    _vm.propertyInfo.features,
+                                    feature.id
+                                  ) > -1
+                                : _vm.propertyInfo.features
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.propertyInfo.features,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = feature.id,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.propertyInfo,
+                                        "features",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.propertyInfo,
+                                        "features",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
                                 } else {
-                                  $$i > -1 &&
-                                    _vm.$set(
-                                      _vm.propertyInfo,
-                                      "features",
-                                      $$a
-                                        .slice(0, $$i)
-                                        .concat($$a.slice($$i + 1))
-                                    )
+                                  _vm.$set(_vm.propertyInfo, "features", $$c)
                                 }
-                              } else {
-                                _vm.$set(_vm.propertyInfo, "features", $$c)
                               }
                             }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("label", { attrs: { for: feature.id } }, [
-                          _vm._v(_vm._s(feature.title))
-                        ])
-                      ])
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: feature.id } }, [
+                            _vm._v(_vm._s(feature.title))
+                          ])
+                        ]
+                      )
                     })
                   ],
                   2
@@ -96510,6 +96572,710 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(115)
+/* template */
+var __vue_template__ = __webpack_require__(116)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/EditProperty.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-10a8626a", Component.options)
+  } else {
+    hotAPI.reload("data-v-10a8626a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 115 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            towns: [],
+            features: [],
+            updatedPropertyInfo: {
+                title: '',
+                beds: '',
+                address: '',
+                townId: '',
+                extraInformation: '',
+                features: [],
+                photo: ''
+            },
+            image: '',
+            imagePath: ''
+        };
+    },
+
+    mounted: function mounted() {
+        this.getFeatures();
+        this.getTowns();
+        this.getPropertyInfo();
+    },
+    methods: {
+        getFeatures: function getFeatures() {
+            var _this = this;
+
+            axios.get('/api/get-features').then(function (_ref) {
+                var data = _ref.data;
+
+                _this.features = data.features;
+            });
+        },
+        showSelectedFeatures: function showSelectedFeatures() {
+            console.log(this.updatedPropertyInfo.features);
+        },
+        getTowns: function getTowns() {
+            var _this2 = this;
+
+            axios.get('/api/get-towns').then(function (_ref2) {
+                var data = _ref2.data;
+
+                _this2.towns = data.towns.map(function (town) {
+                    return {
+                        id: town.id,
+                        name: town.title
+                    };
+                });
+            });
+        },
+        getPropertyInfo: function getPropertyInfo() {
+            var _this3 = this;
+
+            axios.get('/api/properties/' + this.$route.params.id).then(function (_ref3) {
+                var data = _ref3.data;
+
+                _this3.updatedPropertyInfo.title = data.property.title;
+                _this3.updatedPropertyInfo.beds = data.property.beds;
+                _this3.updatedPropertyInfo.townId = data.property.townId;
+                _this3.updatedPropertyInfo.address = data.property.address;
+                _this3.updatedPropertyInfo.extraInformation = data.property.extraInformation;
+                _this3.updatedPropertyInfo.features = data.property.features.map(function (feature) {
+                    return feature.id;
+                });
+                _this3.updatedPropertyInfo.photo = data.property.photo;
+                console.log(_this3.updatedPropertyInfo.features);
+            });
+        },
+        editProperty: function editProperty() {
+            var _this4 = this;
+
+            var data = {
+                'title': this.updatedPropertyInfo.title,
+                'beds': this.updatedPropertyInfo.beds,
+                'address': this.updatedPropertyInfo.address,
+                'townId': this.updatedPropertyInfo.townId,
+                'extraInformation': this.updatedPropertyInfo.extraInformation,
+                'features': this.updatedPropertyInfo.features,
+                'photo': this.updatedPropertyInfo.photo != null ? this.updatedPropertyInfo.photo : this.imagePath,
+                'propertyId': this.$route.params.id
+            };
+            axios.post('/api/edit', data).then(function (_ref4) {
+                var data = _ref4.data;
+
+                _this4.$router.push({ name: 'property', params: { id: data.propertyId } });
+            });
+        },
+        onImageChange: function onImageChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            this.createImage(files[0]);
+        },
+        createImage: function createImage(file) {
+            var reader = new FileReader();
+            var vm = this;
+            reader.onload = function (e) {
+                vm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        uploadImage: function uploadImage(e) {
+            var _this5 = this;
+
+            e.preventDefault();
+            axios.post('/api/image/store', { image: this.image }).then(function (_ref5) {
+                var data = _ref5.data;
+
+                _this5.imagePath = data.path;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 116 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "nav",
+      { staticClass: "navbar navbar-expand-lg navbar-light bg-light mb-4" },
+      [
+        _c("router-link", { staticClass: "navbar-brand", attrs: { to: "/" } }, [
+          _vm._v("InoTravel")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "collapse navbar-collapse",
+            attrs: { id: "navbarSupportedContent" }
+          },
+          [
+            _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+              _c(
+                "div",
+                { staticClass: "top-right links" },
+                [
+                  _c("router-link", { attrs: { to: "/profile" } }, [
+                    _vm._v("Nikita Orobenko")
+                  ]),
+                  _vm._v(" "),
+                  _c("router-link", { attrs: { to: "/myproperties" } }, [
+                    _c("ins", [_vm._v("Мое жилье")])
+                  ]),
+                  _vm._v(" "),
+                  _c("router-link", { attrs: { to: "/requests" } }, [
+                    _vm._v("Заявки")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "#",
+                        onclick:
+                          "event.preventDefault(); document.getElementById('logout-form').submit();"
+                      }
+                    },
+                    [_vm._v("Выйти")]
+                  )
+                ],
+                1
+              )
+            ])
+          ]
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _vm.updatedPropertyInfo.townId && _vm.towns.length && _vm.features.length
+      ? _c(
+          "form",
+          {
+            staticClass: "container",
+            staticStyle: { width: "1400px", "max-width": "1400px" },
+            attrs: { method: "post", enctype: "multipart/form-data" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.editProperty($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-2 mt-4" }, [
+                _vm.image
+                  ? _c("img", {
+                      staticClass: "mb-4",
+                      attrs: {
+                        src: _vm.image,
+                        width: "100%",
+                        height: "auto",
+                        alt: "room"
+                      }
+                    })
+                  : _c("img", {
+                      staticClass: "mb-4",
+                      attrs: {
+                        src: _vm.updatedPropertyInfo.photo,
+                        alt: "room",
+                        width: "100%",
+                        height: "auto"
+                      }
+                    }),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control mb-3",
+                  attrs: { type: "file" },
+                  on: { change: _vm.onImageChange }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success btn-block",
+                    attrs: { type: "button" },
+                    on: { click: _vm.uploadImage }
+                  },
+                  [_vm._v("Upload image")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-8" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-5 col-form-label",
+                          attrs: { for: "title" }
+                        },
+                        [_vm._v("Название:")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.updatedPropertyInfo.title,
+                              expression: "updatedPropertyInfo.title"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "Название" },
+                          domProps: { value: _vm.updatedPropertyInfo.title },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.updatedPropertyInfo,
+                                "title",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-5 col-form-label",
+                          attrs: { for: "beds" }
+                        },
+                        [_vm._v("Количество cпальных мест:")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.updatedPropertyInfo.beds,
+                              expression: "updatedPropertyInfo.beds"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Количество спальных мест"
+                          },
+                          domProps: { value: _vm.updatedPropertyInfo.beds },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.updatedPropertyInfo,
+                                "beds",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group row" },
+                      [
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _vm._l(_vm.features, function(feature) {
+                          return _c(
+                            "div",
+                            { key: feature.id, staticClass: "col-sm-10" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.updatedPropertyInfo.features,
+                                    expression: "updatedPropertyInfo.features"
+                                  }
+                                ],
+                                attrs: { id: feature.id, type: "checkbox" },
+                                domProps: {
+                                  value: feature.id,
+                                  checked: Array.isArray(
+                                    _vm.updatedPropertyInfo.features
+                                  )
+                                    ? _vm._i(
+                                        _vm.updatedPropertyInfo.features,
+                                        feature.id
+                                      ) > -1
+                                    : _vm.updatedPropertyInfo.features
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.updatedPropertyInfo.features,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = feature.id,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.updatedPropertyInfo,
+                                            "features",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.updatedPropertyInfo,
+                                            "features",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(
+                                        _vm.updatedPropertyInfo,
+                                        "features",
+                                        $$c
+                                      )
+                                    }
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("label", { attrs: { for: feature.id } }, [
+                                _vm._v(_vm._s(feature.title))
+                              ])
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-sm-5 col-form-label",
+                            attrs: { for: "town" }
+                          },
+                          [_vm._v("Город:")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-sm-10" },
+                          [
+                            _c("selectpicker", {
+                              staticClass: "select-list-item",
+                              attrs: { search: true, list: _vm.towns },
+                              model: {
+                                value: _vm.updatedPropertyInfo.townId,
+                                callback: function($$v) {
+                                  _vm.$set(
+                                    _vm.updatedPropertyInfo,
+                                    "townId",
+                                    $$v
+                                  )
+                                },
+                                expression: "updatedPropertyInfo.townId"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-sm-5 col-form-label",
+                            attrs: { for: "address" }
+                          },
+                          [_vm._v("Адрес:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-10" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.updatedPropertyInfo.address,
+                                expression: "updatedPropertyInfo.address"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Улица, дом, квартира"
+                            },
+                            domProps: {
+                              value: _vm.updatedPropertyInfo.address
+                            },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.updatedPropertyInfo,
+                                  "address",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", [
+                      _c("div", { staticClass: "form row" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-sm-5 col-form-label",
+                            attrs: { for: "extraInformation" }
+                          },
+                          [_vm._v("Дополнительная информация:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-10" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.updatedPropertyInfo.extraInformation,
+                                expression:
+                                  "updatedPropertyInfo.extraInformation"
+                              }
+                            ],
+                            staticClass: "form-control mb-4",
+                            attrs: {
+                              placeholder: "Расскажите о себе или жилье!"
+                            },
+                            domProps: {
+                              value: _vm.updatedPropertyInfo.extraInformation
+                            },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.updatedPropertyInfo,
+                                  "extraInformation",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm._m(1)
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-2" }, [
+      _vm._v("Удобства:"),
+      _c("br")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-right" }, [
+      _c("button", { staticClass: "btn btn-primary btn-lg" }, [
+        _vm._v("Обновить")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-10a8626a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

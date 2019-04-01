@@ -14,7 +14,6 @@
                         <div class="row">
                             <div class="col">
                                 <selectpicker 
-
                                 class="select-list-item" 
                                 :search="true" 
                                 :list="towns"
@@ -102,11 +101,12 @@ export default {
                 });
         },
         getSearchResults() {
+            console.log(this.$route);
             let data = {
                 townId: this.$route.query.townId,
                 guests: this.$route.query.guests,
-                startDate: (this.$route.query.startDate).substring(0,10),
-                endDate: (this.$route.query.endDate).substring(0,10),
+                startDate: (this.$route.query.startDate)/1000,
+                endDate: (this.$route.query.endDate)/1000,
             };
             axios
                 .post('/api/search', data)

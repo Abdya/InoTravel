@@ -27,26 +27,21 @@
                                 <p>{{town.title}}</p>
                                 <p>Спальных мест: <span>{{propertyInfo.beds}}</span></p>
                             </div>
-                            <div class="col-md-4">
+                            <div v-if="propertyInfo.ownerId == authUser.id" class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <a href="#" class="btn btn-primary mb-3">Редактировать</a>
-                                        <form method="post" enctype="multipart/form-data">
-                                            <button type="submit" name="delete" class="btn btn-danger">Удалить</button>
-                                        </form>
+                                        <router-link :to="{name: 'editProperty', params: {id: propertyInfo.id}}" class="btn btn-primary mb-3">Редактировать</router-link>
+                                        <button @click="deleteProperty" name="delete" class="btn btn-danger">Удалить</button>
                                     </div>
                                 </div>
                             </div>
                             <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-4">
                                 <h3 class="mb-3">Бронирование</h3>
-                                <div class="flat-input mb-3">
-                                    <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
+                                <div class="col-md-6 mb-3">
+                                    <date-picker v-model="bookingRequest.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
                                 </div>
                                 <div class="flat-input mb-3">
-                                    <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
-                                </div>
-                                <div class="flat-input mb-3">
-                                    <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
+                                    <input class="flat-input__input" v-model="bookingRequest.guests" placeholder="Гости" type="text">
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">Забронировать</button>
@@ -54,14 +49,11 @@
                             </div>
                             <div v-if="authUser == null" class="col-md-4">
                                 <h3 class="mb-3">Бронирование</h3>
-                                <div class="flat-input mb-3">
-                                    <input class="datepicker flat-input__input" name="startDate" placeholder="Заезд" type="text">
+                                <div class="col-md-6 mb-3">
+                                    <date-picker v-model="bookingRequest.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
                                 </div>
                                 <div class="flat-input mb-3">
-                                    <input class="datepicker flat-input__input" name="endDate" placeholder="Выезд" type="text">
-                                </div>
-                                <div class="flat-input mb-3">
-                                    <input class="flat-input__input" name="guests" placeholder="Гости" type="text">
+                                    <input class="flat-input__input" v-model="bookingRequest.guests" placeholder="Гости" type="text">
                                 </div>
                                 <div class="text-center">
                                     <router-link to="/login" class="btn btn-primary">Забронировать</router-link>
@@ -88,14 +80,21 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker';
 
 export default {
+    components: {DatePicker},
     data() {
         return {
             propertyId: '',
             propertyInfo: [],
             authUser: [],
-            town: []
+            town: [],
+            booking: {
+                time: '',
+                guests: ''
+            },
+            msg: ''
         }
     },
     mounted: function() {
@@ -109,11 +108,30 @@ export default {
             axios
                 .get('/api/properties/' + this.$route.params.id)
                 .then(({data}) => {
-                    console.log(data);
                     this.propertyInfo = data.property;
                     this.authUser = data.user;
                     this.town = data.town;
                 });
+        },
+        deleteProperty() {
+            axios
+                .get('/api/delete/' + this.$route.params.id)
+                .then(
+                    this.$router.push({name: 'myproperties'})
+                );
+        },
+        bookingRequest() {
+            let data = {
+                'startDate': (this.booking.time[0])/1000,
+                'endDate': (this.booking.time[1])/1000,
+                'guests': this.booking.guests
+            };
+            axios
+                .post('/edit/' + this.$route.params.id, data)
+                .then(({data}) => {
+                    this.msg = data.msg
+                })
+                .catch 
         }
     }
 }

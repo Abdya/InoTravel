@@ -19,11 +19,11 @@ Route::post('/password-reset/request', 'API\AuthController@passwordReset');
 Route::post('/password-reset/confirm', 'API\AuthController@passwordResetConfirm');
 Route::post('/profile/change-info', 'API\UserController@changeUserData');
 Route::post('/profile/change-pass', 'API\UserController@changeUserPass');
-Route::get('/create/get-features', 'API\PropertyController@getFeatures');
-Route::get('/create/get-towns', 'API\PropertyController@getTowns');
+Route::get('/get-features', 'API\PropertyController@getFeatures');
 Route::get('/get-towns', 'API\PropertyController@getTowns');
 Route::post('/image/store', 'API\PropertyController@imageStore');
 Route::post('/search', 'API\PropertyController@searchProperties');
+Route::post('/book/{id}', 'API\BookingController@bookingRequest');
 
 
 Route::middleware('auth:api')->get('/profile', function (Request $request) {
@@ -40,6 +40,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/myproperties/approve', 'API\PropertyController@approveIncomingRequest');
     Route::post('/myproperties/reject', 'API\PropertyController@rejectIncomingRequest');
     Route::get('/properties/{id}', 'API\PropertyController@showProperty');
-    
+    Route::get('/delete/{id}', 'API\PropertyController@deleteProperty');
+    Route::post('/edit', 'API\PropertyController@editProperty');
 });
 
