@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use phpseclib\Crypt\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -142,6 +143,14 @@ class AuthController extends Controller
 
 
         return response()->json(['status' => 201]);
+    }
+
+    public function getAuthUser() {
+        $user = Auth::user();
+
+        return response()->json([
+            'authUser' => $user
+        ], 200);
     }
     
 }

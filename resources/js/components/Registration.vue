@@ -9,7 +9,7 @@
             <div class="title m-b-md">
                 Регистрация
             </div>
-            <form method="post" class="reg-form" enctype="multipart/form-data" @submit.prevent="register" style="max-width: 500px">
+            <form method="post" class="reg-form blur-form" enctype="multipart/form-data" @submit.prevent="register" style="max-width: 500px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12 mb-3">
                         <input class="flat-input__input" v-model="firstName" name="firstName" placeholder="Имя" type="text">

@@ -8,12 +8,21 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Property;
+use App\Booking;
 
 class BookingController extends Controller
 {
     public function bookingRequest($id) {
         if (Property::find($id) === null) {
-            Redirect::route('/properties');
+            return response()->json([
+                'status' => 404
+            ], 404);
+        }
+        if (Booking::where('guestId', request('guestId'))->where('status', '<>', 0)->first() != null){
+            return response()->json([
+                'status' => 420,
+                'msg' => 'У вас уже есть бронь!'
+            ], 420);
         }
         $bookingIds = DB::select('
         select p.id
@@ -25,17 +34,17 @@ class BookingController extends Controller
         and (b.id is null or b.status = 2 or ((:start1 < b.startDate and :end1 < b.startDate) or (:start2 > b.endDate and :end2 > b.endDate)))',
             [
                 'id' => $id,
-                'beds1' => Input::get('guests'),
-                'start1' => Carbon::createFromFormat('d/m/Y', Input::get('startDate'))->toDateTimeString(),
-                'start2' => Carbon::createFromFormat('d/m/Y', Input::get('startDate'))->toDateTimeString(),
-                'end1' => Carbon::createFromFormat('d/m/Y', Input::get('endDate'))->toDateTimeString(),
-                'end2' => Carbon::createFromFormat('d/m/Y', Input::get('endDate'))->toDateTimeString(),
+                'beds1' => request('guests'),
+                'start1' => Carbon::createFromTimestamp(request('startDate'))->toDateTimeString(),
+                'start2' => Carbon::createFromTimestamp(request('startDate'))->toDateTimeString(),
+                'end1' => Carbon::createFromTimestamp(request('endDate'))->toDateTimeString(),
+                'end2' => Carbon::createFromTimestamp(request('endDate'))->toDateTimeString(),
             ]);
         if (count($bookingIds) > 0) {
             $booking = new \App\Booking(array(
-                'startDate' => Carbon::createFromFormat('d/m/Y', Input::get('startDate'))->toDateTimeString(),
-                'endDate' => Carbon::createFromFormat('d/m/Y', Input::get('endDate'))->toDateTimeString(),
-                'quantityGuests' => Input::get('guests'),
+                'startDate' => Carbon::createFromTimestamp(request('startDate'))->toDateTimeString(),
+                'endDate' => Carbon::createFromTimestamp(request('endDate'))->toDateTimeString(),
+                'quantityGuests' => request('guests'),
                 'sendDate' => Carbon::now()->toDateTimeString(),
                 'guestId' => Auth::user()->id,
                 'status' => 1,
@@ -44,10 +53,16 @@ class BookingController extends Controller
             ));
             $booking->save();
 
-            return Redirect::to('/properties/' . $id);
+            return response()->json([
+                'status' => 200,
+                'msg' => 'Забронировано!'
+            ], 200);
         }
         else {
-            return Redirect::back()->withErrors(['error' => 'Данный срок уже занят!']);
+            return response()->json([
+                'status' => 422,
+                'msg' => 'Данный срок уже занят!'
+            ], 422);
         }
 
     }

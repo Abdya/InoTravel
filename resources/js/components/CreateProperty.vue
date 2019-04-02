@@ -1,28 +1,40 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <nav class="navbar navbar-dark bg-dark">
             <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div class="top-right links">
-                        <router-link to="/profile">Nikita Orobenko</router-link>
-                        <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
-                        <router-link to="/requests">Заявки</router-link>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
-                    </div>
-                </ul>
-            </div>
+            <ul v-if="authUser == null" class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Войти</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
+                </li>
+            </ul> 
+            <ul v-else class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/requests">Заявки</router-link>
+                </li>
+            </ul>
         </nav>
         <form  method="post" @submit.prevent="createProperty" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
             <div class="row">
-                <div class="col-md-2 mt-4">
+                <div class="col-md-3 mt-4">
                     <img v-if="image" :src="image" width="100%" height="auto" alt="room" class="mb-4">
-                    <input type="file" v-on:change="onImageChange" class="form-control mb-3">
+                    <input type="file" v-on:change="onImageChange" class="mb-3">
                     <button type="button" class="btn btn-success btn-block" @click="uploadImage">Upload image</button>
                 </div>
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group row">
                                 <label for="title" class="col-sm-5 col-form-label">Название:</label>
                                 <div class="col-sm-10">
@@ -30,20 +42,20 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="beds" class="col-sm-5 col-form-label">Количество cпальных мест:</label>
+                                <label for="beds" class="col-md-12 col-form-label">Количество cпальных мест:</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" v-model="propertyInfo.beds" placeholder="Количество спальных мест">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-sm-2">Удобства:<br></div>
-                                <div :key="feature.id" v-for="feature in features" class="col-sm-10">
+                                <div class="col-md-12 mb-2">Удобства:<br></div>
+                                <div :key="feature.id" v-for="feature in features" class="col-md-12">
                                         <input :value="feature.id" :id="feature.id" v-model="propertyInfo.features" type="checkbox">
                                         <label :for="feature.id">{{ feature.title }}</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div>
                                 <div class="form-group row">
                                     <label for="town" class="col-sm-5 col-form-label">Город:</label>
@@ -52,7 +64,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="address" class="col-sm-5 col-form-label">Адрес:</label>
+                                    <label for="address" class="col-md-7 col-form-label">Адрес:</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="propertyInfo.address" placeholder="Улица, дом, квартира">
                                     </div>
@@ -61,7 +73,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-11">
                             <div>
                                 <div class="form row">
                                     <label for="extraInformation" class="col-sm-5 col-form-label">Дополнительная информация:</label>
@@ -95,12 +107,14 @@ export default {
                 features: []
             },
             image: '',
-            imagePath: ''
+            imagePath: '',
+            authUser: ''
         }
     },
     mounted: function() {
         this.getFeatures();
         this.getTowns();
+        this.getAuthUser();
     },
     methods: {
         getFeatures() {
@@ -160,6 +174,14 @@ export default {
                 .then(({data}) => {
                     this.imagePath = data.path;
                 });
+        },
+        getAuthUser() {
+            axios
+                .get('/api/get-auth-user')
+                .then(({data}) => {
+                    this.authUser = data.authUser;
+                    console.log(this.authUser);
+                })
         }
     }
 }
@@ -167,6 +189,9 @@ export default {
 <style scoped>
     .select-list-item {
         color: black;
+    }
+    .nav-link {
+        color: white;
     }
 </style>
 

@@ -1,17 +1,29 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <nav class="navbar navbar-dark bg-dark">
             <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div class="top-right links">
-                        <router-link to="/profile">Nikita Orobenko</router-link>
-                        <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
-                        <router-link to="/requests">Заявки</router-link>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
-                    </div>
-                </ul>
-            </div>
+            <ul v-if="authUser == null" class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Войти</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
+                </li>
+            </ul> 
+            <ul v-else class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/requests">Заявки</router-link>
+                </li>
+            </ul>
         </nav>
         <form method="post" enctype="multipart/form-data" class="container">
             <div class="row">
@@ -38,25 +50,16 @@
                             <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-4">
                                 <h3 class="mb-3">Бронирование</h3>
                                 <div class="col-md-6 mb-3">
-                                    <date-picker v-model="bookingRequest.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
+                                    <date-picker v-model="booking.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
                                 </div>
                                 <div class="flat-input mb-3">
-                                    <input class="flat-input__input" v-model="bookingRequest.guests" placeholder="Гости" type="text">
+                                    <input class="flat-input__input" v-model="booking.guests" placeholder="Гости" type="text">
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Забронировать</button>
-                                </div>
-                            </div>
-                            <div v-if="authUser == null" class="col-md-4">
-                                <h3 class="mb-3">Бронирование</h3>
-                                <div class="col-md-6 mb-3">
-                                    <date-picker v-model="bookingRequest.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
-                                </div>
-                                <div class="flat-input mb-3">
-                                    <input class="flat-input__input" v-model="bookingRequest.guests" placeholder="Гости" type="text">
-                                </div>
-                                <div class="text-center">
-                                    <router-link to="/login" class="btn btn-primary">Забронировать</router-link>
+                                    <button type="button" @click="bookingRequest" class="btn btn-primary">Забронировать</button>
+                                    <div v-if="msg != null">
+                                        <p>{{msg}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -121,17 +124,25 @@ export default {
                 );
         },
         bookingRequest() {
+            if (this.authUser == null){
+                this.$router.push({name: 'login'});
+            }
             let data = {
                 'startDate': (this.booking.time[0])/1000,
                 'endDate': (this.booking.time[1])/1000,
-                'guests': this.booking.guests
+                'guests': this.booking.guests,
+                'guestId': this.authUser.id
             };
             axios
-                .post('/edit/' + this.$route.params.id, data)
+                .post('/api/book/' + this.$route.params.id, data)
                 .then(({data}) => {
-                    this.msg = data.msg
+                    this.msg = data.msg;
+                    console.log(data);
                 })
-                .catch 
+                .catch(({response}) => {
+                    this.msg = response.data.msg;
+                    console.log(response);
+                })
         }
     }
 }
@@ -157,5 +168,11 @@ export default {
         width: 100%;
     }
     
-    
+    .nav-link {
+        color: white;
+    }
+    p {
+        font-size: 20px;
+        color: white;
+    }
 </style>

@@ -7,15 +7,15 @@
         </div>
         <div class="content blur-form">
             <div class="title m-b-md">
-                Password Change
+                Сброс пароля
             </div>
             <form method="post" class="pass-change-form" @submit.prevent="checkPass" enctype="multipart/form-data" style="max-width: 500px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12 mb-3">
-                        <input class="flat-input__input" v-model="pass1" name="pass1" placeholder="Enter new password..." type="password">
+                        <input class="flat-input__input" v-model="pass1" name="pass1" placeholder="Введите новый пароль" type="password">
                     </div>
                     <div class="flat-input col-md-12">
-                        <input class="flat-input__input" v-model="pass2" name="pass2" placeholder="Repeat" type="password">
+                        <input class="flat-input__input" v-model="pass2" name="pass2" placeholder="Повторите" type="password">
                     </div>
                     <div v-if="error" class="col-md-12">
                         <p>{{error}}</p>

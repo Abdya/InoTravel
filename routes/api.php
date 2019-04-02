@@ -23,7 +23,7 @@ Route::get('/get-features', 'API\PropertyController@getFeatures');
 Route::get('/get-towns', 'API\PropertyController@getTowns');
 Route::post('/image/store', 'API\PropertyController@imageStore');
 Route::post('/search', 'API\PropertyController@searchProperties');
-Route::post('/book/{id}', 'API\BookingController@bookingRequest');
+
 
 
 Route::middleware('auth:api')->get('/profile', function (Request $request) {
@@ -42,5 +42,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/properties/{id}', 'API\PropertyController@showProperty');
     Route::get('/delete/{id}', 'API\PropertyController@deleteProperty');
     Route::post('/edit', 'API\PropertyController@editProperty');
+    Route::post('/book/{id}', 'API\BookingController@bookingRequest');
+    Route::get('/get-auth-user', 'API\AuthController@getAuthUser');
 });
 

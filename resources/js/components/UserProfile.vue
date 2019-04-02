@@ -1,17 +1,29 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+        <nav class="navbar navbar-dark bg-dark">
             <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div class="top-right links profile">
-                        <router-link to="/profile">Nikita Orobenko</router-link>
-                        <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
-                        <router-link to="/requests">Заявки</router-link>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
-                    </div>
-                </ul>
-            </div>
+            <ul v-if="authUser == null" class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Войти</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
+                </li>
+            </ul> 
+            <ul v-else class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/requests">Заявки</router-link>
+                </li>
+            </ul>
         </nav>
         <div class="container">
             <div class="row">
@@ -84,11 +96,13 @@ export default {
         return {
             user: {},
             formData: {},
-            changePassData: {}
+            changePassData: {},
+            authUser: ''
         };
     },
     mounted: function() {
-        this.takeUserData()
+        this.takeUserData();
+        this.getAuthUser();
     },
     methods: {
         takeUserData() {
@@ -129,7 +143,23 @@ export default {
                     this.changePassData.password = '',
                     this.changePassData.repeatPassword = ''
                 )
+        },
+        getAuthUser() {
+            axios
+                .get('/api/get-auth-user')
+                .then(({data}) => {
+                    this.authUser = data.authUser;
+                    console.log(this.authUser);
+                })
         }
     }
 }
 </script>
+<style scoped>
+    .select-list-item {
+        color: black;
+    }
+    .nav-link {
+        color: white;
+    }
+</style>

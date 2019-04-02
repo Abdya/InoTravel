@@ -1,13 +1,31 @@
 <template>
     <div>
         <main role="main">
-            <router-link class="navbar-brand" to="/">InoTravel</router-link>
-                <div class="top-right links">
-                    <router-link to="/profile">Nikita Orobenko</router-link>
-                    <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
-                    <router-link to="/requests">Заявки</router-link>
-                    <router-link to="/logout">Logout</router-link>
-                </div>
+            <nav class="navbar navbar-dark bg-dark">
+                <router-link class="navbar-brand" to="/">InoTravel</router-link>
+                <ul v-if="authUser == null" class="nav justify-content-center-end">
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/login">Войти</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/registration">Регистрация</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/login">Принять гостей</router-link>
+                    </li>
+                </ul> 
+                <ul v-else class="nav justify-content-center-end">
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/requests">Заявки</router-link>
+                    </li>
+                </ul>
+            </nav>
             <section class="jumbotron text-center">
                 <div class="container">
                     <form method="get" style="max-width: 1080px">
@@ -47,7 +65,7 @@
                                 <div class="card-body">
                                     <p class="card-text"><router-link :to="{ name: 'property', params: {id: property.id}}">{{property.title}}</router-link></p>
                                     <p class="card-text">{{townForShow.title}}</p>
-                                    <p class="card-text">Owner Nikita</p>
+                                    <p class="card-text">{{property.owner.firstName}}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
                                             <router-link :to="{ name: 'property', params: {id: property.id}}">Посмотреть</router-link>

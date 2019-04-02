@@ -5,12 +5,9 @@ html, body {
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
     margin: 0;
+    background-color: rgb(152, 152, 152);
 }
 
-body{
-    background-image: url("/picture/background-image.jpg");
-    background-size: cover;
-}
 
 .full-height {
     height: 100vh;

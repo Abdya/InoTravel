@@ -13,7 +13,9 @@ import ru from 'vee-validate/dist/locale/ru';
 
 import DatePicker from 'vue2-datepicker';
 
-import selectPicker from 'vue-selectpicker'
+import selectPicker from 'vue-selectpicker';
+
+Vue.use(require('vue-moment'));
 
 Vue.use(DatePicker);
 

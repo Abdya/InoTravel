@@ -7,7 +7,7 @@
         </div>
         <div class="content blur-form">
             <div class="title m-b-md">
-                Password Reset
+                Сброс пароля
             </div>
             <div v-if="message" class="alert alert-primary col-md-12" role="alert">
                 {{message}}

@@ -1,21 +1,29 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+        <nav class="navbar navbar-dark bg-dark">
             <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div class="top-right links">
-                        <router-link to="/profile">Nikita Orobenko</router-link>
-                        <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
-                        <router-link to="/requests">Заявки</router-link>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
-                    </div>
-                </ul>
-            </div>
+            <ul v-if="authUser == null" class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Войти</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
+                </li>
+            </ul> 
+            <ul v-else class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/requests">Заявки</router-link>
+                </li>
+            </ul>
         </nav>
         <div class="container float-left mb-5">
             <h2>Отправленные</h2>
@@ -69,3 +77,20 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            
+        }
+    }
+}
+</script>
+<style scoped>
+    .select-list-item {
+        color: black;
+    }
+    .nav-link {
+        color: white;
+    }
+</style>

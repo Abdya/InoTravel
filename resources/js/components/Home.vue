@@ -1,16 +1,23 @@
 <template>
 
     <div class="flex-center position-ref full-height">
-        <div class="top-right links">
-            <router-link to="/login">Войти</router-link>
-            <router-link to="/registration">Регистрация</router-link>
-            <router-link to="/login">Принять гостей</router-link>
-        </div>
+        <header class="top-right">
+            <div v-if="authUser == null" class="links">
+                <router-link to="/login">Войти</router-link>
+                <router-link to="/registration">Регистрация</router-link>
+                <router-link to="/login">Принять гостей</router-link>
+            </div>
+            <div v-else class="links">
+                <router-link to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                <router-link to="/myproperties">Мое жилье</router-link>
+                <router-link to="/requests">Заявки</router-link>
+            </div>
+        </header>
         <div class="content">
         <div class="title m-b-md">
             InoTravel
         </div>
-        <form class="main-form blur-form" @submit.prevent="getSearchInfo" method="get" action="/properties" enctype="multipart/form-data">
+        <form class="blur-form" @submit.prevent="getSearchInfo" method="get" action="/properties" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="flat-input col-md-12">
                     <selectpicker 
@@ -38,7 +45,7 @@
                 </div>
             </div>
         </form>
-    </div>
+        </div>
     </div>
 </template>
 
@@ -55,11 +62,12 @@ export default {
                 townId: '',
                 beds: ''
             },
-            authUser: window.localStorage.getItem('user')
+            authUser: ''
         };
     },
     mounted: function() {
         this.getTowns();
+        this.getAuthUser();
     },
     methods: {
         getTowns() {
@@ -87,12 +95,31 @@ export default {
                 startDate: data.startDate,
                 endDate: data.endDate
             }});
+        },
+        getAuthUser() {
+            axios
+                .get('/api/get-auth-user')
+                .then(({data}) => {
+                    this.authUser = data.authUser;
+                    console.log(this.authUser);
+                })
+        },
+        logout() {
+            axios
+                .post('/api/logout')
+                .then(
+                    this.$router.push({name: 'home'})
+                )
         }
     }
 }
 </script>
-<style scoped>
+<style>
     .select-list-item {
         color: black;
     }
+    html, body {
+        background-image: url("/picture/main_background.jpg");
+        background-size: cover;
+}
 </style>

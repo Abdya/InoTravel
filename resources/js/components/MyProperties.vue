@@ -1,29 +1,41 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+        <nav class="navbar navbar-dark bg-dark">
             <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <div class="top-right links">
-                        <router-link to="/profile"></router-link>
-                        <router-link to="/myproperties"><ins>Мое жилье</ins></router-link>
-                        <router-link to="/requests">Заявки</router-link>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a>
-                    </div>
-                </ul>
-            </div>
+            <ul v-if="authUser == null" class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Войти</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
+                </li>
+            </ul> 
+            <ul v-else class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/requests">Заявки</router-link>
+                </li>
+            </ul>
         </nav>
         <div v-if="propertiesList.length == 0" class="text-center">
             <h2>Вы еще не создали ни одного профиля жилья!</h2>
             <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
         </div>
         <div class="container float-left mb-5">
-            <h2>Заявки</h2>
+            <h2 class="mt-5 mb-5">Заявки</h2>
             <div class="container float-left mb-5">
                 <div :key="request.id" v-for="request in incomingRequests" class="row mb-5">
                     <div class="col-md-5">
-                        <img v-if="true" src="/picture/300.jpg" width="100%" height="auto" alt="room">
-                        <img v-if="false" src="" width="100%" height="auto" alt="room">
+                        <img v-if="request.property.photo" :src="request.property.photo" width="100%" height="auto" alt="room">
+                        <img v-else src="/picture/300.jpg" width="100%" height="auto" alt="room">
                     </div>
                     <div class="col-md-6">
                         <div class="clearfix">
@@ -32,7 +44,7 @@
                                     <p class="word-break: break-all; max-width: 100%">{{request.title}}</p>
                                     <p>{{request.property.town.title}}</p>
                                     <p>Заявка от: {{request.user.firstName}}</p>
-                                    <p>{{request.startDate}} {{request.endDate}}</p>
+                                    <p>{{ request.startDate | moment("DD/MM/YYYY")}} - {{ request.endDate | moment("DD/MM/YYYY")}}</p>
                                     <p>Людей: <span>{{request.quantityGuests}}</span></p>
                                     <div>
                                         <div class="row">
@@ -48,8 +60,8 @@
             </div>
         </div>
         <div class="container float-left mb-5">
-            <h2>Жилье</h2>
-            <a href="#" type="submit" class="btn btn-primary mb-5" style="padding-left: 15px">Добавить жилье</a>
+            <h2 class="mb-3">Жилье</h2>
+            <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
             <div class="container float-left mb-5">
                 <div :key="property.id" v-for="property in propertiesList" class="row mb-5">
                     <div class="col-md-5">
@@ -60,7 +72,7 @@
                         <div class="clearfix">
                             <div class="row">
                                 <div class="col-md-6 property-description">
-                                    <router-link :to="{ name: 'property', params: {id: property.id}}"><ins><p>{{property.title}}</p></ins></router-link>
+                                    <router-link :to="{ name: 'property', params: {id: property.id}}"><p>{{property.title}}</p></router-link>
                                     <p>{{property.town.title}}</p>
                                 </div>
                             </div>
@@ -73,16 +85,19 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
             incomingRequests: [],
-            propertiesList: []
+            propertiesList: [],
+            authUser: ''
         }
     },
     mounted: function() {
         this.loadIncomingRequests();
         this.loadUserProperties();
+        this.getAuthUser();
     },
     methods: {
         loadIncomingRequests() {
@@ -114,7 +129,27 @@ export default {
                     'bookingId': booking.id
                 })
                 .then(this.loadIncomingRequests);
-        }
+        },
+        getAuthUser() {
+            axios
+                .get('/api/get-auth-user')
+                .then(({data}) => {
+                    this.authUser = data.authUser;
+                    console.log(this.authUser);
+                })
+        },
     }
 }
 </script>
+<style scoped>
+    .select-list-item {
+        color: black;
+    }
+    .nav-link {
+        color: white;
+    }
+    p {
+        font-size: 20px;
+        color: white;
+    }
+</style>
