@@ -17,7 +17,7 @@
         <div class="title m-b-md">
             InoTravel
         </div>
-        <form class="blur-form" @submit.prevent="getSearchInfo" method="get" action="/properties" enctype="multipart/form-data">
+        <form class="blur-form" @submit.prevent="console" method="get" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="flat-input col-md-12">
                     <selectpicker 
@@ -30,9 +30,11 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <date-picker v-model="search.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
+                <div class="col-md-12">
+                    <!-- <date-picker v-model="search.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker> -->
+                    <HotelDatePicker :value="date" :i18n="i18n" format="DD/MM/YYYY" v-on:dateChanged="getDate"></HotelDatePicker>
                 </div>
+                
             </div>
             <div class="row mb-5">
                 <div class="flat-input col-md-12">
@@ -51,9 +53,10 @@
 
 <script>
 import DatePicker from 'vue2-datepicker';
+import HotelDatePicker from 'vue-hotel-datepicker'
 
 export default {
-    components: {DatePicker},
+    components: {HotelDatePicker},
     data() {
         return {
             towns: [],
@@ -62,7 +65,16 @@ export default {
                 townId: '',
                 beds: ''
             },
-            authUser: ''
+            authUser: '',
+            date: '',
+            i18n: {
+                night: 'Ночь',
+                nights: 'Ночей',
+                'day-names': ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                'check-in': 'Заезд',
+                'check-out': 'Выезд',
+                'month-names': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            }
         };
     },
     mounted: function() {
@@ -110,6 +122,12 @@ export default {
                 .then(
                     this.$router.push({name: 'home'})
                 )
+        },
+        console() {
+            console.log(this.range);
+        },
+        getDate(date) {
+            console.log(this.date);
         }
     }
 }
