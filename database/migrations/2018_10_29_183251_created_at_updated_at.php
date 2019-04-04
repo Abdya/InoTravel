@@ -14,8 +14,7 @@ class CreatedAtUpdatedAt extends Migration
     public function up()
     {
         Schema::table('properties', function (Blueprint $table) {
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamps();
         });
     }
 

@@ -28,21 +28,22 @@
             </nav>
             <section class="jumbotron text-center">
                 <div class="container">
-                    <form method="get" style="max-width: 1080px">
+                    <form method="get" @submit.prevent="getSearchResultsFromPage" style="max-width: 1080px">
                         <div class="row">
-                            <div class="col">
+                            <div v-if="towns.length" class="col">
                                 <selectpicker 
                                 class="select-list-item" 
                                 :search="true" 
                                 :list="towns"
                                 placeholder="Куда едем?"
+                                v-model="townId"
                                 ></selectpicker>
                             </div>
                             <div class="flat-input col">
-                                <date-picker confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
+                                <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
                             </div>
                             <div class="flat-input col">
-                                <input class="form-control mb-4" placeholder="Гости" type="text">
+                                <input class="form-control mb-4" v-model="guests" placeholder="Гости" type="text">
                             </div>
                         </div>
                         <div class="row">
@@ -61,9 +62,12 @@
                     <div v-else :key="property.id" v-for="property in results" class="row">
                         <div class="col-md-4">
                             <div class="card mb-4 shadow-sm">
-                                <router-link :to="{ name: 'property', params: {id: property.id}}"><img class="card-img-top" :src="property.photo" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></router-link>
+                                <router-link :to="{ name: 'property', params: {id: property.id}}">
+                                    <img v-if="property.photo" class="card-img-top" :src="property.photo" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                                    <img v-else src="/picture/placeholder.png" class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="room placeholder">
+                                    </router-link>
                                 <div class="card-body">
-                                    <p class="card-text"><router-link :to="{ name: 'property', params: {id: property.id}}">{{property.title}}</router-link></p>
+                                    <p class="card-text"><router-link :to="{ name: 'property', params: {id: property.id}}"><b>{{property.title}}</b></router-link></p>
                                     <p class="card-text">{{townForShow.title}}</p>
                                     <p class="card-text">{{property.owner.firstName}}</p>
                                     <div class="d-flex justify-content-between align-items-center">
@@ -89,21 +93,35 @@
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker';
+import HotelDatePicker from 'vue-hotel-datepicker';
+import * as moment from 'moment-timezone';
 
 export default {
-    components: {DatePicker},
+    components: {HotelDatePicker},
     data() {
         return {
             towns: [],
             results: [],
             townForShow: [],
-            authUser: window.localStorage.getItem('user')
+            authUser: '',
+            i18n: {
+                night: 'Ночь',
+                nights: 'Ночей',
+                'day-names': ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                'check-in': 'Заезд',
+                'check-out': 'Выезд',
+                'month-names': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            },
+            townId: this.$route.query.townId,
+            startDate: '',
+            endDate: '',
+            guests: this.$route.query.guests,
         };
     },
     mounted: function() {
         this.getTowns();
         this.getSearchResults();
+        console.log(this.townId);
     },
     methods: {
         getTowns() {
@@ -123,8 +141,8 @@ export default {
             let data = {
                 townId: this.$route.query.townId,
                 guests: this.$route.query.guests,
-                startDate: (this.$route.query.startDate)/1000,
-                endDate: (this.$route.query.endDate)/1000,
+                startDate: this.$route.query.startDate,
+                endDate: this.$route.query.endDate,
             };
             axios
                 .post('/api/search', data)
@@ -133,12 +151,37 @@ export default {
                     this.townForShow = data.town;
                     console.log(data);
                 })
+        },
+        getSearchResultsFromPage() {
+            let data = {
+                townId: this.townId,
+                startDate: this.startDate,
+                endDate: this.endDate,
+                guests: this.guests
+            }
+
+            this.$router.push({name: 'searchresults', query: {
+                townId: data.townId,
+                guests: data.guests,
+                startDate: data.startDate,
+                endDate: data.endDate
+            }});
+            this.getSearchResults();
+        },
+        onCheckInChanged(checkIn) {
+            this.startDate = moment(checkIn).unix();
+        },
+        onCheckOutChanged(checkOut) {
+            this.endDate = moment(checkOut).unix();
         }
     }
 }
 </script>
 <style scoped>
     h2, p {
+        color: black;
+    }
+    .select-list-item {
         color: black;
     }
 </style>

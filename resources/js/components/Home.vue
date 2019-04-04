@@ -17,7 +17,7 @@
         <div class="title m-b-md">
             InoTravel
         </div>
-        <form class="blur-form" @submit.prevent="console" method="get" enctype="multipart/form-data">
+        <form class="blur-form" @submit.prevent="getSearchInfo" method="get" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="flat-input col-md-12">
                     <selectpicker 
@@ -32,7 +32,7 @@
             <div class="row mb-3">
                 <div class="col-md-12">
                     <!-- <date-picker v-model="search.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker> -->
-                    <HotelDatePicker :value="date" :i18n="i18n" format="DD/MM/YYYY" v-on:dateChanged="getDate"></HotelDatePicker>
+                    <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
                 </div>
                 
             </div>
@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker';
-import HotelDatePicker from 'vue-hotel-datepicker'
+import HotelDatePicker from 'vue-hotel-datepicker';
+import * as moment from 'moment-timezone';
 
 export default {
     components: {HotelDatePicker},
@@ -61,12 +61,12 @@ export default {
         return {
             towns: [],
             search: {
-                time: '',
+                checkIn: '',
+                checkOut: '',
                 townId: '',
                 beds: ''
             },
             authUser: '',
-            date: '',
             i18n: {
                 night: 'Ночь',
                 nights: 'Ночей',
@@ -97,8 +97,8 @@ export default {
         getSearchInfo() {
             let data = {
                 'guests': this.search.beds,
-                'startDate': this.search.time[0],
-                'endDate': this.search.time[1],
+                'startDate': this.search.checkIn,
+                'endDate': this.search.checkOut,
                 'townId': this.search.townId
             }
             this.$router.push({name: 'searchresults', query: {
@@ -113,7 +113,6 @@ export default {
                 .get('/api/get-auth-user')
                 .then(({data}) => {
                     this.authUser = data.authUser;
-                    console.log(this.authUser);
                 })
         },
         logout() {
@@ -123,12 +122,13 @@ export default {
                     this.$router.push({name: 'home'})
                 )
         },
-        console() {
-            console.log(this.range);
+        onCheckInChanged(checkIn) {
+            this.search.checkIn = moment(checkIn).unix();
         },
-        getDate(date) {
-            console.log(this.date);
+        onCheckOutChanged(checkOut) {
+            this.search.checkOut = moment(checkOut).unix();
         }
+        
     }
 }
 </script>
