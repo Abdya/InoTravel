@@ -15,6 +15,10 @@ import DatePicker from 'vue2-datepicker';
 
 import selectPicker from 'vue-selectpicker';
 
+import vSelect from 'vue-select';
+
+Vue.component('v-select', vSelect);
+
 Vue.use(require('vue-moment'));
 
 Vue.use(DatePicker);

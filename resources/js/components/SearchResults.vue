@@ -30,7 +30,7 @@
                 <div class="container">
                     <form method="get" @submit.prevent="getSearchResultsFromPage" style="max-width: 1080px">
                         <div class="row">
-                            <div v-if="towns.length" class="col">
+                            <div v-if="towns.length" class="col-md-3">
                                 <selectpicker 
                                 class="select-list-item" 
                                 :search="true" 
@@ -42,8 +42,8 @@
                             <div class="flat-input col">
                                 <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
                             </div>
-                            <div class="flat-input col">
-                                <input class="form-control mb-4" v-model="guests" placeholder="Гости" type="text">
+                            <div class="flat-input col-md-3">
+                                <v-select class="select-list-item" placeholder="Сколько гостей?" v-model="guests" :options="guestsForSelect"></v-select>
                             </div>
                         </div>
                         <div class="row">
@@ -116,6 +116,7 @@ export default {
             startDate: '',
             endDate: '',
             guests: this.$route.query.guests,
+            guestsForSelect: Array.apply(null, {length: 20}).map(Number.call, Number)
         };
     },
     mounted: function() {
@@ -183,5 +184,6 @@ export default {
     }
     .select-list-item {
         color: black;
+        background-color: white;
     }
 </style>
