@@ -23,6 +23,7 @@ Route::get('/get-features', 'API\PropertyController@getFeatures');
 Route::get('/get-towns', 'API\PropertyController@getTowns');
 Route::post('/image/store', 'API\PropertyController@imageStore');
 Route::post('/search', 'API\PropertyController@searchProperties');
+Route::get('/get-town', 'API\PropertyController@getTownsWherePropertyExist');
 
 
 

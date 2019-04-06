@@ -201,4 +201,13 @@ class PropertyController extends Controller
             'status' => 200
         ], 200);
     }
+
+    public function getTownsWherePropertyExist() {
+        $townIDs = Property::pluck('townId');
+        $towns = Town::whereIn('id', $townIDs)->get();
+        return response()->json([
+            'towns' => $towns,
+            'status' => 200
+        ], 200);
+    }
 }

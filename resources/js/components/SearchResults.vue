@@ -59,20 +59,22 @@
                     <div v-if="results.length == 0">
                         <h2> Ничего не найдено!</h2>
                     </div>
-                    <div v-else :key="property.id" v-for="property in results" class="row">
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                <router-link :to="{ name: 'property', params: {id: property.id}}">
-                                    <img v-if="property.photo" class="card-img-top" :src="property.photo" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                                    <img v-else src="/picture/placeholder.png" class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="room placeholder">
-                                    </router-link>
-                                <div class="card-body">
-                                    <p class="card-text"><router-link :to="{ name: 'property', params: {id: property.id}}"><b>{{property.title}}</b></router-link></p>
-                                    <p class="card-text">{{townForShow.title}}</p>
-                                    <p class="card-text">{{property.owner.firstName}}</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <router-link :to="{ name: 'property', params: {id: property.id}}">Посмотреть</router-link>
+                    <div v-else class="row">
+                        <div :key="property.id" v-for="property in results">
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm">
+                                    <router-link :to="{ name: 'property', params: {id: property.id}}">
+                                        <img v-if="property.photo" class="card-img-top" :src="property.photo" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                                        <img v-else src="/picture/placeholder.png" class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="room placeholder">
+                                        </router-link>
+                                    <div class="card-body">
+                                        <p class="card-text"><router-link :to="{ name: 'property', params: {id: property.id}}"><b>{{property.title}}</b></router-link></p>
+                                        <p class="card-text">{{townForShow.title}}</p>
+                                        <p class="card-text">{{property.owner.firstName}}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <router-link :to="{ name: 'property', params: {id: property.id}}">Посмотреть</router-link>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
