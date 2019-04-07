@@ -45,5 +45,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/edit', 'API\PropertyController@editProperty');
     Route::post('/book/{id}', 'API\BookingController@bookingRequest');
     Route::get('/get-auth-user', 'API\AuthController@getAuthUser');
+    Route::get('/requests', 'API\PropertyController@getUserRequestHistory');
 });
 

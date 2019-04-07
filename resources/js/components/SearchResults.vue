@@ -26,18 +26,19 @@
                     </li>
                 </ul>
             </nav>
-            <section class="jumbotron text-center">
+            <section class="jumbotron text-center mt-4">
                 <div class="container">
                     <form method="get" @submit.prevent="getSearchResultsFromPage" style="max-width: 1080px">
                         <div class="row">
                             <div v-if="towns.length" class="col-md-3">
-                                <selectpicker 
+                                <!-- <selectpicker 
                                 class="select-list-item" 
                                 :search="true" 
                                 :list="towns"
                                 placeholder="Куда едем?"
                                 v-model="townId"
-                                ></selectpicker>
+                                ></selectpicker> -->
+                                <v-select class="select-list-item" v-model="townId" label="name" :options="towns"></v-select>
                             </div>
                             <div class="flat-input col">
                                 <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
@@ -59,22 +60,20 @@
                     <div v-if="results.length == 0">
                         <h2> Ничего не найдено!</h2>
                     </div>
-                    <div v-else class="row">
+                    <div v-else class="card-deck">
                         <div :key="property.id" v-for="property in results">
-                            <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm">
-                                    <router-link :to="{ name: 'property', params: {id: property.id}}">
-                                        <img v-if="property.photo" class="card-img-top" :src="property.photo" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                                        <img v-else src="/picture/placeholder.png" class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="room placeholder">
-                                        </router-link>
-                                    <div class="card-body">
-                                        <p class="card-text"><router-link :to="{ name: 'property', params: {id: property.id}}"><b>{{property.title}}</b></router-link></p>
-                                        <p class="card-text">{{townForShow.title}}</p>
-                                        <p class="card-text">{{property.owner.firstName}}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <router-link :to="{ name: 'property', params: {id: property.id}}">Посмотреть</router-link>
-                                            </div>
+                            <div class="card mb-4 shadow-sm">
+                                <router-link :to="{ name: 'property', params: {id: property.id}}">
+                                    <img v-if="property.photo" class="card-img-top" :src="property.photo" width="339px" height="200px" alt="room">
+                                    <img v-else src="/picture/placeholder.png" class="card-img-top" width="339px" height="200px" alt="room placeholder">
+                                </router-link>
+                                <div class="card-body">
+                                    <h5 class="card-title"><router-link :to="{ name: 'property', params: {id: property.id}}">{{property.title}}</router-link></h5>
+                                    <p class="card-text">{{townForShow.title}}</p>
+                                    <p class="card-text">{{property.owner.firstName}}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <router-link class="btn btn-primary" :to="{ name: 'property', params: {id: property.id}}">Посмотреть</router-link>
                                         </div>
                                     </div>
                                 </div>
@@ -124,12 +123,11 @@ export default {
     mounted: function() {
         this.getTowns();
         this.getSearchResults();
-        console.log(this.townId);
     },
     methods: {
         getTowns() {
             axios
-                .get('/api/get-towns')
+                .get('/api/get-town')
                 .then(({data}) => {
                     this.towns = data.towns.map((town) => {
                         return {

@@ -27,16 +27,16 @@
         </nav>
         <div class="container float-left mb-5">
             <h2>Отправленные</h2>
-            <div class="container float-left mb-5">
+            <div :key="request.id" v-for="request in submittedReq" class="container float-left mb-5">
                 <div class="row mt-4 mb-5">
                     <div class="col-md-5">
-                        <img src="" width="100%" height="auto" alt="room">
+                        <img :src="request.photo" width="100%" height="auto" alt="room">
                     </div>
                     <div class="col-md-6">
                         <div class="clearfix">
                             <div class="row">
                                 <div class="col-md-6 property-description">
-                                    <p>Пушкино</p>
+                                    <p>{{request.title}}</p>
                                     <p>Таганрог</p>
                                     <p>Петр Васечкин</p>
                                     <p>12-10-1999 30-11-2018</p>
@@ -81,7 +81,23 @@
 export default {
     data() {
         return {
-            
+            authUser: '',
+            submittedReq: '',
+            recievedReq: ''
+        }
+    },
+    mounted: function() {
+        this.getUserRequestHistory();
+    },
+    methods: {
+        getUserRequestHistory() {
+            axios
+                .get('/api/requests')
+                .then(({data}) => {
+                    this.authUser = data.user;
+                    this.submittedReq = data.submittedRequests;
+                    this.recievedReq = data.recievedRequests;
+                })
         }
     }
 }

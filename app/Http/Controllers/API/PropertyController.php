@@ -205,8 +205,22 @@ class PropertyController extends Controller
     public function getTownsWherePropertyExist() {
         $townIDs = Property::pluck('townId');
         $towns = Town::whereIn('id', $townIDs)->get();
+
         return response()->json([
             'towns' => $towns,
+            'status' => 200
+        ], 200);
+    }
+
+    public function getUserRequestHistory() {
+        $user = Auth::user();
+        $submittedRequests = Booking::where('guestId', $user->id)->get();
+        $recievedRequests = Booking::join('properties', 'properties.id', '=', 'bookings.propertyId')->where('properties.ownerId', $user->id)->get();
+        
+        return response()->json([
+            'user' => $user,
+            'submittedRequests' => $submittedRequests,
+            'recievedRequests' => $recievedRequests,
             'status' => 200
         ], 200);
     }

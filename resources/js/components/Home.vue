@@ -74,7 +74,8 @@ export default {
                 'check-in': 'Заезд',
                 'check-out': 'Выезд',
                 'month-names': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-            }
+            },
+            guestsForSelect: Array.apply(null, {length: 20}).map(Number.call, Number)
         };
     },
     mounted: function() {
@@ -84,7 +85,7 @@ export default {
     methods: {
         getTowns() {
             axios
-                .get('/api/get-towns')
+                .get('/api/get-town')
                 .then(({data}) => {
                     this.towns = data.towns.map((town) => {
                         return {
