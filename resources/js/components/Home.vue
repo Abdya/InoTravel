@@ -20,7 +20,7 @@
         <form class="blur-form" @submit.prevent="getSearchInfo" method="get" enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="flat-input col-md-12">
-                    <selectpicker 
+                    <selectpicker
                     v-model="search.townId" 
                     class="select-list-item" 
                     :search="true" 
@@ -38,7 +38,8 @@
             </div>
             <div class="row mb-5">
                 <div class="flat-input col-md-12">
-                    <input v-model="search.beds" class="flat-input__input" placeholder="Гости" type="text">
+                    <input v-validate='"numeric"' name="guests" v-model="search.beds" class="flat-input__input" placeholder="Гости" type="text">
+                    <span>{{ errors.first('guests') }}</span>
                 </div>
             </div>
             <div class="row">
@@ -102,12 +103,16 @@ export default {
                 'endDate': this.search.checkOut,
                 'townId': this.search.townId
             }
-            this.$router.push({name: 'searchresults', query: {
-                townId: data.townId,
-                guests: data.guests,
-                startDate: data.startDate,
-                endDate: data.endDate
-            }});
+            if (this.fields.guests.valid) {
+
+                this.$router.push({name: 'searchresults', query: {
+                    townId: data.townId,
+                    guests: data.guests,
+                    startDate: data.startDate,
+                    endDate: data.endDate
+                }});
+            }
+            
         },
         getAuthUser() {
             axios

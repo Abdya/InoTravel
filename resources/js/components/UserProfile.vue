@@ -25,63 +25,69 @@
                 </li>
             </ul>
         </nav>
-        <div class="container">
+        <div class="container mt-5">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="row">
-                        <form method="post" @submit.prevent="changeInfo" class="container blur-form col-md-6" style="width: 1400px;  max-width: 1400px">
+                        <form method="post" @submit.prevent="changeInfo" class="container col-md-6" data-vv-scope="info" style="width: 1400px;  max-width: 1400px">
                             <div>
                                 <h2 class="mb-4">Редактировать данные</h2>
                             </div>
                             <div class="form-group row">
                                 <label for="firstName" class="col-sm-5 col-form-label">Имя</label>
                                 <div class="col-sm-10">
-                                    <input v-validate="'required|alpha'" type="text" class="form-control" v-model="formData.firstName" placeholder="Имя">
+                                    <input v-validate="'required|alpha'" type="text" name="firstName" class="form-control" v-model="formData.firstName" placeholder="Имя">
+                                    <span>{{ errors.first('info.firstName') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="lastName" class="col-sm-5 col-form-label">Фамилия</label>
                                 <div class="col-sm-10">
-                                    <input v-validate="'required|alpha'" type="text" class="form-control" v-model="formData.lastName" placeholder="Фамилия">
+                                    <input v-validate="'required|alpha'" type="text" name="lastName" class="form-control" v-model="formData.lastName" placeholder="Фамилия">
+                                    <span>{{ errors.first('info.lastName') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="email" class="col-sm-5 col-form-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input v-validate="'email'" data-vv-as="email" type="text" class="form-control" v-model="formData.email" placeholder="Email">
+                                    <input v-validate="'email'" type="text" class="form-control" name="email" v-model="formData.email" placeholder="Email">
+                                    <span>{{ errors.first('info.email') }}</span>
+                                    <p v-if="errorsBack['email']">{{errorsBack["email"][0]}}</p>
                                 </div>
                             </div>
                             <div class="text-left mb-3 mt-3">
                                 <button class="btn btn-outline-primary">Сохранить</button>
                             </div>
                         </form>
-                        <form method="post" @submit.prevent="changePass" class="container blur-form col-md-6" style="width: 1400px;  max-width: 1400px">
+                        <form method="post" @submit.prevent="changePass" class="container col-md-6" data-vv-scope="password" style="margin-letf:auto; margin-right:0">
                             <div>
                                 <h2 class="mb-4">Сменить пароль</h2>
                             </div>
                             <div class="form-group row">
-                                <label for="old_password" class="col-sm-5 col-form-label">Старый пароль</label>
+                                <label for="old_password" class="col-sm-5 col-form-label">Текущий пароль</label>
                                 <div class="col-sm-10">
-                                    <input v-validate="'required'" v-model="changePassData.oldPassword" type="password" class="form-control" data-vv-as='"Старый пароль"' name="old_password">
+                                    <input v-validate="'required'" v-model="changePassData.oldPassword" type="password" class="form-control" name="old_password">
                                 </div>
-                                <span v-show="errors.has('old_password')" class="help is-danger">{{ errors.first('old_password') }}</span>
+                                <span v-show="errors.has('old_password')" class="help is-danger">{{ errors.first('password.old_password') }}</span>
                             </div>
                             <div class="form-group row">
                                 <label for="password" class="col-sm-5 col-form-label">Новый пароль</label>
                                 <div class="col-sm-10">
-                                    <input v-validate="'required'" v-model="changePassData.password" data-vv-as="Новый пароль" type="password" class="form-control" name="password" ref="password">
+                                    <input v-validate="'required|min:6|max:1024'" v-model="changePassData.password" type="password" class="form-control" name="password" ref="password">
+                                    <span v-show="errors.has('password.password')" class="help is-danger">{{ errors.first('password.password') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="password_confirmation" class="col-sm-5 col-form-label">Повторите пароль</label>
                                 <div class="col-sm-10">
-                                    <input v-validate="'required|confirmed:password'" v-model="changePassData.repeatPassword" data-vv-as="Повторите пароль" type="password" class="form-control" name="password_confirmation">
+                                    <input v-validate="'required|confirmed:password'" v-model="changePassData.repeatPassword" type="password" class="form-control" name="password_confirmation">
                                 </div>
-                                <span v-show="errors.has('password_confirmation')" class="help is-danger">{{ errors.first('password_confirmation') }}</span>
+                                <span v-show="errors.has('password.password_confirmation')" class="help is-danger">{{ errors.first('password.password_confirmation') }}</span>
                             </div>
                             <div class="text-left mb-3 mt-3">
                                 <button class="btn btn-outline-primary">Сохранить</button>
                             </div>
+                            <p v-if="msg">{{msg}}</p>
                         </form>
                     </div>
                 </div>
@@ -97,7 +103,9 @@ export default {
             user: {},
             formData: {},
             changePassData: {},
-            authUser: ''
+            authUser: '',
+            errorsBack: {},
+            msg: ''
         };
     },
     mounted: function() {
@@ -120,15 +128,21 @@ export default {
                         'password': '',
                         'repeatPassword': ''
                     }
-                    console.log(data);
                 });
         },
         changeInfo() {
-            axios
-                .post('/api/profile/change-info', this.formData)
-                .then(({data}) => {
-                    console.log(data.response);
-                })
+            this.$validator.validateAll('info').then(result => {
+                if (result) {
+                    axios
+                        .post('/api/profile/change-info', this.formData)
+                        .then(({data}) => {
+                            console.log(data.response);
+                        })
+                        .catch(({response}) => {
+                            this.errorsBack = response.data.errors;
+                        });
+                    }
+            })  
         },
         changePass() {
             let changePass = {
@@ -136,13 +150,22 @@ export default {
                 'password': this.changePassData.password,
                 'repeatPassword': this.changePassData.repeatPassword
             };
-            axios
-                .post('/api/profile/change-pass', changePass)
-                .then(
-                    this.changePassData.oldPassword = '',
-                    this.changePassData.password = '',
-                    this.changePassData.repeatPassword = ''
-                )
+            this.$validator.validateAll('password').then(result => {
+                if (result) {
+                    axios
+                        .post('/api/profile/change-pass', changePass)
+                        .then(
+                            this.changePassData.oldPassword = '',
+                            this.changePassData.password = '',
+                            this.changePassData.repeatPassword = ''
+                        )
+                        .catch(({response}) => {
+                            if (response.data.statement == false) {
+                                this.msg = 'Введен неверный текущий пароль!'
+                            }
+                        });
+                }
+            })
         },
         getAuthUser() {
             axios

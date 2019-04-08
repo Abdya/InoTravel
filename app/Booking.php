@@ -16,6 +16,17 @@ class Booking extends Model
         return $this->belongsTo('App\User', 'guestId');
     }
 
+
+    public function town()
+    {
+        return $this->belongsTo('App\Town', 'townId');
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo('App\User', 'ownerId');
+    }
+
     protected $fillable = [
         'startDate',
         'endDate',

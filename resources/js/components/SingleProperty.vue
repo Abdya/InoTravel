@@ -25,7 +25,7 @@
                 </li>
             </ul>
         </nav>
-        <form method="post" enctype="multipart/form-data" class="container">
+        <form method="post" enctype="multipart/form-data" class="container mt-5">
             <div class="row">
                 <div class="col-md-4">
                     <img v-if="propertyInfo.photo" :src="propertyInfo.photo" width="100%" height="auto" alt="room">

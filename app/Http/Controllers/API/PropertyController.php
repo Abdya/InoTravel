@@ -203,8 +203,8 @@ class PropertyController extends Controller
     }
 
     public function getTownsWherePropertyExist() {
-        $townIDs = Property::pluck('townId');
-        $towns = Town::whereIn('id', $townIDs)->get();
+        $townIDs = Property::pluck('townId')->unique()->all();
+        $towns = Town::whereIn('id', $townIDs)->orderBy('title', 'asc')->get();
 
         return response()->json([
             'towns' => $towns,
@@ -214,13 +214,21 @@ class PropertyController extends Controller
 
     public function getUserRequestHistory() {
         $user = Auth::user();
-        $submittedRequests = Booking::where('guestId', $user->id)->get();
-        $recievedRequests = Booking::join('properties', 'properties.id', '=', 'bookings.propertyId')->where('properties.ownerId', $user->id)->get();
+        $submittedRequests = Booking::join('properties', 'properties.id', '=', 'bookings.propertyId')
+            ->where('guestId', $user->id)
+            ->with('owner')
+            ->with('town')
+            ->get();
+        $receivedRequests = Booking::join('properties', 'properties.id', '=', 'bookings.propertyId')
+            ->where('properties.ownerId', $user->id)
+            ->with('town')
+            ->with('user')
+            ->get();
         
         return response()->json([
             'user' => $user,
             'submittedRequests' => $submittedRequests,
-            'recievedRequests' => $recievedRequests,
+            'receivedRequests' => $receivedRequests,
             'status' => 200
         ], 200);
     }

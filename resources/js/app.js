@@ -25,7 +25,22 @@ Vue.use(DatePicker);
 
 Vue.use(selectPicker);
 
-Vue.use(VeeValidate);
+Vue.use(VeeValidate, {
+    classes: true
+});
+const dictionary = {
+    ru: {
+        attributes: {
+            firstName: '"Имя"',
+            lastName: '"Фамилия"',
+            email: '"Email"',
+            password: '"Пароль"',
+            password_confirmation: '"Повторите пароль"',
+            guests: '"Гости"'
+        }
+    }
+};
+Validator.localize(dictionary);
 Validator.localize('ru', ru);
 
 Vue.use(Vuetify);
