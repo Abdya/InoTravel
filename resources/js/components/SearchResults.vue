@@ -31,14 +31,14 @@
                     <form method="get" @submit.prevent="getSearchResultsFromPage" style="max-width: 1080px">
                         <div class="row">
                             <div v-if="towns.length" class="col-md-3">
-                                <!-- <selectpicker 
+                                <selectpicker 
                                 class="select-list-item" 
                                 :search="true" 
                                 :list="towns"
                                 placeholder="Куда едем?"
                                 v-model="townId"
-                                ></selectpicker> -->
-                                <v-select class="select-list-item" v-model="townId" label="name" :options="towns"></v-select>
+                                ></selectpicker>
+                                <!-- <v-select class="select-list-item" v-model="townId" label="name" :options="towns"></v-select> -->
                             </div>
                             <div class="flat-input col">
                                 <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>

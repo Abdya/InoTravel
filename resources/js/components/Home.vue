@@ -1,55 +1,71 @@
 <template>
-
+<div>
+        <nav>
+            <ul v-if="authUser == null" class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Войти</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
+                </li>
+            </ul> 
+            <ul v-else class="nav justify-content-center-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/requests">Заявки</router-link>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" @click="logout">Выйти</a>
+                </li>
+            </ul>
+        </nav>
     <div class="flex-center position-ref full-height">
-        <header class="top-right">
-            <div v-if="authUser == null" class="links">
-                <router-link to="/login">Войти</router-link>
-                <router-link to="/registration">Регистрация</router-link>
-                <router-link to="/login">Принять гостей</router-link>
+            <div class="content">
+            <div class="title m-b-md">
+                InoTravel
             </div>
-            <div v-else class="links">
-                <router-link to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
-                <router-link to="/myproperties">Мое жилье</router-link>
-                <router-link to="/requests">Заявки</router-link>
-            </div>
-        </header>
-        <div class="content">
-        <div class="title m-b-md">
-            InoTravel
-        </div>
-        <form class="blur-form" @submit.prevent="getSearchInfo" method="get" enctype="multipart/form-data">
-            <div class="row mb-3">
-                <div class="flat-input col-md-12">
-                    <selectpicker
-                    v-model="search.townId" 
-                    class="select-list-item" 
-                    :search="true" 
-                    :list="towns"
-                    placeholder="Куда едем?"
-                    ></selectpicker>
+            <form class="blur-form" @submit.prevent="getSearchInfo" method="get" enctype="multipart/form-data">
+                <div class="row mb-3">
+                    <div class="flat-input col-md-12">
+                        <selectpicker
+                        v-model="search.townId" 
+                        class="select-list-item" 
+                        :search="true" 
+                        :list="towns"
+                        placeholder="Куда едем?"
+                        ></selectpicker>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <!-- <date-picker v-model="search.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker> -->
-                    <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <!-- <date-picker v-model="search.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker> -->
+                        <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
+                    </div>
+                    
                 </div>
-                
-            </div>
-            <div class="row mb-5">
-                <div class="flat-input col-md-12">
-                    <input v-validate='"numeric"' name="guests" v-model="search.beds" class="flat-input__input" placeholder="Гости" type="text">
-                    <span>{{ errors.first('guests') }}</span>
+                <div class="row mb-5">
+                    <div class="flat-input col-md-12">
+                        <v-select class="select-list-item" placeholder="Сколько гостей?" v-model="search.beds" :options="guestsForSelect"></v-select>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg">Начать поиск</button>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-primary btn-lg">Начать поиск</button>
+                    </div>
                 </div>
+            </form>
             </div>
-        </form>
         </div>
     </div>
+    
 </template>
 
 <script>
@@ -67,7 +83,7 @@ export default {
                 townId: '',
                 beds: ''
             },
-            authUser: '',
+            authUser: null,
             i18n: {
                 night: 'Ночь',
                 nights: 'Ночей',
@@ -103,15 +119,13 @@ export default {
                 'endDate': this.search.checkOut,
                 'townId': this.search.townId
             }
-            if (this.fields.guests.valid) {
 
-                this.$router.push({name: 'searchresults', query: {
-                    townId: data.townId,
-                    guests: data.guests,
-                    startDate: data.startDate,
-                    endDate: data.endDate
-                }});
-            }
+            this.$router.push({name: 'searchresults', query: {
+                townId: data.townId,
+                guests: data.guests,
+                startDate: data.startDate,
+                endDate: data.endDate
+            }});
             
         },
         getAuthUser() {
@@ -120,13 +134,14 @@ export default {
                 .then(({data}) => {
                     this.authUser = data.authUser;
                 })
+                .catch()
         },
         logout() {
             axios
                 .post('/api/logout')
                 .then(
                     this.$router.push({name: 'home'})
-                )
+                );
         },
         onCheckInChanged(checkIn) {
             this.search.checkIn = moment(checkIn).unix();
@@ -141,9 +156,13 @@ export default {
 <style>
     .select-list-item {
         color: black;
+        background-color: white;
     }
     html, body {
         background-image: url("/picture/main_background.jpg");
         background-size: cover;
 }
+.nav-link {
+        color: white;
+    }
 </style>

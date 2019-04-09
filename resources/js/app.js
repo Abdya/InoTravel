@@ -36,7 +36,9 @@ const dictionary = {
             email: '"Email"',
             password: '"Пароль"',
             password_confirmation: '"Повторите пароль"',
-            guests: '"Гости"'
+            guests: '"Гости"',
+            address: '"Адрес"',
+            title: '"Название"'
         }
     }
 };
@@ -58,6 +60,11 @@ Vue.component(
 Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue')
+);
+
+Vue.component(
+    'navbar',
+    require('./components/Navbar.vue')
 );
 
 window.auth = auth;

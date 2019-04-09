@@ -13,6 +13,7 @@ use App\Feature;
 use App\Town;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PropertyController extends Controller
 {
@@ -78,6 +79,28 @@ class PropertyController extends Controller
 
     public function createProperty() {
         $town = Town::find(request('townId'));
+        $data = [
+            'title' => request('title'),
+            'beds' => request('beds'),
+            'address' => request('address'),
+            'extraInformation' => request('extraInformation'),
+            'photo' => request('photo'),
+        ];
+        $validator = Validator::make($data, [
+            'title' => 'required|string|min:5|max:60',
+            'beds' => 'required|numeric|max:20',
+            'address' => 'required|string|min:5|max:80',
+            'extraInformation' => 'nullable|string|max:1024',
+            'photo' => 'url',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
         $property = new Property(array(
             'title' => request('title'),
             'beds' => request('beds'),

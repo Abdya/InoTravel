@@ -27,14 +27,14 @@
         </nav>
         <form method="post" enctype="multipart/form-data" class="container mt-5">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <img v-if="propertyInfo.photo" :src="propertyInfo.photo" width="100%" height="auto" alt="room">
                     <img v-else src="/picture/300.jpg" width="100%" height="auto" alt="room">
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <p style="word-break: break-all; max-width: 100%">{{propertyInfo.title}}</p>
                                 <p>{{town.title}}</p>
                                 <p>Спальных мест: <span>{{propertyInfo.beds}}</span></p>
@@ -47,13 +47,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-4">
+                            <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-6">
                                 <h3 class="mb-3">Бронирование</h3>
-                                <div class="col-md-6 mb-3">
-                                    <date-picker v-model="booking.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker>
+                                <div class="col-md-12 mb-3">
+                                    <!-- <date-picker v-model="booking.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker> -->
+                                    <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
                                 </div>
-                                <div class="flat-input mb-3">
-                                    <input class="flat-input__input" v-model="booking.guests" placeholder="Гости" type="text">
+                                <div class="mb-3">
+                                    <v-select class="select-list-item" placeholder="Сколько гостей?" v-model="booking.guests" :options="guestsForSelect"></v-select>
                                 </div>
                                 <div class="text-center">
                                     <button type="button" @click="bookingRequest" class="btn btn-primary">Забронировать</button>
@@ -83,10 +84,11 @@
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker';
+import HotelDatePicker from 'vue-hotel-datepicker';
+import * as moment from 'moment-timezone';
 
 export default {
-    components: {DatePicker},
+    components: {HotelDatePicker},
     data() {
         return {
             propertyId: '',
@@ -94,10 +96,20 @@ export default {
             authUser: [],
             town: [],
             booking: {
-                time: '',
+                startDate: '',
+                endDate: '',
                 guests: ''
             },
-            msg: ''
+            msg: '',
+            guestsForSelect: Array.apply(null, {length: 20}).map(Number.call, Number),
+            i18n: {
+                night: 'Ночь',
+                nights: 'Ночей',
+                'day-names': ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                'check-in': 'Заезд',
+                'check-out': 'Выезд',
+                'month-names': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            },
         }
     },
     mounted: function() {
@@ -128,8 +140,8 @@ export default {
                 this.$router.push({name: 'login'});
             }
             let data = {
-                'startDate': (this.booking.time[0])/1000,
-                'endDate': (this.booking.time[1])/1000,
+                'startDate': this.booking.startDate,
+                'endDate': this.booking.endDate,
                 'guests': this.booking.guests,
                 'guestId': this.authUser.id
             };
@@ -143,6 +155,12 @@ export default {
                     this.msg = response.data.msg;
                     console.log(response);
                 })
+        },
+        onCheckInChanged(checkIn) {
+            this.booking.startDate = moment(checkIn).unix();
+        },
+        onCheckOutChanged(checkOut) {
+            this.booking.endDate = moment(checkOut).unix();
         }
     }
 }
@@ -174,5 +192,9 @@ export default {
     p {
         font-size: 20px;
         color: white;
+    }
+    .select-list-item {
+        color: black;
+        background-color: white;
     }
 </style>

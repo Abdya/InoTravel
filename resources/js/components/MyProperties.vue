@@ -1,36 +1,15 @@
 <template>
     <div>
-        <nav class="navbar navbar-dark bg-dark">
-            <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <ul v-if="authUser == null" class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Войти</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                </li>
-            </ul> 
-            <ul v-else class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/requests">Заявки</router-link>
-                </li>
-            </ul>
-        </nav>
+        <navbar></navbar>
         <div v-if="propertiesList.length == 0" class="text-center">
             <h2>Вы еще не создали ни одного профиля жилья!</h2>
             <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
         </div>
         <div class="container float-left mb-5">
             <h2 class="mt-5 mb-5">Заявки</h2>
+            <div v-if="incomingRequests.length == 0" class="text-center">
+                <h3>У вас нет входящих заявок!</h3>
+            </div>
             <div class="container float-left mb-5">
                 <div :key="request.id" v-for="request in incomingRequests" class="row mb-5">
                     <div class="col-md-5">
@@ -85,8 +64,9 @@
 </template>
 
 <script>
-
+import Navbar from './Navbar.vue'
 export default {
+    components: {Navbar},
     data() {
         return {
             incomingRequests: [],

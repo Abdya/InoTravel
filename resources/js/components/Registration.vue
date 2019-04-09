@@ -9,27 +9,30 @@
             <div class="title m-b-md">
                 Регистрация
             </div>
-            <form method="post" class="reg-form blur-form" enctype="multipart/form-data" @submit.prevent="register" style="max-width: 500px">
+            <form method="post" class="reg-form blur-form" data-vv-scope="register" enctype="multipart/form-data" @submit.prevent="register" style="max-width: 500px" novalidate>
                 <div class="row mb-5">
                     <div class="flat-input col-md-12 mb-3">
-                        <input class="flat-input__input" v-model="firstName" name="firstName" placeholder="Имя" type="text">
-                        <p v-if="errors['firstName']">{{errors["firstName"][0]}}</p>
+                        <input class="flat-input__input" v-validate="'required|alpha|min:2|max:60'" v-model="firstName" name="firstName" placeholder="Имя" type="text">
+                        <p v-if="errorsBack['firstName']">{{errorsBack["firstName"][0]}}</p>
+                        <span>{{ errors.first('register.firstName') }}</span>
                     </div>
                     <div class="flat-input col-md-12 mb-3">
-                        <input class="flat-input__input" v-model="lastName" name="lastName" placeholder="Фамилия" type="text">
-                        <p v-if="errors['lastName']">{{errors["lastName"][0]}}</p>
+                        <input class="flat-input__input" v-validate="'required|alpha|min:2|max:60'" v-model="lastName" name="lastName" placeholder="Фамилия" type="text">
+                        <p v-if="errorsBack['lastName']">{{errorsBack["lastName"][0]}}</p>
+                        <span>{{ errors.first('register.lastName') }}</span>
                     </div>
                     <div class="flat-input col-md-12 mb-3">
-                        <input class="flat-input__input" v-model="email" name="email" placeholder="Email" type="email">
-                        <p v-if="errors['email']">{{errors["email"][0]}}</p>
+                        <input class="flat-input__input" v-validate="'required|email'" v-model="email" name="email" placeholder="Email" type="email">
+                        <p v-if="errorsBack['email']">{{errorsBack["email"][0]}}</p>
+                        <span>{{ errors.first('register.email') }}</span>
                     </div>
                     <div class="flat-input col-md-12">
-                        <input class="flat-input__input" v-model="password" name="password" placeholder="Пароль" type="password">
-                        <p v-if="errors['password']">{{errors["password"][0]}}</p>
+                        <input class="flat-input__input" v-validate="'required'" v-model="password" name="password" placeholder="Пароль" type="password">
+                        <p v-if="errorsBack['password']">{{errorsBack["password"][0]}}</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 text-center">
                         <button class="btn btn-primary btn-lg">Зарегистрироваться!</button>
                     </div>
                 </div>
@@ -46,7 +49,7 @@ export default {
             lastName: '',
             email: '',
             password: '',
-            errors: {},
+            errorsBack: {}
         };
     },
 
@@ -58,28 +61,30 @@ export default {
                 email: this.email,
                 password: this.password
             };
-
-            axios.post('/api/register', data)
-                .then(({data}) => {
-                    axios.post('/api/login', {
-                        username: this.email,
-                        password: this.password
-                    })
+            this.$validator.validateAll('register').then(result => {
+                if (result) {
+                    axios.post('/api/register', data)
                         .then(({data}) => {
-                            auth.login(data.token, data.user);
+                            axios.post('/api/login', {
+                                username: this.email,
+                                password: this.password
+                            })
+                                .then(({data}) => {
+                                    auth.login(data.token, data.user);
 
-                            this.$router.push('/profile');
+                                    this.$router.push('/profile');
+                                })
+                                .catch(({response}) => {
+                                    alert(response.data.message)
+                                })
                         })
                         .catch(({response}) => {
-                            alert(response.data.message)
-                        })
+                            this.errorsBack = response.data.errors;
+                            console.log(response);
+                        });
+                    }
                 })
-                .catch(({response}) => {
-                    this.errors = response.data.errors;
-                    console.log(response);
-                })
+            }
         }
     }
-
-}
 </script>

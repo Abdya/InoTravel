@@ -18,8 +18,8 @@ class UserController extends Controller
             'email' => request('email')
         ];
         $validator = Validator::make($data, [
-            'firstName' => 'required|string|max:60',
-            'lastName' => 'required|string|max:60',
+            'firstName' => 'required|string|min:2|max:60',
+            'lastName' => 'required|string|min:2|max:60',
             'email' => 'required|string|email|max:255|unique:users',
         ]);
 

@@ -25,12 +25,12 @@
                 </li>
             </ul>
         </nav>
-        <form v-if="updatedPropertyInfo.townId && towns.length && features.length" method="post" @submit.prevent="editProperty" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
+        <form v-if="updatedPropertyInfo.townId && towns.length && features.length" data-vv-scope="edit" method="post" @submit.prevent="editProperty" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
             <div class="row">
                 <div class="col-md-2 mt-4">
                     <img v-if="image" :src="image" width="100%" height="auto" alt="room" class="mb-4">
                     <img v-else :src="updatedPropertyInfo.photo" alt="room" width="100%" height="auto" class="mb-4">
-                    <input type="file" v-on:change="onImageChange" class="form-control mb-3">
+                    <input type="file" v-on:change="onImageChange" class="mb-3">
                     <button type="button" class="btn btn-success btn-block" @click="uploadImage">Upload image</button>
                 </div>
                 <div class="col-md-8">
@@ -39,13 +39,14 @@
                             <div class="form-group row">
                                 <label for="title" class="col-sm-5 col-form-label">Название:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" v-model="updatedPropertyInfo.title" placeholder="Название">
+                                    <input type="text" v-validate="'required|alpha_spaces|min:5|max:60'" name="title" class="form-control" v-model="updatedPropertyInfo.title" placeholder="Название">
+                                    <span>{{ errors.first('edit.title') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="beds" class="col-md-12 col-form-label">Количество cпальных мест:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" v-model="updatedPropertyInfo.beds" placeholder="Количество спальных мест">
+                                    <v-select class="select-list-item" placeholder="Количество спальных мест" v-model="updatedPropertyInfo.beds" :options="guestsForSelect"></v-select>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -67,7 +68,8 @@
                                 <div class="form-group row">
                                     <label for="address" class="col-sm-5 col-form-label">Адрес:</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" v-model="updatedPropertyInfo.address" placeholder="Улица, дом, квартира">
+                                        <input type="text" class="form-control" v-validate="'required|min:5|max:80'" name="address" v-model="updatedPropertyInfo.address" placeholder="Улица, дом, квартира">
+                                        <span>{{ errors.first('edit.address') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +112,8 @@ export default {
             },
             image: '',
             imagePath: '',
-            authUser: ''
+            authUser: '',
+            guestsForSelect: Array.apply(null, {length: 20}).map(Number.call, Number)
         }
     },
     mounted: function() {
@@ -118,6 +121,9 @@ export default {
         this.getTowns();
         this.getPropertyInfo();
         this.getAuthUser();
+        setInterval(() => {
+            console.log(this.imagePath);
+        }, 1000);
     },
     methods: {
         getFeatures() {
@@ -126,9 +132,6 @@ export default {
                 .then(({data}) => {
                     this.features = data.features
                 });
-        },
-        showSelectedFeatures() {
-            console.log(this.updatedPropertyInfo.features);
         },
         getTowns() {
             axios
@@ -155,10 +158,12 @@ export default {
                         return feature.id;
                     });
                     this.updatedPropertyInfo.photo = data.property.photo;
-                    console.log(this.updatedPropertyInfo.features);
+                    console.log(this.updatedPropertyInfo);
                 });
         },
         editProperty() {
+            console.log(this.updatedPropertyInfo);
+            console.log(this.imagePath);
             let data = {
                 'title': this.updatedPropertyInfo.title,
                 'beds': this.updatedPropertyInfo.beds,
@@ -166,14 +171,19 @@ export default {
                 'townId': this.updatedPropertyInfo.townId,
                 'extraInformation': this.updatedPropertyInfo.extraInformation,
                 'features': this.updatedPropertyInfo.features,
-                'photo': this.imagePath != null ? this.imagePath : this.updatedPropertyInfo.photo,
+                'photo': this.imagePath ? this.imagePath : this.updatedPropertyInfo.photo,
                 'propertyId': this.$route.params.id
             };
-            axios
-                .post('/api/edit', data)
-                .then(({data}) => {
-                    this.$router.push({name: 'property', params: { id: data.propertyId}});
-                });
+            this.$validator.validateAll('edit').then(result => {
+                if (result) {
+                    axios
+                        .post('/api/edit', data)
+                        .then(({data}) => {
+                            this.$router.push({name: 'property', params: { id: data.propertyId}});
+                        });
+                }
+            })
+            
         },
         onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
@@ -202,7 +212,6 @@ export default {
                 .get('/api/get-auth-user')
                 .then(({data}) => {
                     this.authUser = data.authUser;
-                    console.log(this.authUser);
                 })
         }
     }
@@ -211,6 +220,7 @@ export default {
 <style scoped>
     .select-list-item {
         color: black;
+        background-color: white;
     }
     .nav-link {
         color: white;

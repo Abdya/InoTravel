@@ -25,7 +25,7 @@
                 </li>
             </ul>
         </nav>
-        <form  method="post" @submit.prevent="createProperty" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
+        <form  method="post" @submit.prevent="createProperty" data-vv-scope="create" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
             <div class="row">
                 <div class="col-md-3 mt-4">
                     <img v-if="image" :src="image" width="100%" height="auto" alt="room" class="mb-4">
@@ -38,13 +38,14 @@
                             <div class="form-group row">
                                 <label for="title" class="col-sm-5 col-form-label">Название:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" v-model="propertyInfo.title" placeholder="Название">
+                                    <input type="text" class="form-control" v-validate="'required|alpha_spaces|min:5|max:60'" name="title" v-model="propertyInfo.title" placeholder="Название">
+                                    <span>{{ errors.first('create.title') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="beds" class="col-md-12 col-form-label">Количество cпальных мест:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" v-model="propertyInfo.beds" placeholder="Количество спальных мест">
+                                    <v-select class="select-list-item" placeholder="Количество спальных мест" v-model="propertyInfo.beds" :options="guestsForSelect"></v-select>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -66,7 +67,8 @@
                                 <div class="form-group row">
                                     <label for="address" class="col-md-7 col-form-label">Адрес:</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" v-model="propertyInfo.address" placeholder="Улица, дом, квартира">
+                                        <input type="text" class="form-control" v-validate="'required|min:5|max:80'" name="address" v-model="propertyInfo.address" placeholder="Улица, дом, квартира">
+                                        <span>{{ errors.first('create.address') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +110,8 @@ export default {
             },
             image: '',
             imagePath: '',
-            authUser: ''
+            authUser: '',
+            guestsForSelect: Array.apply(null, {length: 20}).map(Number.call, Number)
         }
     },
     mounted: function() {
@@ -189,6 +192,7 @@ export default {
 <style scoped>
     .select-list-item {
         color: black;
+        background-color: white;
     }
     .nav-link {
         color: white;
