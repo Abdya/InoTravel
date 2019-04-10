@@ -1,7 +1,7 @@
 <template>
 <div>
-        <nav>
-            <ul v-if="authUser == null" class="nav justify-content-center-end">
+        <nav class="mt-2">
+            <ul v-if="authUser == null" class="nav justify-content-end">
                 <li class="nav-item">
                     <router-link class="nav-link" to="/login">Войти</router-link>
                 </li>
@@ -12,7 +12,7 @@
                     <router-link class="nav-link" to="/login">Принять гостей</router-link>
                 </li>
             </ul> 
-            <ul v-else class="nav justify-content-center-end">
+            <ul v-else class="nav justify-content-end">
                 <li class="nav-item">
                     <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
                 </li>
@@ -28,7 +28,7 @@
             </ul>
         </nav>
     <div class="flex-center position-ref full-height">
-            <div class="content">
+        <div class="content">
             <div class="title m-b-md">
                 InoTravel
             </div>
@@ -92,7 +92,7 @@ export default {
                 'check-out': 'Выезд',
                 'month-names': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
             },
-            guestsForSelect: Array.apply(null, {length: 20}).map(Number.call, Number)
+            guestsForSelect: Array.from(Array(20), (x, index) => index + 1)
         };
     },
     mounted: function() {
@@ -140,6 +140,7 @@ export default {
             axios
                 .post('/api/logout')
                 .then(
+                    this.authUser = null,
                     this.$router.push({name: 'home'})
                 );
         },

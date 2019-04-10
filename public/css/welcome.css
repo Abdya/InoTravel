@@ -1,11 +1,12 @@
 
 html, body {
-    background-size: 100%;
     color: #f3fbff;
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
     margin: 0;
     background-color: rgb(152, 152, 152);
+    background-image: url("/picture/main_background.jpg");
+    background-size: cover;
 }
 
 
@@ -95,4 +96,8 @@ html, body {
     background-color: rgba(0, 0, 0, 0.3);
     padding: 20px;
     border-radius: 20px;
+}
+
+.jumbotron label, .jumbotron h2, .jumbotron input {
+    color: black;
 }

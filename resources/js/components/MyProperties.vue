@@ -1,7 +1,7 @@
 <template>
     <div>
         <navbar></navbar>
-        <div v-if="propertiesList.length == 0" class="text-center">
+        <div v-if="propertiesList.length == 0" class=" mt-5 text-center">
             <h2>Вы еще не создали ни одного профиля жилья!</h2>
             <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
         </div>

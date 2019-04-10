@@ -1,30 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-dark bg-dark">
-            <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <ul v-if="authUser == null" class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Войти</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                </li>
-            </ul> 
-            <ul v-else class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/requests">Заявки</router-link>
-                </li>
-            </ul>
-        </nav>
+        <navbar></navbar>
         <form method="post" enctype="multipart/form-data" class="container mt-5">
             <div class="row">
                 <div class="col-md-3">
@@ -86,9 +62,10 @@
 <script>
 import HotelDatePicker from 'vue-hotel-datepicker';
 import * as moment from 'moment-timezone';
+import Navbar from './Navbar.vue';
 
 export default {
-    components: {HotelDatePicker},
+    components: {HotelDatePicker, Navbar},
     data() {
         return {
             propertyId: '',

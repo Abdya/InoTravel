@@ -1,33 +1,9 @@
 <template>
     <div>
-        <nav class="navbar navbar-dark bg-dark">
-            <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <ul v-if="authUser == null" class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Войти</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                </li>
-            </ul> 
-            <ul v-else class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/requests">Заявки</router-link>
-                </li>
-            </ul>
-        </nav>
-        <div class="container float-left mb-5">
+        <navbar></navbar>
+        <div class="container mt-5 float-left mb-5">
             <h2>Отправленные</h2>
-            <div v-if="submittedReq !== null">
+            <div v-if="submittedReq.length > 0">
                 <div :key="request.id" v-for="request in submittedReq" class="container float-left mb-5">
                     <div class="row mt-4 mb-5">
                         <div class="col-md-5">
@@ -60,7 +36,7 @@
         </div>
         <div class="container float-left mb-5">
             <h2>Полученные</h2>
-            <div v-if="recievedReq">
+            <div v-if="receivedReq.length > 0">
                 <div :key="request.id" v-for="request in receivedReq" class="container float-left mb-5">
                     <div class="row mt-4 mb-5">
                         <div class="col-md-5">
@@ -94,12 +70,13 @@
     </div>
 </template>
 <script>
+import Navbar from './Navbar.vue'
 export default {
+    components: {Navbar},
     data() {
         return {
-            authUser: '',
-            submittedReq: '',
-            recievedReq: ''
+            submittedReq: [],
+            receivedReq: []
         }
     },
     mounted: function() {
@@ -110,7 +87,6 @@ export default {
             axios
                 .get('/api/requests')
                 .then(({data}) => {
-                    this.authUser = data.user;
                     this.submittedReq = data.submittedRequests;
                     this.receivedReq = data.receivedRequests;
                 })

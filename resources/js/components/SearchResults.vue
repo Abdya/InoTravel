@@ -1,31 +1,7 @@
 <template>
     <div>
         <main role="main">
-            <nav class="navbar navbar-dark bg-dark">
-                <router-link class="navbar-brand" to="/">InoTravel</router-link>
-                <ul v-if="authUser == null" class="nav justify-content-center-end">
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/login">Войти</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                    </li>
-                </ul> 
-                <ul v-else class="nav justify-content-center-end">
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/requests">Заявки</router-link>
-                    </li>
-                </ul>
-            </nav>
+            <navbar></navbar>
             <section class="jumbotron text-center mt-4">
                 <div class="container">
                     <form method="get" @submit.prevent="getSearchResultsFromPage" style="max-width: 1080px">
@@ -38,7 +14,6 @@
                                 placeholder="Куда едем?"
                                 v-model="townId"
                                 ></selectpicker>
-                                <!-- <v-select class="select-list-item" v-model="townId" label="name" :options="towns"></v-select> -->
                             </div>
                             <div class="flat-input col">
                                 <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
@@ -96,9 +71,10 @@
 <script>
 import HotelDatePicker from 'vue-hotel-datepicker';
 import * as moment from 'moment-timezone';
+import Navbar from './Navbar.vue'
 
 export default {
-    components: {HotelDatePicker},
+    components: {HotelDatePicker, Navbar},
     data() {
         return {
             towns: [],
@@ -117,7 +93,7 @@ export default {
             startDate: '',
             endDate: '',
             guests: this.$route.query.guests,
-            guestsForSelect: Array.apply(null, {length: 20}).map(Number.call, Number)
+            guestsForSelect: Array.from(Array(20), (x, index) => index + 1)
         };
     },
     mounted: function() {

@@ -17,6 +17,10 @@ import selectPicker from 'vue-selectpicker';
 
 import vSelect from 'vue-select';
 
+import VModal from 'vue-js-modal';
+
+Vue.use(VModal);
+
 Vue.component('v-select', vSelect);
 
 Vue.use(require('vue-moment'));

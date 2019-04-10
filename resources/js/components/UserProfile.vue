@@ -1,31 +1,7 @@
 <template>
     <div>
-        <nav class="navbar navbar-dark bg-dark">
-            <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <ul v-if="authUser == null" class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Войти</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                </li>
-            </ul> 
-            <ul v-else class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/requests">Заявки</router-link>
-                </li>
-            </ul>
-        </nav>
-        <div class="container mt-5">
+        <navbar></navbar>
+        <div class="container mt-5 jumbotron">
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
@@ -56,7 +32,10 @@
                                 </div>
                             </div>
                             <div class="text-left mb-3 mt-3">
-                                <button class="btn btn-outline-primary">Сохранить</button>
+                                <button class="btn btn-primary">Сохранить</button>
+                                <modal name="hello-world">
+                                    hello, world!
+                                </modal>
                             </div>
                         </form>
                         <form method="post" @submit.prevent="changePass" class="container col-md-6" data-vv-scope="password" style="margin-letf:auto; margin-right:0">
@@ -85,7 +64,7 @@
                                 <span v-show="errors.has('password.password_confirmation')" class="help is-danger">{{ errors.first('password.password_confirmation') }}</span>
                             </div>
                             <div class="text-left mb-3 mt-3">
-                                <button class="btn btn-outline-primary">Сохранить</button>
+                                <button class="btn btn-primary">Сохранить</button>
                             </div>
                             <p v-if="msg">{{msg}}</p>
                         </form>
@@ -97,7 +76,9 @@
 </template>
 
 <script>
+import Navbar from './Navbar.vue';
 export default {
+    components: {Navbar},
     data() {
         return {
             user: {},
@@ -110,7 +91,6 @@ export default {
     },
     mounted: function() {
         this.takeUserData();
-        this.getAuthUser();
     },
     methods: {
         takeUserData() {
@@ -167,22 +147,12 @@ export default {
                 }
             })
         },
-        getAuthUser() {
-            axios
-                .get('/api/get-auth-user')
-                .then(({data}) => {
-                    this.authUser = data.authUser;
-                    console.log(this.authUser);
-                })
+        show () {
+            this.$modal.show('hello-world');
+        },
+        hide () {
+            this.$modal.hide('hello-world');
         }
     }
 }
 </script>
-<style scoped>
-    .select-list-item {
-        color: black;
-    }
-    .nav-link {
-        color: white;
-    }
-</style>

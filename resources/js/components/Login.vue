@@ -1,10 +1,19 @@
 <template>
+<div>
+    <nav class="mt-2">
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Войти</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
+                </li>
+            </ul>
+    </nav>
     <div class="flex-center position-ref full-height">
-        <div class="top-right links">
-            <router-link to="/login">Войти</router-link>
-            <router-link to="/registration">Регистрация</router-link>
-            <router-link to="/login">Принять гостей</router-link>
-        </div>
         <div class="content blur-form">
             <div class="title m-b-md">
                 Войти
@@ -21,20 +30,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 text-left">
-                        <router-link to="/reset" class="forget-pass"><h5>Забыли пароль?</h5></router-link>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-12">
                         <router-link to="/registration" class="btn btn-primary btn-lg">Зарегистрироваться</router-link>
                         ИЛИ
                         <button class="btn btn-primary btn-lg">Войти</button>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-md-12 text-left">
+                        <router-link to="/reset" class="forget-pass"><h5>Забыли пароль?</h5></router-link>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
+</div>
+    
 </template>
 
 <script>
@@ -66,3 +77,8 @@ export default {
     }
 }
 </script>
+<style>
+    .nav-link {
+        color: white;
+    }
+</style>
