@@ -20,7 +20,7 @@
                     <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/requests">Заявки</router-link>
+                    <router-link class="nav-link" to="/requests">Заявки <span v-if="requestQuantity > 0" class="badge badge-light">{{requestQuantity}}</span></router-link>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" @click="logout">Выйти</a>
@@ -32,11 +32,13 @@
 export default {
     data() {
         return {
-            authUser: null
+            authUser: null,
+            requestQuantity: ''
         }
     },
     mounted: function() {
         this.getAuthUser();
+        this.getRequestQuantity();
     },
     methods: {
         getAuthUser() {
@@ -52,6 +54,14 @@ export default {
                 .then(
                     this.$router.push({name: 'home'})
                 );
+        },
+        getRequestQuantity() {
+            axios
+                .get('/api/get-requests')
+                .then(({data}) => {
+                    this.requestQuantity = (data.requests).length;
+                    console.log(this.requestQuantity)
+                })
         }
     }
 }

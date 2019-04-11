@@ -5,10 +5,10 @@
             <h2>Вы еще не создали ни одного профиля жилья!</h2>
             <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
         </div>
-        <div class="container float-left mb-5">
-            <h2 class="mt-5 mb-5">Заявки</h2>
+        <div class="container mt-4 jumbotron float-left mb-5">
+            <h2 class="mb-5">Заявки</h2>
             <div v-if="incomingRequests.length == 0" class="text-center">
-                <h3>У вас нет входящих заявок!</h3>
+                <h2>У вас нет входящих заявок!</h2>
             </div>
             <div class="container float-left mb-5">
                 <div :key="request.id" v-for="request in incomingRequests" class="row mb-5">
@@ -38,21 +38,21 @@
                 </div>
             </div>
         </div>
-        <div class="container float-left mb-5">
+        <div class="container jumbotron float-left mb-5">
             <h2 class="mb-3">Жилье</h2>
             <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
             <div class="container float-left mb-5">
                 <div :key="property.id" v-for="property in propertiesList" class="row mb-5">
                     <div class="col-md-5">
-                        <img v-if="property.photo == null" src="/picture/300.jpg" width="100%" height="auto" alt="room">
+                        <img v-if="property.photo == null" src="/picture/placeholder.png" width="100%" height="auto" alt="room">
                         <img v-else :src="property.photo" width="75%" height="auto" alt="room">
                     </div>
                     <div class="col-md-6">
                         <div class="clearfix">
                             <div class="row">
                                 <div class="col-md-6 property-description">
-                                    <router-link :to="{ name: 'property', params: {id: property.id}}"><p>{{property.title}}</p></router-link>
-                                    <p>{{property.town.title}}</p>
+                                    <router-link :to="{ name: 'property', params: {id: property.id}}"><p style="color: black">{{property.title}}</p></router-link>
+                                    <p style="color: black">{{property.town.title}}</p>
                                 </div>
                             </div>
                         </div>
@@ -130,6 +130,6 @@ export default {
     }
     p {
         font-size: 20px;
-        color: white;
+        color: black;
     }
 </style>

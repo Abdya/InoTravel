@@ -16,7 +16,11 @@
                                 ></selectpicker>
                             </div>
                             <div class="flat-input col">
-                                <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
+                                <HotelDatePicker 
+                                :i18n="i18n" 
+                                @check-in-changed="onCheckInChanged" 
+                                @check-out-changed="onCheckOutChanged">
+                                </HotelDatePicker>
                             </div>
                             <div class="flat-input col-md-3">
                                 <v-select class="select-list-item" placeholder="Сколько гостей?" v-model="guests" :options="guestsForSelect"></v-select>
@@ -93,7 +97,15 @@ export default {
             startDate: '',
             endDate: '',
             guests: this.$route.query.guests,
-            guestsForSelect: Array.from(Array(20), (x, index) => index + 1)
+            guestsForSelect: Array.from(Array(20), (x, index) => index + 1),
+            date: [
+                {
+                    startDate: moment(this.$route.query.startDate).toDate()
+                },
+                {
+                    endDate: moment(this.$route.query.endDate).toDate()
+                }
+            ]
         };
     },
     mounted: function() {

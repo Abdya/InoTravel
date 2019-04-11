@@ -159,11 +159,4 @@ export default {
         color: black;
         background-color: white;
     }
-    html, body {
-        background-image: url("/picture/main_background.jpg");
-        background-size: cover;
-}
-.nav-link {
-        color: white;
-    }
 </style>

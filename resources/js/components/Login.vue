@@ -77,8 +77,4 @@ export default {
     }
 }
 </script>
-<style>
-    .nav-link {
-        color: white;
-    }
-</style>
+

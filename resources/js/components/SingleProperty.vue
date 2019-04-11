@@ -1,11 +1,11 @@
 <template>
     <div>
         <navbar></navbar>
-        <form method="post" enctype="multipart/form-data" class="container mt-5">
+        <form method="post" enctype="multipart/form-data" class="container jumbotron mt-5">
             <div class="row">
                 <div class="col-md-3">
                     <img v-if="propertyInfo.photo" :src="propertyInfo.photo" width="100%" height="auto" alt="room">
-                    <img v-else src="/picture/300.jpg" width="100%" height="auto" alt="room">
+                    <img v-else src="/picture/placeholder.png" width="100%" height="auto" alt="room">
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">
@@ -34,8 +34,8 @@
                                 </div>
                                 <div class="text-center">
                                     <button type="button" @click="bookingRequest" class="btn btn-primary">Забронировать</button>
-                                    <div v-if="msg != null">
-                                        <p>{{msg}}</p>
+                                    <div v-if="msg" class="mt-4 alert alert-success" role="alert">
+                                        {{msg}}
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                             <div class="feature-list-item__icon-wrap">
                                 <img :src="feature.image" :alt="feature.title" height="32" width="32">
                             </div>
-                            <div class="feature-list-item__description">{{feature.title}}</div>
+                            <div class="feature-list-item__description"><span>{{feature.title}}</span></div>
                         </div>
                     </div>
                     <p class="mt-2">Дополнительная информация:</p>
@@ -163,13 +163,6 @@ export default {
         width: 100%;
     }
     
-    .nav-link {
-        color: white;
-    }
-    p {
-        font-size: 20px;
-        color: white;
-    }
     .select-list-item {
         color: black;
         background-color: white;

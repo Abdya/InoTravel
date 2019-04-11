@@ -27,15 +27,15 @@
                                 <label for="email" class="col-sm-5 col-form-label">Email</label>
                                 <div class="col-sm-10">
                                     <input v-validate="'email'" type="text" class="form-control" name="email" v-model="formData.email" placeholder="Email">
-                                    <span>{{ errors.first('info.email') }}</span>
+                                    <span v-show="errors.has('info.email')" class="help is-danger">{{ errors.first('info.email') }}</span>
                                     <p v-if="errorsBack['email']">{{errorsBack["email"][0]}}</p>
                                 </div>
                             </div>
                             <div class="text-left mb-3 mt-3">
                                 <button class="btn btn-primary">Сохранить</button>
-                                <modal name="hello-world">
-                                    hello, world!
-                                </modal>
+                                <div v-if="mainMsg" class="mt-3 alert alert-success col-sm-10" role="alert">
+                                    {{mainMsg}}
+                                </div>
                             </div>
                         </form>
                         <form method="post" @submit.prevent="changePass" class="container col-md-6" data-vv-scope="password" style="margin-letf:auto; margin-right:0">
@@ -65,6 +65,9 @@
                             </div>
                             <div class="text-left mb-3 mt-3">
                                 <button class="btn btn-primary">Сохранить</button>
+                                <div v-if="mainPassMsg" class="mt-3 alert alert-success col-sm-10" role="alert">
+                                    {{mainMsg}}
+                                </div>
                             </div>
                             <p v-if="msg">{{msg}}</p>
                         </form>
@@ -76,9 +79,12 @@
 </template>
 
 <script>
+
+import VeeValidate from 'vee-validate';
 import Navbar from './Navbar.vue';
+
 export default {
-    components: {Navbar},
+    components: {Navbar, VeeValidate},
     data() {
         return {
             user: {},
@@ -86,7 +92,9 @@ export default {
             changePassData: {},
             authUser: '',
             errorsBack: {},
-            msg: ''
+            msg: '',
+            mainMsg: '',
+            mainPassMsg: ''
         };
     },
     mounted: function() {
@@ -117,6 +125,7 @@ export default {
                         .post('/api/profile/change-info', this.formData)
                         .then(({data}) => {
                             console.log(data.response);
+                            this.mainMsg = 'Данные успешно сохранены!'
                         })
                         .catch(({response}) => {
                             this.errorsBack = response.data.errors;
@@ -137,7 +146,8 @@ export default {
                         .then(
                             this.changePassData.oldPassword = '',
                             this.changePassData.password = '',
-                            this.changePassData.repeatPassword = ''
+                            this.changePassData.repeatPassword = '',
+                            this.mainPassMsg = 'Данные успешно сохранены!'
                         )
                         .catch(({response}) => {
                             if (response.data.statement == false) {
@@ -156,3 +166,13 @@ export default {
     }
 }
 </script>
+
+<style>
+input:valid {
+  border-color: green;
+}
+
+input:invalid {
+  border-color: red;
+}
+</style>

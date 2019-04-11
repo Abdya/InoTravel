@@ -7,6 +7,8 @@ html, body {
     background-color: rgb(152, 152, 152);
     background-image: url("/picture/main_background.jpg");
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 
@@ -98,6 +100,28 @@ html, body {
     border-radius: 20px;
 }
 
-.jumbotron label, .jumbotron h2, .jumbotron input {
+.jumbotron label, .jumbotron h2, .jumbotron input, .jumbotron p, .jumbotron span, .jumbotron h4, .jumbotron h3 {
     color: black;
 }
+
+.nav-link{
+    color: white;
+}
+
+.nav-link :hover {
+    color: white;
+}
+
+.selecter .selecter__input {
+    display: block;
+    height: 36px;
+}
+
+.datepicker__input {
+    height: 36px;
+}
+
+.v-select input[type="search"] {
+    height: 36px;
+}
+  

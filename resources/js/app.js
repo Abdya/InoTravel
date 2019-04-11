@@ -30,7 +30,7 @@ Vue.use(DatePicker);
 Vue.use(selectPicker);
 
 Vue.use(VeeValidate, {
-    classes: true
+    validity: true
 });
 const dictionary = {
     ru: {

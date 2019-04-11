@@ -91,7 +91,7 @@ class PropertyController extends Controller
             'beds' => 'required|numeric|max:20',
             'address' => 'required|string|min:5|max:80',
             'extraInformation' => 'nullable|string|max:1024',
-            'photo' => 'url',
+            'photo' => 'nullable|url',
         ]);
 
         if ($validator->fails()) {
@@ -253,6 +253,19 @@ class PropertyController extends Controller
             'submittedRequests' => $submittedRequests,
             'receivedRequests' => $receivedRequests,
             'status' => 200
+        ], 200);
+    }
+
+    public function getRequestQuantity() {
+        $user = Auth::user();
+        $requests = Booking::join('properties', 'properties.id', '=', 'bookings.propertyId')
+            ->where('properties.ownerId', $user->id)
+            ->where('status', 1)
+            ->get();
+
+        return response()->json([
+            'status' => 200,
+            'requests' => $requests
         ], 200);
     }
 }

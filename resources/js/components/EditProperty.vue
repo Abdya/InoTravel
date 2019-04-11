@@ -1,37 +1,13 @@
 <template>
     <div>
-        <nav class="navbar navbar-dark bg-dark">
-            <router-link class="navbar-brand" to="/">InoTravel</router-link>
-            <ul v-if="authUser == null" class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Войти</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                </li>
-            </ul> 
-            <ul v-else class="nav justify-content-center-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/requests">Заявки</router-link>
-                </li>
-            </ul>
-        </nav>
-        <form v-if="updatedPropertyInfo.townId && towns.length && features.length" data-vv-scope="edit" method="post" @submit.prevent="editProperty" enctype="multipart/form-data" class="container" style="width: 1400px;  max-width: 1400px">
+        <navbar></navbar>
+        <form v-if="updatedPropertyInfo.townId && towns.length && features.length" data-vv-scope="edit" method="post" @submit.prevent="editProperty" enctype="multipart/form-data" class="container jumbotron mt-5" style="width: 1110px;  max-width: 1400px">
             <div class="row">
-                <div class="col-md-2 mt-4">
+                <div class="col-md-3 mt-4">
                     <img v-if="image" :src="image" width="100%" height="auto" alt="room" class="mb-4">
                     <img v-else :src="updatedPropertyInfo.photo" alt="room" width="100%" height="auto" class="mb-4">
                     <input type="file" v-on:change="onImageChange" class="mb-3">
-                    <button type="button" class="btn btn-success btn-block" @click="uploadImage">Upload image</button>
+                    <button type="button" class="btn btn-success btn-block" @click="uploadImage">Загрузить фото</button>
                 </div>
                 <div class="col-md-8">
                     <div class="row">
@@ -50,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-12 mb-2">Удобства:<br></div>
+                                <div class="col-md-12 mb-2"><span>Удобства:</span><br></div>
                                 <div :key="feature.id" v-for="feature in features" class="col-sm-10">
                                     <input :value="feature.id" :id="feature.id" v-model="updatedPropertyInfo.features" type="checkbox">
                                     <label :for="feature.id">{{ feature.title }}</label>
@@ -96,7 +72,10 @@
     </div>
 </template>
 <script>
+import Navbar from './Navbar.vue';
+
 export default {
+    components: {Navbar},
     data() {
         return {
             towns: [],
