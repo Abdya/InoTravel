@@ -10,6 +10,25 @@ class Auth {
         this.user = null;
     }
 
+    logout() {
+        return axios
+            .post('/api/logout')
+            .then(() => {
+                window.localStorage.removeItem('token');
+                window.localStorage.removeItem('user');
+            });
+    }
+
+    isLoggedIn(to, from, next) {
+        console.log('awdawdad')
+        if (!window.localStorage.getItem('token')) {
+            next('/login');
+            return;
+        }
+
+        next();
+    }
+
     login(token, user) {
         window.localStorage.setItem('token', token);
         window.localStorage.setItem('user', JSON.stringify(user));

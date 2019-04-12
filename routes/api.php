@@ -17,11 +17,8 @@ Route::post('/register', 'API\AuthController@register');
 Route::post('/login', 'API\AuthController@login');
 Route::post('/password-reset/request', 'API\AuthController@passwordReset');
 Route::post('/password-reset/confirm', 'API\AuthController@passwordResetConfirm');
-Route::post('/profile/change-info', 'API\UserController@changeUserData');
-Route::post('/profile/change-pass', 'API\UserController@changeUserPass');
 Route::get('/get-features', 'API\PropertyController@getFeatures');
 Route::get('/get-towns', 'API\PropertyController@getTowns');
-Route::post('/image/store', 'API\PropertyController@imageStore');
 Route::post('/search', 'API\PropertyController@searchProperties');
 Route::get('/get-town', 'API\PropertyController@getTownsWherePropertyExist');
 
@@ -47,5 +44,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/get-auth-user', 'API\AuthController@getAuthUser');
     Route::get('/requests', 'API\PropertyController@getUserRequestHistory');
     Route::get('/get-requests', 'API\PropertyController@getRequestQuantity');
+    Route::post('/profile/change-info', 'API\UserController@changeUserData');
+    Route::post('/profile/change-pass', 'API\UserController@changeUserPass');
+    Route::post('/image/store', 'API\PropertyController@imageStore');
 });
 

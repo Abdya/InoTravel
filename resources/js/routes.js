@@ -13,6 +13,7 @@ import SingleProperty from '@/js/components/SingleProperty';
 import UserProfile from '@/js/components/UserProfile';
 import CreateProperty from '@/js/components/CreateProperty';
 import EditProperty from '@/js/components/EditProperty'
+import auth from './auth';
 
 Vue.use(VueRouter);
 
@@ -72,7 +73,8 @@ const router = new VueRouter({
         {
             path: '/create',
             name: 'create',
-            component: CreateProperty
+            component: CreateProperty,
+            beforeEnter: auth.isLoggedIn
         },
         {
             path: '/edit/:id',

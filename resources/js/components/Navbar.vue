@@ -49,11 +49,10 @@ export default {
                 })
         },
         logout() {
-            axios
-                .post('/api/logout')
-                .then(
+            auth.logout()
+                .then(() => {
                     this.$router.push({name: 'home'})
-                );
+                })
         },
         getRequestQuantity() {
             axios

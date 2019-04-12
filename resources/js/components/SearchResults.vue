@@ -17,7 +17,10 @@
                             </div>
                             <div class="flat-input col">
                                 <HotelDatePicker 
-                                :i18n="i18n" 
+                                :i18n="i18n"
+                                format="DD/MM/YYYY"
+                                :startingDateValue="date.startDate"
+                                :endingDateValue="date.endDate"
                                 @check-in-changed="onCheckInChanged" 
                                 @check-out-changed="onCheckOutChanged">
                                 </HotelDatePicker>
@@ -27,7 +30,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-3">
                                 <button class="btn btn-primary btn-lg">Начать поиск</button>
                             </div>
                         </div>
@@ -98,19 +101,16 @@ export default {
             endDate: '',
             guests: this.$route.query.guests,
             guestsForSelect: Array.from(Array(20), (x, index) => index + 1),
-            date: [
-                {
-                    startDate: moment(this.$route.query.startDate).toDate()
-                },
-                {
-                    endDate: moment(this.$route.query.endDate).toDate()
-                }
-            ]
+            date: {
+                startDate: moment.unix(this.$route.query.startDate).toDate(),
+                endDate: moment.unix(this.$route.query.endDate).toDate()
+            }
         };
     },
     mounted: function() {
         this.getTowns();
         this.getSearchResults();
+        console.log(moment.unix(this.$route.query.startDate).toDate());
     },
     methods: {
         getTowns() {
@@ -166,7 +166,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style>
     h2, p {
         color: black;
     }
@@ -174,4 +174,11 @@ export default {
         color: black;
         background-color: white;
     }
+    .jumbotron {
+        padding-bottom: 2rem;
+    }
+    .datepicker__clear-button {
+        right: 14px !important;
+    }
+
 </style>
