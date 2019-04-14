@@ -1,32 +1,6 @@
 <template>
 <div>
-        <nav class="mt-2">
-            <ul v-if="authUser == null" class="nav justify-content-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Войти</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                </li>
-            </ul> 
-            <ul v-else class="nav justify-content-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/profile">{{authUser.firstName}} {{authUser.lastName}}</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/myproperties">Мое жилье</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/requests">Заявки</router-link>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" @click="logout">Выйти</a>
-                </li>
-            </ul>
-        </nav>
+    <navlinks></navlinks>
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
@@ -71,9 +45,10 @@
 <script>
 import HotelDatePicker from 'vue-hotel-datepicker';
 import * as moment from 'moment-timezone';
+import NavLinks from './NavLinks.vue';
 
 export default {
-    components: {HotelDatePicker},
+    components: {HotelDatePicker, NavLinks},
     data() {
         return {
             towns: [],
@@ -137,12 +112,10 @@ export default {
                 .catch()
         },
         logout() {
-            axios
-                .post('/api/logout')
-                .then(
-                    this.authUser = null,
-                    this.$router.push({name: 'home'})
-                );
+            auth.logout()
+                .then(() => {
+                    this.authUser = null;
+                })
         },
         onCheckInChanged(checkIn) {
             this.search.checkIn = moment(checkIn).unix();

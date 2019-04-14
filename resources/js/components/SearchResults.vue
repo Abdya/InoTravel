@@ -45,17 +45,17 @@
                     <div v-else class="card-deck">
                         <div :key="property.id" v-for="property in results">
                             <div class="card mb-4 shadow-sm">
-                                <router-link :to="{ name: 'property', params: {id: property.id}}">
+                                <router-link :to="{ name: 'property', params: {id: property.id}, query: {g: guests, s: $route.query.startDate, e: $route.query.endDate}}">
                                     <img v-if="property.photo" class="card-img-top" :src="property.photo" width="339px" height="200px" alt="room">
                                     <img v-else src="/picture/placeholder.png" class="card-img-top" width="339px" height="200px" alt="room placeholder">
                                 </router-link>
                                 <div class="card-body">
-                                    <h5 class="card-title"><router-link :to="{ name: 'property', params: {id: property.id}}">{{property.title}}</router-link></h5>
+                                    <h5 class="card-title"><router-link :to="{ name: 'property', params: {id: property.id}, query: {g: guests, s: $route.query.startDate, e: $route.query.endDate}}">{{property.title}}</router-link></h5>
                                     <p class="card-text">{{townForShow.title}}</p>
                                     <p class="card-text">{{property.owner.firstName}}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
-                                            <router-link class="btn btn-primary" :to="{ name: 'property', params: {id: property.id}}">Посмотреть</router-link>
+                                            <router-link class="btn btn-primary" :to="{ name: 'property', params: {id: property.id}, query: {g: guests, s: $route.query.startDate, e: $route.query.endDate}}">Посмотреть</router-link>
                                         </div>
                                     </div>
                                 </div>

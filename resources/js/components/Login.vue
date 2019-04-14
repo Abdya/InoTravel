@@ -1,17 +1,17 @@
 <template>
 <div>
     <nav class="mt-2">
-            <ul class="nav justify-content-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Войти</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                </li>
-            </ul>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <router-link style="color: white" class="navbar-brand" to="/">InoTravel</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link class="nav-link" to="/login">Войти</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link class="nav-link" to="/registration">Регистрация</router-link>
+            </li>
+        </ul>
     </nav>
     <div class="flex-center position-ref full-height">
         <div class="content blur-form">
@@ -21,12 +21,12 @@
             <form method="post" enctype="multipart/form-data" @submit.prevent="login" style="max-width: 620px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12">
-                        <input class="flat-input__input" name="username" v-model="username" placeholder="Email" type="email">
+                        <input class="form-control" name="username" v-model="username" placeholder="Email" type="email">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="flat-input col-md-12">
-                        <input class="flat-input__input" name="password" v-model="password" placeholder="Пароль" type="password">
+                        <input class="form-control" name="password" v-model="password" placeholder="Пароль" type="password">
                     </div>
                 </div>
                 <div class="row">
@@ -56,7 +56,9 @@ export default {
             password: '',
         };
     },
-
+    mounted: function() {
+        console.log(this.$route.query.backUrl);
+    },
     methods: {
         login() {
             let data = {
@@ -67,6 +69,9 @@ export default {
             axios.post('/api/login', data)
                 .then(({data}) => {
                     auth.login(data.token, data.user);
+                    if (this.$route.query.backUrl != undefined) {
+                        this.$router.push(this.$route.query.backUrl);
+                    }
 
                     this.$router.push('/profile');
                 })

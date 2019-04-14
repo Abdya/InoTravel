@@ -9,6 +9,9 @@
                             <div>
                                 <h2 class="mb-4">Редактировать данные</h2>
                             </div>
+                            <div v-if="mainMsg" class="mt-3 alert alert-success col-sm-10" role="alert">
+                                    {{mainMsg}}
+                            </div>
                             <div class="form-group row">
                                 <label for="firstName" class="col-sm-5 col-form-label">Имя</label>
                                 <div class="col-sm-10">
@@ -33,14 +36,14 @@
                             </div>
                             <div class="text-left mb-3 mt-3">
                                 <button class="btn btn-primary">Сохранить</button>
-                                <div v-if="mainMsg" class="mt-3 alert alert-success col-sm-10" role="alert">
-                                    {{mainMsg}}
-                                </div>
                             </div>
                         </form>
                         <form method="post" @submit.prevent="changePass" class="container col-md-6" data-vv-scope="password" style="margin-letf:auto; margin-right:0">
                             <div>
                                 <h2 class="mb-4">Сменить пароль</h2>
+                            </div>
+                            <div v-if="mainPassMsg" class="mt-3 alert alert-success col-sm-10" role="alert">
+                                    {{mainMsg}}
                             </div>
                             <div class="form-group row">
                                 <label for="old_password" class="col-sm-5 col-form-label">Текущий пароль</label>
@@ -65,9 +68,6 @@
                             </div>
                             <div class="text-left mb-3 mt-3">
                                 <button class="btn btn-primary">Сохранить</button>
-                                <div v-if="mainPassMsg" class="mt-3 alert alert-success col-sm-10" role="alert">
-                                    {{mainMsg}}
-                                </div>
                             </div>
                             <p v-if="msg">{{msg}}</p>
                         </form>

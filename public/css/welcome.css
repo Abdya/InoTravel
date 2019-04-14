@@ -35,23 +35,9 @@ html, body {
 
 
 .title {
-    font-size: 80px;
+    font-size: 60px;
 }
 
-.links > a {
-    color: #ffffff;
-    padding: 0 25px;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: .1rem;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: 'Montserrat';
-}
-
-.m-b-md {
-    margin-bottom: 30px;
-}
 .flat-input__input {
     background: transparent;
     color: rgba(255, 255, 255, 1);

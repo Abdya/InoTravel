@@ -28,27 +28,32 @@ const router = new VueRouter({
         {
             path: '/login',
             name: 'login',
-            component: Login
+            component: Login,
+            beforeEnter: auth.isAuth
         },
         {
             path: '/reset',
             name: 'passReset',
-            component: PasswordReset
+            component: PasswordReset,
+            beforeEnter: auth.isAuth
         },
         {
             path: '/change-pass',
             name: 'passChange',
-            component: PasswordChange
+            component: PasswordChange,
+            beforeEnter: auth.isAuth
         },
         {
             path: '/registration',
             name: 'registration',
-            component: Registration
+            component: Registration,
+            beforeEnter: auth.isAuth
         },
         {
             path: '/myproperties',
             name: 'myproperties',
-            component: MyProperties
+            component: MyProperties,
+            beforeEnter: auth.isLoggedIn
         },
         {
             path: '/search',
@@ -58,7 +63,8 @@ const router = new VueRouter({
         {
             path: '/requests',
             name: 'requests',
-            component: Requests
+            component: Requests,
+            beforeEnter: auth.isLoggedIn
         },
         {
             path: '/property/:id',
@@ -68,7 +74,8 @@ const router = new VueRouter({
         {
             path: '/profile',
             name: 'profile',
-            component: UserProfile
+            component: UserProfile,
+            beforeEnter: auth.isLoggedIn
         },
         {
             path: '/create',
@@ -79,7 +86,8 @@ const router = new VueRouter({
         {
             path: '/edit/:id',
             name: 'editProperty',
-            component: EditProperty
+            component: EditProperty,
+            beforeEnter: auth.isLoggedIn
         }
     ]
 });

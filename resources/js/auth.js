@@ -20,9 +20,17 @@ class Auth {
     }
 
     isLoggedIn(to, from, next) {
-        console.log('awdawdad')
         if (!window.localStorage.getItem('token')) {
             next('/login');
+            return;
+        }
+
+        next();
+    }
+
+    isAuth(to, from, next) {
+        if (window.localStorage.getItem('token')) {
+            next('/');
             return;
         }
 

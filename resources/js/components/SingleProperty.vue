@@ -23,11 +23,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-6">
+                            <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-5">
                                 <h3 class="mb-3">Бронирование</h3>
                                 <div class="col-md-12 mb-3">
                                     <!-- <date-picker v-model="booking.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker> -->
-                                    <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
+                                    <HotelDatePicker 
+                                    :i18n="i18n" 
+                                    format="DD/MM/YYYY"
+                                    :startingDateValue="booking.startDate"
+                                    :endingDateValue="booking.endDate"
+                                    @check-in-changed="onCheckInChanged" 
+                                    @check-out-changed="onCheckOutChanged">
+                                    </HotelDatePicker>
                                 </div>
                                 <div class="mb-3">
                                     <v-select class="select-list-item" placeholder="Сколько гостей?" v-model="booking.guests" :options="guestsForSelect"></v-select>
@@ -73,9 +80,9 @@ export default {
             authUser: [],
             town: [],
             booking: {
-                startDate: '',
-                endDate: '',
-                guests: ''
+                startDate: moment.unix(this.$route.query.s).toDate(),
+                endDate: moment.unix(this.$route.query.e).toDate(),
+                guests: this.$route.query.g
             },
             msg: '',
             guestsForSelect: Array.apply(null, {length: 20}).map(Number.call, Number),
@@ -87,10 +94,15 @@ export default {
                 'check-out': 'Выезд',
                 'month-names': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
             },
+            date: {
+                startDate: moment.unix(this.$route.query.s).toDate(),
+                endDate: moment.unix(this.$route.query.e).toDate()
+            }
         }
     },
     mounted: function() {
         this.takePropertyInfo();
+        console.log(moment(1555621200).unix)
     },
     methods: {
         takePropertyId() {
@@ -146,6 +158,7 @@ export default {
 <style scoped>
     .feature-list {
         display: inline-block;
+        flex-direction: row;
     }
 
     .feature-list__item {

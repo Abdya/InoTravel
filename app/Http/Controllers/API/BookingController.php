@@ -18,12 +18,6 @@ class BookingController extends Controller
                 'status' => 404
             ], 404);
         }
-        if (Booking::where('guestId', request('guestId'))->where('status', '<>', 0)->first() != null){
-            return response()->json([
-                'status' => 420,
-                'msg' => 'У вас уже есть бронь!'
-            ], 420);
-        }
         $bookingIds = DB::select('
         select p.id
         from properties as p

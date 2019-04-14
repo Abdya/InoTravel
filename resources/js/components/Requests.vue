@@ -7,7 +7,7 @@
                 <div :key="request.id" v-for="request in submittedReq" class="container float-left mb-5">
                     <div class="media mb-4 bg-light">
                         <img v-if="request.photo" :src="request.photo" class="media-left mr-3" width="400" height="auto" alt="room">
-                        <img v-else src="/picture/placeholder.png" class="media-left" width="100%" height="auto" alt="room">
+                        <img v-else src="/picture/placeholder.png" class="media-left" width="400" height="auto" alt="room">
                         <div class="media-body">
                             <p class="card-text">{{request.title}}</p>
                             <p class="card-text">{{request.town.title}}</p>

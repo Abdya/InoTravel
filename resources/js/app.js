@@ -71,6 +71,11 @@ Vue.component(
     require('./components/Navbar.vue')
 );
 
+Vue.component(
+    'navlinks',
+    require('./components/NavLinks.vue')
+);
+
 window.auth = auth;
 
 window.Event = new Vue;

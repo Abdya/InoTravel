@@ -1,17 +1,7 @@
 <template>
 <div>
     <nav class="mt-2">
-            <ul class="nav justify-content-end">
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Войти</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/registration">Регистрация</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login">Принять гостей</router-link>
-                </li>
-            </ul>
+        <router-link style="color: white" class="navbar-brand" to="/">InoTravel</router-link>
     </nav>
     <div class="flex-center position-ref full-height">
         <div class="content blur-form">
@@ -23,8 +13,8 @@
             </div>
             <form v-else method="post" @submit.prevent="reset" enctype="multipart/form-data" style="max-width: 620px" novalidate>
                 <div class="row mb-5">
-                    <div class="flat-input col-md-12">
-                        <input class="flat-input__input" v-validate="'email'" v-model="email" name="email" placeholder="Email" type="email">
+                    <div class="col-md-12">
+                        <input class="form-control" v-validate="'email'" v-model="email" name="email" placeholder="Email" type="email">
                         <span>{{ errors.first('email') }}</span>
                     </div>
                 </div>
