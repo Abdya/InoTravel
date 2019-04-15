@@ -47,5 +47,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/profile/change-info', 'API\UserController@changeUserData');
     Route::post('/profile/change-pass', 'API\UserController@changeUserPass');
     Route::post('/image/store', 'API\PropertyController@imageStore');
+    Route::post('/recall-request', 'API\BookingController@recallRequest');
 });
 

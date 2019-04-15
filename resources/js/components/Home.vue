@@ -25,7 +25,7 @@
                     </div>
                     
                 </div>
-                <div class="row mb-5">
+                <div class="row mb-4">
                     <div class="flat-input col-md-12">
                         <v-select class="select-list-item" placeholder="Сколько гостей?" v-model="search.beds" :options="guestsForSelect"></v-select>
                     </div>

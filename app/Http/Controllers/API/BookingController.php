@@ -60,4 +60,13 @@ class BookingController extends Controller
         }
 
     }
+
+    public function recallRequest() {
+        $id = request('bookingId');
+        Booking::where('id', $id)->delete();
+
+        return response()->json([
+            'status' => 201
+        ], 201);
+    }
 }

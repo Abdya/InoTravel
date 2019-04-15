@@ -2,6 +2,14 @@
     <div>
         <main role="main">
             <navbar></navbar>
+            <div class="vld-parent">
+                <loading 
+                :active.sync="isLoading"
+                :color="'#007bff'"
+                :backgrounColor="'#c0c0c0'"
+                :loader="'bars'">
+                </loading>
+            </div>
             <section class="jumbotron text-center mt-4">
                 <div class="container">
                     <form method="get" @submit.prevent="getSearchResultsFromPage" style="max-width: 1080px">
@@ -79,9 +87,11 @@
 import HotelDatePicker from 'vue-hotel-datepicker';
 import * as moment from 'moment-timezone';
 import Navbar from './Navbar.vue'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
-    components: {HotelDatePicker, Navbar},
+    components: {HotelDatePicker, Navbar,  Loading},
     data() {
         return {
             towns: [],
@@ -104,13 +114,12 @@ export default {
             date: {
                 startDate: moment.unix(this.$route.query.startDate).toDate(),
                 endDate: moment.unix(this.$route.query.endDate).toDate()
-            }
+            },
+            isLoading: false
         };
     },
     mounted: function() {
-        this.getTowns();
-        this.getSearchResults();
-        console.log(moment.unix(this.$route.query.startDate).toDate());
+        this.doAjax();
     },
     methods: {
         getTowns() {
@@ -126,7 +135,6 @@ export default {
                 });
         },
         getSearchResults() {
-            console.log(this.$route);
             let data = {
                 townId: this.$route.query.townId,
                 guests: this.$route.query.guests,
@@ -138,14 +146,14 @@ export default {
                 .then(({data}) => {
                     this.results = data.properties;
                     this.townForShow = data.town;
-                    console.log(data);
+                    this.isLoading = false;
                 })
         },
         getSearchResultsFromPage() {
             let data = {
                 townId: this.townId,
-                startDate: this.startDate,
-                endDate: this.endDate,
+                startDate: (this.startDate).length == 0 ? this.$route.query.startDate : this.startDate,
+                endDate: (this.endDate).length == 0 ? this.$route.query.endDate : this.endDate,
                 guests: this.guests
             }
 
@@ -155,6 +163,8 @@ export default {
                 startDate: data.startDate,
                 endDate: data.endDate
             }});
+            this.isLoading = true;
+            setTimeout(() => {}, 5000);
             this.getSearchResults();
         },
         onCheckInChanged(checkIn) {
@@ -162,6 +172,12 @@ export default {
         },
         onCheckOutChanged(checkOut) {
             this.endDate = moment(checkOut).unix();
+        },
+        doAjax() {
+            this.isLoading = true;
+            this.getTowns();
+            this.getSearchResults();
+            setTimeout(() => {}, 5000)
         }
     }
 }

@@ -27,6 +27,11 @@ class Booking extends Model
         return $this->belongsTo('App\User', 'ownerId');
     }
 
+    public function bookingId()
+    {
+        return $this->belongsTo('App\Booking', 'id');
+    }
+
     protected $fillable = [
         'startDate',
         'endDate',

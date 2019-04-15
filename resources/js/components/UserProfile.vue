@@ -1,6 +1,14 @@
 <template>
     <div>
         <navbar></navbar>
+        <div class="vld-parent">
+            <loading 
+            :active.sync="isLoading"
+            :color="'#007bff'"
+            :backgrounColor="'#c0c0c0'"
+            :loader="'bars'">
+            </loading>
+        </div>
         <div class="container mt-5 jumbotron">
             <div class="row">
                 <div class="col-md-12">
@@ -82,9 +90,11 @@
 
 import VeeValidate from 'vee-validate';
 import Navbar from './Navbar.vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
-    components: {Navbar, VeeValidate},
+    components: {Navbar, VeeValidate, Loading},
     data() {
         return {
             user: {},
@@ -94,11 +104,13 @@ export default {
             errorsBack: {},
             msg: '',
             mainMsg: '',
-            mainPassMsg: ''
+            mainPassMsg: '',
+            isLoading: false
+
         };
     },
     mounted: function() {
-        this.takeUserData();
+        this.doAjax();
     },
     methods: {
         takeUserData() {
@@ -115,7 +127,8 @@ export default {
                         'oldPassword': '',
                         'password': '',
                         'repeatPassword': ''
-                    }
+                    };
+                    this.isLoading = false;
                 });
         },
         changeInfo() {
@@ -157,11 +170,10 @@ export default {
                 }
             })
         },
-        show () {
-            this.$modal.show('hello-world');
-        },
-        hide () {
-            this.$modal.hide('hello-world');
+        doAjax() {
+            this.isLoading = true;
+            setTimeout(() => {}, 5000)
+            this.takeUserData();
         }
     }
 }

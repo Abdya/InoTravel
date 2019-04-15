@@ -1,6 +1,14 @@
 <template>
-    <div>
+    <div class="single-property">
         <navbar></navbar>
+        <div class="vld-parent">
+            <loading 
+            :active.sync="isLoading"
+            :color="'#007bff'"
+            :backgrounColor="'#c0c0c0'"
+            :loader="'bars'">
+            </loading>
+        </div>
         <form method="post" enctype="multipart/form-data" class="container jumbotron mt-5">
             <div class="row">
                 <div class="col-md-3">
@@ -25,8 +33,10 @@
                             </div>
                             <div v-if="propertyInfo.ownerId != authUser.id" class="col-md-5">
                                 <h3 class="mb-3">Бронирование</h3>
-                                <div class="col-md-12 mb-3">
-                                    <!-- <date-picker v-model="booking.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker> -->
+                                <div v-if="msg" class="mt-4 alert alert-success" role="alert">
+                                    {{msg}}
+                                </div>
+                                <div class="mb-3">
                                     <HotelDatePicker 
                                     :i18n="i18n" 
                                     format="DD/MM/YYYY"
@@ -41,9 +51,6 @@
                                 </div>
                                 <div class="text-center">
                                     <button type="button" @click="bookingRequest" class="btn btn-primary">Забронировать</button>
-                                    <div v-if="msg" class="mt-4 alert alert-success" role="alert">
-                                        {{msg}}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -70,9 +77,11 @@
 import HotelDatePicker from 'vue-hotel-datepicker';
 import * as moment from 'moment-timezone';
 import Navbar from './Navbar.vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
-    components: {HotelDatePicker, Navbar},
+    components: {HotelDatePicker, Navbar, Loading},
     data() {
         return {
             propertyId: '',
@@ -94,15 +103,11 @@ export default {
                 'check-out': 'Выезд',
                 'month-names': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
             },
-            date: {
-                startDate: moment.unix(this.$route.query.s).toDate(),
-                endDate: moment.unix(this.$route.query.e).toDate()
-            }
+            isLoading: false
         }
     },
     mounted: function() {
-        this.takePropertyInfo();
-        console.log(moment(1555621200).unix)
+        this.doAjax();
     },
     methods: {
         takePropertyId() {
@@ -115,6 +120,7 @@ export default {
                     this.propertyInfo = data.property;
                     this.authUser = data.user;
                     this.town = data.town;
+                    this.isLoading = false;
                 });
         },
         deleteProperty() {
@@ -129,8 +135,8 @@ export default {
                 this.$router.push({name: 'login'});
             }
             let data = {
-                'startDate': this.booking.startDate,
-                'endDate': this.booking.endDate,
+                'startDate': moment(this.booking.startDate).unix(),
+                'endDate': moment(this.booking.endDate).unix(),
                 'guests': this.booking.guests,
                 'guestId': this.authUser.id
             };
@@ -150,34 +156,13 @@ export default {
         },
         onCheckOutChanged(checkOut) {
             this.booking.endDate = moment(checkOut).unix();
+        },
+        doAjax() {
+            this.isLoading = true;
+            setTimeout(() => {}, 5000);
+            this.takePropertyInfo();
         }
     }
 }
 </script>
 
-<style scoped>
-    .feature-list {
-        display: inline-block;
-        flex-direction: row;
-    }
-
-    .feature-list__item {
-        width: 100px
-    }
-
-    .feature-list-item {
-        text-align: center;
-    }
-
-    .feature-list-item__description {
-        margin-top: 5px
-    }
-    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-        width: 100%;
-    }
-    
-    .select-list-item {
-        color: black;
-        background-color: white;
-    }
-</style>

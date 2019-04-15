@@ -18,15 +18,8 @@
         <link href="/css/welcome.css" rel="stylesheet">
         <link href="/css/searchBar.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
-        <link href="/css/pickadate/default.css" rel="stylesheet">
-        <link href="/css/pickadate/default.date.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
-        <script src="/js/pickadate/picker.js"></script>
-        <script src="/js/pickadate/picker.date.js"></script>
+        
 
     </head>
     <body>

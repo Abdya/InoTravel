@@ -35,7 +35,7 @@ html, body {
 
 
 .title {
-    font-size: 60px;
+    font-size: 70px;
 }
 
 .flat-input__input {
@@ -104,7 +104,6 @@ html, body {
 }
 
 
-
 .datepicker__input {
     height: 36px !important;
     line-height: 2.5 !important;
@@ -128,4 +127,35 @@ html, body {
     margin-top: 4px !important;
 }
    
-       
+.single-property .feature-list {
+    display: inline-block;
+    flex-direction: row;
+}
+
+.single-property .feature-list__item {
+    width: 100px
+}
+
+.single-property .feature-list-item {
+    text-align: center;
+}
+
+.single-property .feature-list-item__description {
+    margin-top: 5px
+}
+.single-property .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+    width: 100%;
+}
+
+.single-property .select-list-item {
+    color: black;
+    background-color: white;
+}
+.single-property div.datepicker__input:nth-child(1) {
+    padding-right: 30px;
+    padding-left: 19px;
+}
+.single-property .datepicker__clear-button svg {
+top: -8px !important;
+right: -14px !important;
+}

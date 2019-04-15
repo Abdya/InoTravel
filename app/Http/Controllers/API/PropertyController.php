@@ -237,14 +237,13 @@ class PropertyController extends Controller
 
     public function getUserRequestHistory() {
         $user = Auth::user();
-        $submittedRequests = Booking::join('properties', 'properties.id', '=', 'bookings.propertyId')
+        $submittedRequests = Booking::with('property', 'property.town', 'property.owner')
             ->where('guestId', $user->id)
-            ->with('owner')
-            ->with('town')
             ->get();
-        $receivedRequests = Booking::join('properties', 'properties.id', '=', 'bookings.propertyId')
-            ->where('properties.ownerId', $user->id)
-            ->with('town')
+        $receivedRequests = Booking::with('property', 'property.town', 'property.owner')
+            ->whereHas('property', function ($query) use ($user) {
+                $query->where('ownerId', '=', $user->id);
+            })
             ->with('user')
             ->get();
         

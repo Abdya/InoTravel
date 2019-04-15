@@ -1,8 +1,18 @@
 <template>
     <div>
         <nav class="mt-2">
-            <router-link style="color: white" class="navbar-brand" to="/">InoTravel</router-link>
-        </nav>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <router-link style="color: white" class="navbar-brand" to="/">InoTravel</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link class="nav-link" to="/login">Войти</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link class="nav-link" to="/registration">Регистрация</router-link>
+            </li>
+        </ul>
+    </nav>
         <div class="flex-center position-ref full-height main-content">
             <div class="content blur-form">
                 <div class="title m-b-md">

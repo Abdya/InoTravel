@@ -71,6 +71,7 @@ export default {
                     auth.login(data.token, data.user);
                     if (this.$route.query.backUrl != undefined) {
                         this.$router.push(this.$route.query.backUrl);
+                        return;
                     }
 
                     this.$router.push('/profile');

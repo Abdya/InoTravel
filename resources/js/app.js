@@ -17,9 +17,14 @@ import selectPicker from 'vue-selectpicker';
 
 import vSelect from 'vue-select';
 
-import VModal from 'vue-js-modal';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
-Vue.use(VModal);
+Vue.use(Loading, {
+    color: '#007bff',
+    loader: 'bars',
+    backgroundColor: '#c0c0c0',
+})
 
 Vue.component('v-select', vSelect);
 

@@ -1,6 +1,14 @@
 <template>
     <div>
         <navbar></navbar>
+        <div class="vld-parent">
+            <loading 
+            :active.sync="isLoading"
+            :color="'#007bff'"
+            :backgrounColor="'#c0c0c0'"
+            :loader="'bars'">
+            </loading>
+        </div>
         <div v-if="propertiesList.length == 0" class=" mt-5 text-center">
             <h2>Вы еще не создали ни одного профиля жилья!</h2>
             <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
@@ -38,13 +46,13 @@
                 </div>
             </div>
         </div>
-        <div class="container jumbotron float-left mb-5">
+        <div v-if="propertiesList.length != 0" class="container jumbotron float-left mb-5">
             <h2 class="mb-3">Жилье</h2>
             <router-link to="/create" type="button" class="btn btn-primary mb-5">Добавить жилье</router-link>
             <div class="container float-left mb-5">
                 <div :key="property.id" v-for="property in propertiesList" class="row mb-5">
                     <div class="col-md-5">
-                        <img v-if="property.photo == null" src="/picture/placeholder.png" width="100%" height="auto" alt="room">
+                        <img v-if="property.photo == null" src="/picture/placeholder.png" width="75%" height="auto" alt="room">
                         <img v-else :src="property.photo" width="75%" height="auto" alt="room">
                     </div>
                     <div class="col-md-6">
@@ -64,20 +72,20 @@
 </template>
 
 <script>
-import Navbar from './Navbar.vue'
+import Navbar from './Navbar.vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
-    components: {Navbar},
+    components: {Navbar, Loading},
     data() {
         return {
             incomingRequests: [],
             propertiesList: [],
-            authUser: ''
+            isLoading: false
         }
     },
     mounted: function() {
-        this.loadIncomingRequests();
-        this.loadUserProperties();
-        this.getAuthUser();
+        this.doAjax();
     },
     methods: {
         loadIncomingRequests() {
@@ -85,7 +93,6 @@ export default {
                 .get('/api/myproperties/requests')
                 .then(({data}) => {
                     this.incomingRequests = data.incomingRequests;
-                    console.log(this.incomingRequests);
                 });
         },
         loadUserProperties() {
@@ -93,7 +100,7 @@ export default {
                 .get('/api/myproperties')
                 .then(({data}) => {
                     this.propertiesList = data.properties;
-                    console.log(this.propertiesList)
+                    this.isLoading = false;
                 });
         },
         rejectRequest(booking) {
@@ -110,14 +117,12 @@ export default {
                 })
                 .then(this.loadIncomingRequests);
         },
-        getAuthUser() {
-            axios
-                .get('/api/get-auth-user')
-                .then(({data}) => {
-                    this.authUser = data.authUser;
-                    console.log(this.authUser);
-                })
-        },
+        doAjax() {
+            this.isLoading = true;
+            setTimeout(() => {}, 5000)
+            this.loadIncomingRequests();
+            this.loadUserProperties();
+        }
     }
 }
 </script>

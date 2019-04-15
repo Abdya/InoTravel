@@ -1,6 +1,14 @@
 <template>
     <div>
         <navbar></navbar>
+        <div class="vld-parent">
+            <loading 
+            :active.sync="isLoading"
+            :color="'#007bff'"
+            :backgrounColor="'#c0c0c0'"
+            :loader="'bars'">
+            </loading>
+        </div>
         <div class="jumbotron mt-5">
             <form  method="post" @submit.prevent="createProperty" data-vv-scope="create" enctype="multipart/form-data" class="container align-center" style="width: 1110px">
                 <div class="row">
@@ -75,9 +83,11 @@
 </template>
 <script>
 import Navbar from './Navbar.vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
-    components: {Navbar},
+    components: {Navbar, Loading},
     data() {
         return {
             towns: [],
@@ -93,13 +103,12 @@ export default {
             image: '',
             imagePath: '',
             authUser: '',
-            guestsForSelect: Array.from(Array(20), (x, index) => index + 1)
+            guestsForSelect: Array.from(Array(20), (x, index) => index + 1),
+            isLoading: false
         }
     },
     mounted: function() {
-        this.getFeatures();
-        this.getTowns();
-        this.getAuthUser();
+        this.doAjax();
     },
     methods: {
         getFeatures() {
@@ -119,6 +128,7 @@ export default {
                             name: town.title
                         };
                     });
+                    this.isLoading = false;
                 });
         },
         createProperty() {
@@ -160,13 +170,11 @@ export default {
                     this.imagePath = data.path;
                 });
         },
-        getAuthUser() {
-            axios
-                .get('/api/get-auth-user')
-                .then(({data}) => {
-                    this.authUser = data.authUser;
-                    console.log(this.authUser);
-                })
+        doAjax() {
+            this.isLoading = true;
+            setTimeout(() => {}, 5000)
+            this.getFeatures();
+            this.getTowns();
         }
     }
 }
