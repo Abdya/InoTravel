@@ -11,6 +11,9 @@
             <li class="nav-item">
                 <router-link class="nav-link" to="/registration">Регистрация</router-link>
             </li>
+            <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'login', query: { backUrl: '/create' }}">Принять гостей</router-link>
+            </li>
         </ul>
     </nav>
         <div class="flex-center position-ref full-height main-content">
@@ -18,13 +21,14 @@
                 <div class="title m-b-md">
                     Сброс пароля
                 </div>
-                <form method="post" class="pass-change-form" @submit.prevent="checkPass" enctype="multipart/form-data" style="max-width: 500px">
+                <form method="post" class="pass-change-form" data-vv-scope="change" @submit.prevent="checkPass" enctype="multipart/form-data" style="max-width: 500px">
                     <div class="row mb-5">
                         <div class="flat-input col-md-12 mb-3">
-                            <input class="form-control" v-model="pass1" name="pass1" placeholder="Введите новый пароль" type="password">
+                            <input class="form-control" v-validate="'required|min:6'" v-model="pass1" ref="password" placeholder="Введите новый пароль" type="password">
                         </div>
                         <div class="flat-input col-md-12">
-                            <input class="form-control" v-model="pass2" name="pass2" placeholder="Повторите" type="password">
+                            <input class="form-control" v-validate="'required|confirmed:password'" v-model="pass2" name="password_confirmation" placeholder="Повторите" type="password">
+                            <span>{{ errors.first('change.password_confirmation') }}</span>
                         </div>
                         <div v-if="error" class="col-md-12">
                             <p>{{error}}</p>
@@ -53,29 +57,34 @@
                 formError: ''
             };
         },
-
         methods: {
-            checkPass: function () {
-                if (this.pass1 == this.pass2) {
-                    let data = {
-                        pass: this.pass1,
-                        user_id: this.$route.query.user_id,
-                        token: this.$route.query.token,
-                    };
-                    console.log(this.$route.query);
-                    axios
-                        .post('/api/password-reset/confirm', data)
-                        .catch(
-                            this.formError = 'Отсутствует или указан неверный токен!'
-                        );
-                    this.$router.push('/login');
-                    return true;
-                }
-
-                if (this.pass1 !== this.pass2) {
-                    this.error = 'Пароли не совпадают!';
-                }
+            checkPass() {
+                this.$validator.validateAll('change').then(result => {
+                    if (result) {
+                        let data = {
+                            pass: this.pass1,
+                            user_id: this.$route.query.user_id,
+                            token: this.$route.query.token,
+                        };
+                        axios
+                            .post('/api/password-reset/confirm', data)
+                            .catch(
+                                this.formError = 'Отсутствует или указан неверный токен!'
+                            );
+                        this.$router.push('/login');
+                        return true;
+                    }
+                });
             }
         }
     }
 </script>
+<style>
+    input:valid {
+        border-color: green;
+    }
+
+    input:invalid {
+        border-color: red;
+    }
+</style>

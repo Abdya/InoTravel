@@ -3,6 +3,9 @@
     <navlinks></navlinks>
     <div class="flex-center position-ref full-height">
         <div class="content">
+            <div class="project-logo">
+                <img src="/picture/logo.png" alt="">
+            </div>
             <div class="title m-b-md">
                 InoTravel
             </div>
@@ -20,10 +23,8 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <!-- <date-picker v-model="search.time" confirm range :lang="'ru'" value-type="timestamp" :first-day-of-week="1" placeholder="Select"></date-picker> -->
                         <HotelDatePicker :i18n="i18n" format="DD/MM/YYYY" @check-in-changed="onCheckInChanged" @check-out-changed="onCheckOutChanged" ></HotelDatePicker>
                     </div>
-                    
                 </div>
                 <div class="row mb-4">
                     <div class="flat-input col-md-12">

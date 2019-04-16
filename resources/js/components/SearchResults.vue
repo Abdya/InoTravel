@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="clear-button">
         <main role="main">
             <navbar></navbar>
             <div class="vld-parent">
@@ -193,8 +193,6 @@ export default {
     .jumbotron {
         padding-bottom: 2rem;
     }
-    .datepicker__clear-button {
-        right: 14px !important;
-    }
+    
 
 </style>

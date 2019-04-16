@@ -11,6 +11,9 @@
             <li class="nav-item">
                 <router-link class="nav-link" to="/registration">Регистрация</router-link>
             </li>
+            <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'login', query: { backUrl: '/create' }}">Принять гостей</router-link>
+            </li>
         </ul>
     </nav>
     <div class="flex-center position-ref full-height">
@@ -18,15 +21,17 @@
             <div class="title m-b-md">
                 Войти
             </div>
-            <form method="post" enctype="multipart/form-data" @submit.prevent="login" style="max-width: 620px">
+            <form method="post" enctype="multipart/form-data" @submit.prevent="login" data-vv-scope="login" style="max-width: 620px">
                 <div class="row mb-5">
                     <div class="flat-input col-md-12">
-                        <input class="form-control" name="username" v-model="username" placeholder="Email" type="email">
+                        <input class="form-control" v-validate="'required|email'" name="email" v-model="username" placeholder="Email" type="email">
+                        <span style="color: tomato">{{ errors.first('login.email') }}</span>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="flat-input col-md-12">
-                        <input class="form-control" name="password" v-model="password" placeholder="Пароль" type="password">
+                        <input class="form-control" v-validate="'required'" name="password" v-model="password" placeholder="Пароль" type="password">
+                        <span style="color: tomato">{{ errors.first('login.password') }}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -56,31 +61,48 @@ export default {
             password: '',
         };
     },
-    mounted: function() {
-        console.log(this.$route.query.backUrl);
-    },
     methods: {
         login() {
             let data = {
                 username: this.username,
                 password: this.password
             };
+            this.$validator.validateAll('login').then(result => {
+                if (result) {
+                    axios.post('/api/login', data)
+                        .then(({data}) => {
+                            auth.login(data.token, data.user);
+                            if (this.$route.query.backUrl == '/create') {
+                                this.$router.push(this.$route.query.backUrl);
+                                return;
+                            }
+                            if (this.$route.query.backUrl == '/property') {
+                                this.$router.push({name: 'property', params: {id: this.$route.query.id}, query: {
+                                    s: this.$route.query.s,
+                                    e: this.$route.query.e,
+                                    g: this.$route.query.g,
+                                }});
+                                return;
+                            }
 
-            axios.post('/api/login', data)
-                .then(({data}) => {
-                    auth.login(data.token, data.user);
-                    if (this.$route.query.backUrl != undefined) {
-                        this.$router.push(this.$route.query.backUrl);
-                        return;
+                            this.$router.push('/profile');
+                        })
+                        .catch(({response}) => {
+                            alert(response.data.message)
+                        })
                     }
-
-                    this.$router.push('/profile');
-                })
-                .catch(({response}) => {
-                    alert(response.data.message)
-                })
+            });
         }
     }
 }
 </script>
 
+<style>
+    input:valid {
+        border-color: green;
+    }
+
+    input:invalid {
+        border-color: red;
+    }
+</style>

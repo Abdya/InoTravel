@@ -11,6 +11,9 @@
             <li class="nav-item">
                 <router-link class="nav-link" to="/registration">Регистрация</router-link>
             </li>
+            <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'login', query: { backUrl: '/create' }}">Принять гостей</router-link>
+            </li>
         </ul>
     </nav>
     <div class="flex-center position-ref full-height">
@@ -25,7 +28,7 @@
                 <div class="row mb-5">
                     <div class="col-md-12">
                         <input class="form-control" v-validate="'email'" v-model="email" name="email" placeholder="Email" type="email">
-                        <span>{{ errors.first('email') }}</span>
+                        <span style="color: tomato">{{ errors.first('email') }}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -62,3 +65,12 @@ export default {
     }
 }
 </script>
+<style>
+    input:valid {
+        border-color: green;
+    }
+
+    input:invalid {
+        border-color: red;
+    }
+</style>

@@ -133,14 +133,12 @@ class PropertyController extends Controller
 
     public function showProperty($id) {
         $property = Property::with('owner')->find($id);
-        $user = Auth::user();
         $town = Town::find($property->townId);
         $features = $property->features;
 
         return response()->json([
             'property' => $property,
             'town' => $town,
-            'user' => $user,
             'status' => 200
         ], 200);
     }

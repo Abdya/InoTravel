@@ -24,7 +24,7 @@
                                     <label for="title" class="col-sm-5 col-form-label">Название:</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-validate="'required|alpha_spaces|min:5|max:60'" name="title" v-model="propertyInfo.title" placeholder="Название">
-                                        <span>{{ errors.first('create.title') }}</span>
+                                        <span style="color: tomato">{{ errors.first('create.title') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -53,7 +53,7 @@
                                         <label for="address" class="col-md-7 col-form-label">Адрес:</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" v-validate="'required|min:5|max:80'" name="address" v-model="propertyInfo.address" placeholder="Улица, дом, квартира">
-                                            <span>{{ errors.first('create.address') }}</span>
+                                            <span style="color: tomato">{{ errors.first('create.address') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -186,6 +186,13 @@ export default {
     }
     .nav-link {
         color: white;
+    }
+    input:valid {
+        border-color: green;
+    }
+
+    input:invalid {
+        border-color: red;
     }
 </style>
 

@@ -36,6 +36,7 @@ html, body {
 
 .title {
     font-size: 70px;
+    text-align: center;
 }
 
 .flat-input__input {
@@ -128,12 +129,12 @@ html, body {
 }
    
 .single-property .feature-list {
-    display: inline-block;
-    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .single-property .feature-list__item {
-    width: 100px
+    width: 100px;
 }
 
 .single-property .feature-list-item {
@@ -158,4 +159,17 @@ html, body {
 .single-property .datepicker__clear-button svg {
 top: -8px !important;
 right: -14px !important;
+}
+
+.clear-button .datepicker__clear-button {
+    right: 14px !important;
+}
+
+.project-logo {
+    margin: auto;
+    text-align: center;
+}
+
+.project-logo img {
+    width: 80px;
 }

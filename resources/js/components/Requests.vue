@@ -120,7 +120,6 @@ export default {
         line-height: 1;
     }
     span.txt {
-        color: white;
         font-size: 13px;
     }
     .media-body {

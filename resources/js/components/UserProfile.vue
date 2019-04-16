@@ -24,21 +24,21 @@
                                 <label for="firstName" class="col-sm-5 col-form-label">Имя</label>
                                 <div class="col-sm-10">
                                     <input v-validate="'required|alpha'" type="text" name="firstName" class="form-control" v-model="formData.firstName" placeholder="Имя">
-                                    <span>{{ errors.first('info.firstName') }}</span>
+                                    <span style="color: tomato">{{ errors.first('info.firstName') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="lastName" class="col-sm-5 col-form-label">Фамилия</label>
                                 <div class="col-sm-10">
                                     <input v-validate="'required|alpha'" type="text" name="lastName" class="form-control" v-model="formData.lastName" placeholder="Фамилия">
-                                    <span>{{ errors.first('info.lastName') }}</span>
+                                    <span style="color: tomato">{{ errors.first('info.lastName') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="email" class="col-sm-5 col-form-label">Email</label>
                                 <div class="col-sm-10">
                                     <input v-validate="'email'" type="text" class="form-control" name="email" v-model="formData.email" placeholder="Email">
-                                    <span v-show="errors.has('info.email')" class="help is-danger">{{ errors.first('info.email') }}</span>
+                                    <span style="color: tomato">{{ errors.first('info.email') }}</span>
                                     <p v-if="errorsBack['email']">{{errorsBack["email"][0]}}</p>
                                 </div>
                             </div>
@@ -58,13 +58,13 @@
                                 <div class="col-sm-10">
                                     <input v-validate="'required'" v-model="changePassData.oldPassword" type="password" class="form-control" name="old_password">
                                 </div>
-                                <span v-show="errors.has('old_password')" class="help is-danger">{{ errors.first('password.old_password') }}</span>
+                                <span style="color: tomato">{{ errors.first('password.old_password') }}</span>
                             </div>
                             <div class="form-group row">
                                 <label for="password" class="col-sm-5 col-form-label">Новый пароль</label>
                                 <div class="col-sm-10">
                                     <input v-validate="'required|min:6|max:1024'" v-model="changePassData.password" type="password" class="form-control" name="password" ref="password">
-                                    <span v-show="errors.has('password.password')" class="help is-danger">{{ errors.first('password.password') }}</span>
+                                    <span style="color: tomato">{{ errors.first('password.password') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -72,7 +72,7 @@
                                 <div class="col-sm-10">
                                     <input v-validate="'required|confirmed:password'" v-model="changePassData.repeatPassword" type="password" class="form-control" name="password_confirmation">
                                 </div>
-                                <span v-show="errors.has('password.password_confirmation')" class="help is-danger">{{ errors.first('password.password_confirmation') }}</span>
+                                <span style="color: tomato">{{ errors.first('password.password_confirmation') }}</span>
                             </div>
                             <div class="text-left mb-3 mt-3">
                                 <button class="btn btn-primary">Сохранить</button>

@@ -22,6 +22,20 @@
                                 <p style="word-break: break-all; max-width: 100%">{{propertyInfo.title}}</p>
                                 <p>{{town.title}}</p>
                                 <p>Спальных мест: <span>{{propertyInfo.beds}}</span></p>
+                                <p>Есть:</p>
+                                <div class="feature-list">
+                                    <div :key="feature.id" v-for="feature in propertyInfo.features">
+                                        <div class="feature-list__item feature-list-item">
+                                            <div class="feature-list-item__icon-wrap">
+                                                <img :src="feature.image" :alt="feature.title" height="32" width="32">
+                                            </div>
+                                            <div class="feature-list-item__description"><span>{{feature.title}}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-2">Дополнительная информация:</p>
+                                <p v-if="propertyInfo.extraInformation">{{ propertyInfo.extraInformation}}</p>
+                                <p v-else>Не указана</p>
                             </div>
                             <div v-if="propertyInfo.ownerId == authUser.id" class="col-md-4">
                                 <div class="row">
@@ -55,18 +69,6 @@
                             </div>
                         </div>
                     </div>
-                    <p>Есть:</p>
-                    <div :key="feature.id" v-for="feature in propertyInfo.features" class="feature-list">
-                        <div class="feature-list__item feature-list-item">
-                            <div class="feature-list-item__icon-wrap">
-                                <img :src="feature.image" :alt="feature.title" height="32" width="32">
-                            </div>
-                            <div class="feature-list-item__description"><span>{{feature.title}}</span></div>
-                        </div>
-                    </div>
-                    <p class="mt-2">Дополнительная информация:</p>
-                    <p v-if="propertyInfo.extraInformation">{{ propertyInfo.extraInformation}}</p>
-                    <p v-else>Не указана</p>
                 </div>
             </div>
         </form>
@@ -86,7 +88,7 @@ export default {
         return {
             propertyId: '',
             propertyInfo: [],
-            authUser: [],
+            authUser: '',
             town: [],
             booking: {
                 startDate: moment.unix(this.$route.query.s).toDate(),
@@ -118,10 +120,16 @@ export default {
                 .get('/api/properties/' + this.$route.params.id)
                 .then(({data}) => {
                     this.propertyInfo = data.property;
-                    this.authUser = data.user;
                     this.town = data.town;
                     this.isLoading = false;
                 });
+        },
+        getAuthUser() {
+            axios
+                .get('/api/get-auth-user')
+                .then(({data}) => {
+                    this.authUser = data.authUser;
+                })
         },
         deleteProperty() {
             axios
@@ -131,8 +139,14 @@ export default {
                 );
         },
         bookingRequest() {
-            if (this.authUser == null){
-                this.$router.push({name: 'login'});
+            if (this.authUser == ''){
+                this.$router.push({ name: 'login', query: { 
+                    backUrl: '/property', 
+                    id: this.$route.params.id,
+                    s: this.$route.query.s, 
+                    e: this.$route.query.e, 
+                    g: this.$route.query.g 
+                    }});
             }
             let data = {
                 'startDate': moment(this.booking.startDate).unix(),
@@ -144,11 +158,9 @@ export default {
                 .post('/api/book/' + this.$route.params.id, data)
                 .then(({data}) => {
                     this.msg = data.msg;
-                    console.log(data);
                 })
                 .catch(({response}) => {
                     this.msg = response.data.msg;
-                    console.log(response);
                 })
         },
         onCheckInChanged(checkIn) {
@@ -161,6 +173,7 @@ export default {
             this.isLoading = true;
             setTimeout(() => {}, 5000);
             this.takePropertyInfo();
+            this.getAuthUser();
         }
     }
 }

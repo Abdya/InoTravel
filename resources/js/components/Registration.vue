@@ -11,6 +11,9 @@
                 <li class="nav-item">
                     <router-link class="nav-link" to="/registration">Регистрация</router-link>
                 </li>
+                <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'login', query: { backUrl: '/create' }}">Принять гостей</router-link>
+                </li>
             </ul>
         </nav>
         <div class="flex-center position-ref full-height">
@@ -23,22 +26,27 @@
                         <div class="flat-input col-md-12 mb-3">
                             <input class="form-control" v-validate="'required|alpha_spaces|min:2|max:60'" v-model="firstName" name="firstName" placeholder="Имя" type="text">
                             <p v-if="errorsBack['firstName']">{{errorsBack["firstName"][0]}}</p>
-                            <span>{{ errors.first('register.firstName') }}</span>
+                            <span style="color: tomato">{{ errors.first('register.firstName') }}</span>
                         </div>
                         <div class="flat-input col-md-12 mb-3">
                             <input class="form-control" v-validate="'required|alpha_spaces|min:2|max:60'" v-model="lastName" name="lastName" placeholder="Фамилия" type="text">
                             <p v-if="errorsBack['lastName']">{{errorsBack["lastName"][0]}}</p>
-                            <span>{{ errors.first('register.lastName') }}</span>
+                            <span style="color: tomato">{{ errors.first('register.lastName') }}</span>
                         </div>
                         <div class="flat-input col-md-12 mb-3">
                             <input class="form-control" v-validate="'required|email'" v-model="email" name="email" placeholder="Email" type="email">
                             <p v-if="errorsBack['email']">{{errorsBack["email"][0]}}</p>
-                            <span>{{ errors.first('register.email') }}</span>
+                            <span style="color: tomato">{{ errors.first('register.email') }}</span>
+                        </div>
+                        <div class="flat-input col-md-12 mb-3">
+                            <input class="form-control" v-validate="'required|min:6'" v-model="password" name="password" placeholder="Пароль" type="password" ref="password">
+                            <p v-if="errorsBack['password']">{{errorsBack["password"][0]}}</p>
+                            <span style="color: tomato">{{ errors.first('register.password') }}</span>
                         </div>
                         <div class="flat-input col-md-12">
-                            <input class="form-control" v-validate="'required|min:6'" v-model="password" name="password" placeholder="Пароль" type="password">
+                            <input class="form-control" v-validate="'required|min:6|confirmed:password'" name="password_confirmation" placeholder="Повторите пароль" type="password">
                             <p v-if="errorsBack['password']">{{errorsBack["password"][0]}}</p>
-                            <span>{{ errors.first('register.password') }}</span>
+                            <span style="color: tomato">{{ errors.first('register.password_confirmation') }}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -99,3 +107,12 @@ export default {
         }
     }
 </script>
+<style>
+    input:valid {
+        border-color: green;
+    }
+
+    input:invalid {
+        border-color: red;
+    }
+</style>
