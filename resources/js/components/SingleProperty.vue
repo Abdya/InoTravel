@@ -19,7 +19,7 @@
                     <div class="clearfix">
                         <div class="row">
                             <div class="col-md-6">
-                                <p style="word-break: break-all; max-width: 100%">{{propertyInfo.title}}</p>
+                                <p style="max-width: 100%">{{propertyInfo.title}}</p>
                                 <p>{{town.title}}</p>
                                 <p>Спальных мест: <span>{{propertyInfo.beds}}</span></p>
                                 <p>Есть:</p>

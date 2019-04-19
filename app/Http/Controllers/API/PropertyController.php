@@ -87,7 +87,7 @@ class PropertyController extends Controller
             'photo' => request('photo'),
         ];
         $validator = Validator::make($data, [
-            'title' => 'required|string|min:5|max:60',
+            'title' => 'required|string|min:5|max:80',
             'beds' => 'required|numeric|max:20',
             'address' => 'required|string|min:5|max:80',
             'extraInformation' => 'nullable|string|max:1024',

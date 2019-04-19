@@ -23,7 +23,7 @@
                                 <div class="form-group row">
                                     <label for="title" class="col-sm-5 col-form-label">Название:</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" v-validate="'required|alpha_spaces|min:5|max:60'" name="title" v-model="propertyInfo.title" placeholder="Название">
+                                        <input type="text" class="form-control" v-validate="'required|min:5|max:80'" name="title" v-model="propertyInfo.title" placeholder="Название">
                                         <span style="color: tomato">{{ errors.first('create.title') }}</span>
                                     </div>
                                 </div>

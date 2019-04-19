@@ -99,6 +99,10 @@ html, body {
     color: white;
 }
 
+.nav-item :hover {
+    color: white;
+}
+
 .selecter .selecter__input {
     display: block;
     height: 36px;
@@ -172,4 +176,16 @@ right: -14px !important;
 
 .project-logo img {
     width: 80px;
+}
+
+.card-deck .card {
+    margin-bottom: 15px;
+    max-width: 339px;
+}
+
+.card-img-top {
+    width: 100%;
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+    max-width: 339px;
 }
